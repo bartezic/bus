@@ -3,7 +3,7 @@ class CreateWays < ActiveRecord::Migration
     create_table :ways do |t|
       t.integer :city_id
       t.integer :ticket_id
-      t.boolean :type
+      t.boolean :type, :default => 1
 
       t.timestamps
     end

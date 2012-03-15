@@ -11,6 +11,8 @@ gem 'pg'
 gem 'activeadmin'
 gem "meta_search",    '>= 1.1.0.pre'
 
+gem 'simple_form', '~> 2.0.0.rc'
+
 gem 'haml-rails'
 
 # Gems used only for assets and not required
