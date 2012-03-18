@@ -1,7 +1,8 @@
-= semantic_form_for [:admin, @ticket] do |f|
-  = f.inputs do
-    = f.input :kod
-    = f.semantic_fields_for :ways_attributes do |way|
-      = way.input :direction
-      = way.input :city_id
-  = f.actions :submit
+= form_for [:admin, @ticket] do |f|
+  = f.label :kod
+  = f.text_field :kod, :size => 20
+  = f.fields_for :ways do |way|
+    = render "admin/tickets/way", :f => way, :r => f
+  %p
+    = link_to_add_fields "add", f, :ways
+  = submit_tag

@@ -1,0 +1,7 @@
+.fields
+  = print f
+  = f.label :direction
+  = f.check_box :direction
+  = f.label :city
+  = f.select :city_id, [''] +City.find(:all).collect {|p| [ p.name, p.id ] }
+  = link_to_remove_fields "remove", f
