@@ -1,9 +1,10 @@
 //= require active_admin/base
 //= require jquery
 //= require jquery_ujs
-function remove_fields(link) {
+
+function remove_fields(link, association) {
   $(link).prev("input[type=hidden]").val("1");
-  $(link).closest(".fields").hide();
+  $(link).closest("." + association + "_fields").hide();
 }
 
 function add_fields(link, association, content) {

@@ -1,19 +1,15 @@
-%h1 Listing tickets
+
 
 %table
   %tr
-    %th Kod
-    %th
-    %th
-    %th
+    %th Перевізник
+    %th Міста по маршруту
+    %th Дати туру
+
 
   - @tickets.each do |ticket|
     %tr
-      %td= ticket.kod
-      %td= link_to 'Show', ticket
-      %td= link_to 'Edit', edit_ticket_path(ticket)
-      %td= link_to 'Destroy', ticket, :confirm => 'Are you sure?', :method => :delete
+      %td= ticket.carrier.name
+      %td= ticket.ways.where(:direction => true).map(&:city_id) * ', '
+      %td= ticket.departure_dates.map(&:day_of_life) * ', '
 
-%br
-
-= link_to 'New Ticket', new_ticket_path

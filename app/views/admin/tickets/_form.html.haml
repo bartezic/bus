@@ -1,8 +1,14 @@
 = form_for [:admin, @ticket] do |f|
-  = f.label :kod
-  = f.text_field :kod, :size => 20
-  = f.fields_for :ways do |way|
-    = render "admin/tickets/way", :f => way, :r => f
-  %p
-    = link_to_add_fields "add", f, :ways
+  = f.label "Перевізник"
+  = f.select :carrier_id, ['']+Carrier.find(:all).collect {|p| [ p.name, p.id ] }
+  %fieldset.inputs
+    = f.fields_for :ways do |way|
+      = render "admin/tickets/way", :f => way
+    %p
+      = link_to_add_fields "add", f, :ways
+  %fieldset.inputs
+    = f.fields_for :departures do |departure|
+      = render "admin/tickets/departure", :f => departure
+    %p
+      = link_to_add_fields "add", f, :departures
   = submit_tag

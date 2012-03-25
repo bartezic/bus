@@ -10,6 +10,8 @@ gem 'pg'
 
 gem 'activeadmin'
 gem "meta_search",    '>= 1.1.0.pre'
+gem 'fastercsv'
+gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
 
 gem 'simple_form', '~> 2.0.0.rc'
 

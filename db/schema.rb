@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120313184204) do
+ActiveRecord::Schema.define(:version => 20120324191420) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -46,6 +46,19 @@ ActiveRecord::Schema.define(:version => 20120313184204) do
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
 
+  create_table "carriers", :force => true do |t|
+    t.string   "name"
+    t.integer  "city_id"
+    t.string   "address"
+    t.string   "phone"
+    t.string   "telephone"
+    t.string   "fax"
+    t.string   "email"
+    t.string   "web_site"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "cities", :force => true do |t|
     t.string   "name"
     t.integer  "country_id"
@@ -59,10 +72,38 @@ ActiveRecord::Schema.define(:version => 20120313184204) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "departure_dates", :force => true do |t|
+    t.date     "day_of_life"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "departures", :force => true do |t|
+    t.string   "trip_number"
+    t.integer  "departure_date_id"
+    t.integer  "ticket_id"
+    t.boolean  "direction"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  create_table "rails_admin_histories", :force => true do |t|
+    t.text     "message"
+    t.string   "username"
+    t.integer  "item"
+    t.string   "table"
+    t.integer  "month",      :limit => 2
+    t.integer  "year",       :limit => 8
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+  end
+
+  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
+
   create_table "tickets", :force => true do |t|
-    t.string   "kod"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "carrier_id"
   end
 
   create_table "ways", :force => true do |t|
@@ -71,6 +112,8 @@ ActiveRecord::Schema.define(:version => 20120313184204) do
     t.boolean  "direction"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "place_stop"
+    t.time     "time_stop"
   end
 
 end

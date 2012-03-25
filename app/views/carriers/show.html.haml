@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @carrier.name
+%p
+  %b City:
+  = @carrier.city_id
+%p
+  %b Address:
+  = @carrier.address
+%p
+  %b Phone:
+  = @carrier.phone
+%p
+  %b Telephone:
+  = @carrier.telephone
+%p
+  %b Fax:
+  = @carrier.fax
+%p
+  %b Email:
+  = @carrier.email
+%p
+  %b Web site:
+  = @carrier.web_site
+
+= link_to 'Edit', edit_carrier_path(@carrier)
+\|
+= link_to 'Back', carriers_path

@@ -5,5 +5,35 @@
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
-  %body
-    = yield
+  %body{"data-offset" => "50", "data-spy" => "scroll", "data-target" => ".subnav", :style => "margin-top: 60px;"}
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.brand{:href => "/"}
+            Bus
+          %ul.nav
+            %li{class: current_page?(root_path) && 'active'}= link_to "Знайти тур", :root 
+            / %li{class: request.path.split('/')[1] == "books" && 'active'}= link_to "Books", [:local, :books]
+            / %li{class: current_page?(help_path) && 'active'}= link_to "Help", :help
+          %ul.nav.pull-right
+            / %li{class: request.path.split('/')[1] == "my" && 'active'}= link_to "My Cabinet", [:cabinet, :reservations]
+            / %li.divider-vertical
+            / %li= link_to "Logout", :destroy_user_session, :method => :delete
+    .wrapper
+      .push
+      .container
+        = render 'shared/flash'
+        = yield
+        .push
+    %footer.footer
+      .container
+        %p
+          \© 2012
+          = succeed "." do
+            %a{:href => "http://mongrasse.com.ua", :target => "_blank", :title => "Туристична компанія Монграссе"} TK Mongrasse
+          All Rights Reserved.
+          %a{:href => "/terms"} Terms
+          \&
+          = succeed "." do
+            %a{:href => "/privacy"} Privacy
+    = render 'shared/feedback'

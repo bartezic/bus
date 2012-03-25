@@ -1,0 +1,9 @@
+.flash
+  - if alert
+    .alert.alert-error
+      %a.close{data:{dismiss:"alert"}, href:"#"} ×
+      = alert
+  - if notice
+    .alert.alert-success
+      %a.close{data:{dismiss:"alert"}, href:"#"} ×
+      = notice
