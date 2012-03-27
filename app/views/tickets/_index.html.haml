@@ -1,0 +1,22 @@
+%table.table.table-striped.table-bordered
+  %tr
+    %th Перевізник
+    %th Міста по маршруту
+    %th Дати туру
+    %th 
+  - t.each do |ticket|
+    %tr
+      %td= ticket.carrier.name
+      %td
+        %p
+          = ticket.cities_from_ukr
+        %p
+          = ticket.cities_to_ukr
+      %td
+        %p
+          = ticket.departure_dates_from_ukr.html_safe
+        %p
+          = ticket.departure_dates_to_ukr.html_safe
+      %td= link_to 'Детальніше→', ticket, :remote => true, :class => "btn btn-info"
+
+#ticketPopup.modal.fade

@@ -1,0 +1,2 @@
+$("#ticketPopup").html("<%= escape_javascript(render('tickets/show', :ticket => @ticket)) %>");
+$('#ticketPopup').modal('show');

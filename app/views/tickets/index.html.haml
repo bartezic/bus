@@ -1,15 +1,9 @@
-
-
-%table
-  %tr
-    %th Перевізник
-    %th Міста по маршруту
-    %th Дати туру
-
-
-  - @tickets.each do |ticket|
-    %tr
-      %td= ticket.carrier.name
-      %td= ticket.ways.where(:direction => true).map(&:city_id) * ', '
-      %td= ticket.departure_dates.map(&:day_of_life) * ', '
-
+= form_tag tickets_path, :class => "well", :method => "get", :remote => true do
+  %p 
+    Звідки
+    = select_tag :city_from, options_for_select(Country.find_by_name("Україна").cities.collect {|p| [ p.name, p.id ] })
+    Куди
+    = select_tag :city_to, options_for_select(Country.find_by_name("Болгарія").cities.collect {|p| [ p.name, p.id ] })
+    = submit_tag "Відфільтрувати"
+#trips
+  = render "tickets/index", :t => @tickets

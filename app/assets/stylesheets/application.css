@@ -9,6 +9,27 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
+ *= require scaffolds
  *= require bootstrap.min
 */
+
+body {
+  padding-top: 70px;
+}
+
+@media (min-width: 768px) and (max-width: 980px) {
+  body {
+    padding-top: 0;
+  }
+}
+.footer {
+  border-radius: 4px 4px 0 0;
+  position: fixed;
+  bottom: 0px;
+  z-index: 1030;
+  display: block;
+  background-color: #F5F5F5;
+  border: 1px solid #E5E5E5;
+  padding: 6px;
+  margin: 0;
+}

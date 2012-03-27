@@ -1,14 +1,33 @@
 = form_for [:admin, @ticket] do |f|
-  = f.label "Перевізник"
-  = f.select :carrier_id, ['']+Carrier.find(:all).collect {|p| [ p.name, p.id ] }
   %fieldset.inputs
-    = f.fields_for :ways do |way|
-      = render "admin/tickets/way", :f => way
-    %p
-      = link_to_add_fields "add", f, :ways
-  %fieldset.inputs
-    = f.fields_for :departures do |departure|
-      = render "admin/tickets/departure", :f => departure
-    %p
-      = link_to_add_fields "add", f, :departures
+    = f.label "Перевізник"
+    = f.select :carrier_id, ['']+Carrier.find(:all).collect {|p| [ p.name, p.id ] }
+    %table
+      %tbody
+        %tr
+          %th Напрямок
+          %th Місто
+          %th Місце зупинки
+          %th Час зупинки
+          %th Дія
+        = f.fields_for :ways do |way|
+          = render "admin/tickets/way", :f => way
+        %tr
+          %td{ :colspan => 4 }
+          %td
+            = link_to_add_fields "Додати", f, :ways
+    %hr
+    %table
+      %tbody
+        %tr
+          %th Напрямок
+          %th Номер рейсу
+          %th Дата виїзду
+          %th Дія
+        = f.fields_for :departures do |departure|
+          = render "admin/tickets/departure", :f => departure
+        %tr
+          %td{ :colspan => 3 }
+          %td 
+            = link_to_add_fields "Додати", f, :departures
   = submit_tag

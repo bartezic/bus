@@ -81,13 +81,13 @@ form {
 
   /* Text Fields */
   input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], textarea {
-    width: 100px;
+    width: 150px;
     border: 1px solid #c9d0d6;
     @include rounded;
     font-size: 0.95em;
     @include sans-family;
     outline: none;
-    padding: 8px $text-input-horizontal-padding 7px;
+    padding: 3px;
     
     &:focus {
       border: 1px solid #99a2aa;
@@ -189,3 +189,12 @@ form {
 
 }
 
+th, td, caption {
+  padding: 1px;
+}
+
+.attributes_table table { 
+  td, th {
+    padding: 1px;
+  }
+}

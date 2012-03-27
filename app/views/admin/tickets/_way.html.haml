@@ -1,10 +1,11 @@
-.ways_fields
-  = f.label "Напрямок"
-  = f.check_box :direction
-  = f.label "Місто"
-  = f.select :city_id, [''] +City.find(:all).collect {|p| [ p.name, p.id ] }
-  = f.label "Місце зупинки"
-  = f.text_field :place_stop
-  = f.label "Час зупинки"
-  = f.text_field :time_stop
-  = link_to_remove_fields "remove", f, :ways
+%tr.ways_fields
+  %td
+    = f.check_box :direction
+  %td
+    = f.select :city_id, [''] +City.find(:all, :order => "country_id, name" ).collect {|p| [ p.name, p.id ] }
+  %td
+    = f.text_field :place_stop
+  %td
+    = f.text_field :time_stop
+  %td
+    = link_to_remove_fields "Видалити", f, :ways

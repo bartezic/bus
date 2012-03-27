@@ -1,6 +1,9 @@
-.departures_fields
-  = f.label "Напрямок"
-  = f.check_box :direction
-  = f.label "Дата відправлення"
-  = f.select :departure_date_id, [''] + DepartureDate.find(:all).collect {|p| [ p.day_of_life, p.id ] } 
-  = link_to_remove_fields "remove", f, :departures
+%tr.departures_fields
+  %td
+    = f.check_box :direction
+  %td
+    = f.text_field :trip_number
+  %td
+    = f.select :departure_date_id, [''] + DepartureDate.find(:all).collect {|p| [ p.day_of_life, p.id ] } 
+  %td
+    = link_to_remove_fields "Видалити", f, :departures
