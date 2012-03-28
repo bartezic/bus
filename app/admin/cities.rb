@@ -9,4 +9,13 @@ ActiveAdmin.register City do
 
     default_actions
   end
+
+  show do
+    attributes_table do
+      row :name
+      row :carriers do |city|
+        (city.carriers.map(&:name).sort * '<br />').html_safe
+      end
+    end
+  end
 end

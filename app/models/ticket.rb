@@ -9,27 +9,23 @@ class Ticket < ActiveRecord::Base
   accepts_nested_attributes_for :departures, :reject_if => proc { |atr| atr['departure_date_id'].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :ways, :reject_if => proc { |atr| atr['city_id'].blank? }, :allow_destroy => true
 
-  attr_accessible :cities_from_ukr, :cities_to_ukr, :departure_dates_from_ukr, :departure_dates_to_ukr, :cities_from_ukr_detalies, :cities_to_ukr_detalies
+  attr_accessible :marshrut, :marshrut_with_detalies, :prt_departure_dates
 
   def self.search(params)
     includes(:carrier, :ways, :cities, :departures, :departure_dates).all
   end
 
-  def cities_from_ukr
+  def marshrut(from)
     h = Hash.new
     cities.map { |p| h[p.id] = p.name }
-    ways.where(:direction => true).collect(&:city_id).map! { |i| i = h[i] } * ' - '
+    ways.where(:direction => from).collect(&:city_id).map! { |i| i = h[i] } * ' - '
   end
 
-  def cities_from_ukr_detalies
+  def marshrut_with_detalies(from)
     h = Hash.new
     cities.map { |p| h[p.id] = p.name }
     "<table><tbody>
-      <tr>
-        <th>City</th>
-        <th>Place</th>
-        <th>Time</th>
-      </tr>#{ways.where(:direction => true).map! { |i| 
+      #{ways.where(:direction => from).map! { |i| 
       i = "<tr>
         <td>#{h[i.city_id]}</td>
         <td>#{i.place_stop}</td>
@@ -38,62 +34,21 @@ class Ticket < ActiveRecord::Base
     }.join}</tbody></table>"
   end
 
-  def cities_to_ukr
-    h = Hash.new
-    cities.map { |p| h[p.id] = p.name }
-    ways.where(:direction => false).collect(&:city_id).map! { |i| i = h[i] } * ' - '
-  end
-
-  def cities_to_ukr_detalies
-    h = Hash.new
-    cities.map { |p| h[p.id] = p.name }
-    "<table><tbody>
-      <tr>
-        <th>City</th>
-        <th>Place</th>
-        <th>Time</th>
-      </tr>#{ways.where(:direction => false).map! { |i| 
-      i = "<tr>
-        <td>#{h[i.city_id]}</td>
-        <td>#{i.place_stop}</td>
-        <td>#{i.time_stop ? i.time_stop.strftime("%H:%M") : "-"}</td>
-      </tr>" 
-    }.join}</tbody></table>"
-  end
-
-  def departure_dates_from_ukr
+  def prt_departure_dates(from)
+    mon = Date::MONTHNAMES.compact
     h,b,p = {},{},[]
     departure_dates.map { |p| h[p.id] = p.day_of_life }
-    a = departures.where(:direction => true).collect(&:departure_date_id).map! { |i| i = h[i] }
+    a = departures.where(:direction => from).collect(&:departure_date_id).map! { |i| i = h[i] }
     a.each {|i| b[i.year] = {}}
     a.each {|i| b[i.year][i.mon] = []}
     a.each {|i| b[i.year][i.mon] << i.day}
     b.each { |k,v| 
-      p << "<tr><td>#{k}</td><td><td></tr>" 
+      p << "<p><b>#{k}</b></p>" 
       v.each { |key, val| 
-        p << "<tr><td>#{key}</td><td>#{val.join(", ")}<td></tr>"
+        p << "<p><i>#{mon[key-1]}</i> - #{val.join(", ")}</p>"
       }
     }
-    "<table><tbody>
-      #{p.join}
-    </tbody></table>"
-  end
-  def departure_dates_to_ukr
-    h,b,p = {},{},[]
-    departure_dates.map { |p| h[p.id] = p.day_of_life }
-    a = departures.where(:direction => false).collect(&:departure_date_id).map! { |i| i = h[i] }
-    a.each {|i| b[i.year] = {}}
-    a.each {|i| b[i.year][i.mon] = []}
-    a.each {|i| b[i.year][i.mon] << i.day}
-    b.each { |k,v| 
-      p << "<tr><td>#{k}</td><td><td></tr>" 
-      v.each { |key, val| 
-        p << "<tr><td>#{key}</td><td>#{val.join(", ")}<td></tr>"
-      }
-    }
-    "<table><tbody>
-      #{p.join}
-    </tbody></table>"
+   p.join
   end
   
   private
