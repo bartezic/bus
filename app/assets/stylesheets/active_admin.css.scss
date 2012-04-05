@@ -201,6 +201,10 @@ th, td, caption {
 p {
   margin: 0;
 }
-table.index_table td {
-  padding: 2px;
+table {
+  width: auto;
+
+  .index_table td {
+    padding: 2px;
+  }
 }

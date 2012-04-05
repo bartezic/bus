@@ -1,0 +1,48 @@
+= f.fields_for :one_way_price do |one_way_price|
+  %tr  
+    %td
+      = f.label "Ціна в один бік"
+    %td  
+      = one_way_price.text_field :adult
+    %td  
+      = one_way_price.text_field :child
+= f.fields_for :two_ways_price do |two_ways_price|
+  %tr  
+    %td
+      = f.label "Ціна в два боки"
+    %td  
+      = two_ways_price.text_field :adult
+    %td  
+      = two_ways_price.text_field :child
+= f.fields_for :one_way_visa_price do |one_way_visa_price|
+  %tr  
+    %td
+      = f.label "Ціна в один бік + віза"
+    %td  
+      = one_way_visa_price.text_field :adult
+    %td  
+      = one_way_visa_price.text_field :child
+= f.fields_for :two_ways_visa_price do |two_ways_visa_price|
+  %tr  
+    %td
+      = f.label "Ціна в два боки + віза"
+    %td  
+      = two_ways_visa_price.text_field :adult
+    %td  
+      = two_ways_visa_price.text_field :child
+= f.fields_for :visa_price do |visa_price|
+  %tr  
+    %td
+      = f.label "Віза"
+    %td  
+      = visa_price.text_field :adult
+    %td  
+      = visa_price.text_field :child
+= f.fields_for :health_insurance_price do |health_insurance_price|
+  %tr  
+    %td
+      = f.label "Медична страховка"
+    %td  
+      = health_insurance_price.text_field :adult
+    %td  
+      = health_insurance_price.text_field :child

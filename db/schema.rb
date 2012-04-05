@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120324191420) do
+ActiveRecord::Schema.define(:version => 20120330204620) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -87,6 +87,30 @@ ActiveRecord::Schema.define(:version => 20120324191420) do
     t.datetime "updated_at",        :null => false
   end
 
+  create_table "health_insurance_prices", :force => true do |t|
+    t.integer  "ticket_id"
+    t.integer  "adult"
+    t.integer  "child"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "one_way_prices", :force => true do |t|
+    t.integer  "ticket_id"
+    t.integer  "adult"
+    t.integer  "child"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "one_way_visa_prices", :force => true do |t|
+    t.integer  "ticket_id"
+    t.integer  "adult"
+    t.integer  "child"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "rails_admin_histories", :force => true do |t|
     t.text     "message"
     t.string   "username"
@@ -104,6 +128,30 @@ ActiveRecord::Schema.define(:version => 20120324191420) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "carrier_id"
+  end
+
+  create_table "two_ways_prices", :force => true do |t|
+    t.integer  "ticket_id"
+    t.integer  "adult"
+    t.integer  "child"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "two_ways_visa_prices", :force => true do |t|
+    t.integer  "ticket_id"
+    t.integer  "adult"
+    t.integer  "child"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "visa_prices", :force => true do |t|
+    t.integer  "ticket_id"
+    t.integer  "adult"
+    t.integer  "child"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "ways", :force => true do |t|

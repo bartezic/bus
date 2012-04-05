@@ -5,7 +5,7 @@
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = csrf_meta_tags
-  %body{ :'data-spy' => "scroll", :'data-target' => ".subnav", :'data-offset' => "50" }
+  %body
     .navbar.navbar-fixed-top
       .navbar-inner
         .container
@@ -24,10 +24,9 @@
               / %li{class: request.path.split('/')[1] == "my" && 'active'}= link_to "My Cabinet", [:cabinet, :reservations]
               / %li.divider-vertical
               / %li= link_to "Logout", :destroy_user_session, :method => :delete
-    .wrapper
-      .container
-        = render 'shared/flash'
-        = yield
+    .container
+      = render 'shared/flash'
+      = yield
     %footer
       .container
         .footer

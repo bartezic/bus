@@ -12,5 +12,28 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require_tree .
-//= require bootstrap.min
+
+$(function () {
+  var dates = $( "#date_from, #date_to" ).datepicker({
+    defaultDate: "+1w",
+    onSelect: function( selectedDate ) {
+      var option = this.id == "date_from" ? "minDate" : "maxDate",
+      instance = $( this ).data( "datepicker" ),
+      date = $.datepicker.parseDate(
+        instance.settings.dateFormat ||
+        $.datepicker._defaults.dateFormat,
+        selectedDate, instance.settings );
+      dates.not( this ).datepicker( "option", option, date );
+    }
+  });
+  $("input[name=one_way]").change(function(){
+    $("#date_to").toggle();
+    $("label[for=date_to]").hide()
+  });
+  $('.block2').tooltip({
+    selector: "input[rel=tooltip]"
+  })
+  $(".well").validate();
+});

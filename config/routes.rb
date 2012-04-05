@@ -1,10 +1,13 @@
 Bus::Application.routes.draw do
-
+  root :to => 'tickets#search'
+  
   resources :carriers
 
   mount RailsAdmin::Engine => '/admin2', :as => 'rails_admin'
 
-  resources :tickets
+  resources :tickets, :only => [:index, :show]do
+    get :search, :on => :collection
+  end
 
   ActiveAdmin.routes(self)
 
@@ -63,7 +66,6 @@ Bus::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'tickets#index'
 
   # See how all your routes lay out with "rake routes"
 

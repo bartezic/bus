@@ -1,0 +1,2 @@
+$("#trips").html("<%= escape_javascript(render('tickets/search', :t => @tickets, :p => @params)) %>")
+$("#search_title").html("<%= escape_javascript(render('tickets/search_title', :t => @tickets, :p => @params)) %>")

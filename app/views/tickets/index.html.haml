@@ -5,5 +5,4 @@
     Куди
     = select_tag :city_to, options_for_select(Country.find_by_name("Болгарія").cities.collect {|p| [ p.name, p.id ] })
     = submit_tag "Відфільтрувати"
-#trips
-  = render "tickets/index", :t => @tickets
+

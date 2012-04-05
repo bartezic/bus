@@ -2,6 +2,7 @@
   %fieldset.inputs
     = f.label "Перевізник"
     = f.select :carrier_id, ['']+Carrier.find(:all).collect {|p| [ p.name, p.id ] }
+    %hr
     %table
       %tbody
         %tr
@@ -30,4 +31,14 @@
           %td{ :colspan => 3 }
           %td 
             = link_to_add_fields "Додати", f, :departures
+    %hr
+    %table
+      %tbody
+        %tr
+          %th{ :colspan => 3 } Вартість послуг
+        %tr
+          %th 
+          %th Дорослий
+          %th Дитячий
+        = render "admin/tickets/price", :f => f
   = submit_tag
