@@ -1,10 +1,13 @@
+require "bundler/capistrano"
 $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 require "rvm/capistrano"
 
 server "91.234.32.79", :web, :app, :db, primary: true
 
-set :rvm_ruby_string, '1.9.3-p125@bus'
-set :rvm_type, :system
+set :rvm_ruby_string, '1.9.3@bus'
+set :rvm_type, :user
+set :rvm_install_type, :head
+
 
 set :application, "bus"
 set :user, "bus"
@@ -20,6 +23,7 @@ default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
 after "deploy", "deploy:cleanup" # keep only the last 5 releases
+before 'deploy', 'rvm:install_ruby'
 
 namespace :deploy do
   %w[start stop restart].each do |command|
