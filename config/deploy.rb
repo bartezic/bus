@@ -1,6 +1,11 @@
+
+
 require "bundler/capistrano"
 $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 require "rvm/capistrano"
+
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
 
 server "91.234.32.79", :web, :app, :db, primary: true
 
@@ -19,41 +24,56 @@ set :scm, "git"
 set :repository, "git@github.com:bartezic/#{application}.git"
 set :branch, "master"
 
-default_run_options[:pty] = true
-ssh_options[:forward_agent] = true
+namespace :deploy do
+  desc "Symlinks the database.yml"
+  task :symlink_db, :roles => :app do
+    run "ln -nfs #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml"
+  end
+end
 
-after "deploy", "deploy:cleanup" # keep only the last 5 releases
-before 'deploy', 'rvm:install_ruby'
+before 'deploy:assets:precompile', 'deploy:symlink_db'
 
 namespace :deploy do
-  %w[start stop restart].each do |command|
-    desc "#{command} unicorn server"
-    task command, roles: :app, except: {no_release: true} do
-      run "/etc/init.d/unicorn_#{application} #{command}"
-    end
+  task :start, :roles => :app do
+    run "touch #{current_release}/tmp/restart.txt"
   end
 
-  task :setup_config, roles: :app do
-    sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
-    sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
-    run "mkdir -p #{shared_path}/config"
-    put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
-    puts "Now edit the config files in #{shared_path}."
+  task :stop, :roles => :app do
+    # Do nothing.
   end
-  after "deploy:setup", "deploy:setup_config"
 
-  task :symlink_config, roles: :app do
-    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  desc "Restart Application"
+  task :restart, :roles => :app do
+    run "touch #{current_release}/tmp/restart.txt"
   end
-  after "deploy:finalize_update", "deploy:symlink_config"
-
-  desc "Make sure local git is in sync with remote."
-  task :check_revision, roles: :web do
-    unless `git rev-parse HEAD` == `git rev-parse origin/master`
-      puts "WARNING: HEAD is not the same as origin/master"
-      puts "Run `git push` to sync changes."
-      exit
-    end
-  end
-  before "deploy", "deploy:check_revision"
 end
+
+namespace :god do
+  def god_is_running
+    !capture("#{god_command} status >/dev/null 2>/dev/null || echo 'not running'").start_with?('not running')
+  end
+
+  def god_command
+    "cd #{current_path}; bundle exec god"
+  end
+
+  desc "Stop god"
+  task :terminate_if_running do
+    if god_is_running
+      run "#{god_command} terminate"
+    end
+  end
+
+  desc "Start god"
+  task :start do
+    config_file = "#{current_path}/config/resque.god"
+    environment = { :RAILS_ENV => rails_env, :RAILS_ROOT => current_path }
+    run "#{god_command} -c #{config_file}", :env => environment
+  end
+end
+
+before "deploy:update", "god:terminate_if_running"
+after "deploy:update", "god:start"
+
+after "deploy", "deploy:cleanup"
+after "deploy:migrations", "deploy:cleanup"
