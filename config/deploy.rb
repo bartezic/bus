@@ -1,6 +1,10 @@
-require "bundler/capistrano"
+$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
+require "rvm/capistrano"
 
 server "91.234.32.79", :web, :app, :db, primary: true
+
+set :rvm_ruby_string, '1.9.3-p125@bus'
+set :rvm_type, :system
 
 set :application, "bus"
 set :user, "bus"
