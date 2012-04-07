@@ -15,7 +15,7 @@ set :application, "bus"
 set :user, "bus"
 
 set :deploy_to, "/home/#{user}/#{application}"
-set :deploy_via, :remote_cache
+set :deploy_via, :copy
 
 set :use_sudo, false
 
