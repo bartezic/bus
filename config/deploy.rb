@@ -2,7 +2,7 @@
 
 $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 require "rvm/capistrano"
-set :rvm_ruby_string, '1.9.3-p125'
+set :rvm_ruby_string, 'default'
 set :rvm_type, :user
 
 # Bundler
@@ -22,7 +22,7 @@ set :use_sudo, false
 # Git
 
 set :scm, :git
-set :repository,  "git@github.com:bartezic/#{application}.git"
+set :repository, "git@github.com:bartezic/#{application}.git"
 set :branch, "master"
 
 # VPS
