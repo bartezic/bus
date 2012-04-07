@@ -1,79 +1,43 @@
+# RVM
 
-
-require "bundler/capistrano"
 $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 require "rvm/capistrano"
-
-set :whenever_command, "bundle exec whenever"
-require "whenever/capistrano"
-
-server "91.234.32.79", :web, :app, :db, primary: true
-
-set :rvm_ruby_string, '1.9.3@bus'
+set :rvm_ruby_string, '1.9.3-p125'
 set :rvm_type, :user
-set :rvm_install_type, :head
 
+# Bundler
+
+require "bundler/capistrano"
+
+# General
 
 set :application, "bus"
 set :user, "bus"
-set :deploy_to, "/home/#{user}/apps/#{application}"
+
+set :deploy_to, "/home/#{user}/#{application}"
 set :deploy_via, :remote_cache
+
 set :use_sudo, false
 
-set :scm, "git"
-set :repository, "git@github.com:bartezic/#{application}.git"
+# Git
+
+set :scm, :git
+set :repository,  "git@github.com:bartezic/#{application}.git"
 set :branch, "master"
 
+# VPS
+
+role :web, "91.234.32.79"
+role :app, "91.234.32.79"
+role :db,  "91.234.32.79", :primary => true
+role :db,  "91.234.32.79"
+
+# Passenger
+
 namespace :deploy do
-  desc "Symlinks the database.yml"
-  task :symlink_db, :roles => :app do
-    run "ln -nfs #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml"
-  end
+ task :start do ; end
+ task :stop do ; end
+ task :restart, :roles => :app, :except => { :no_release => true } do
+   run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+ end
 end
-
-before 'deploy:assets:precompile', 'deploy:symlink_db'
-
-namespace :deploy do
-  task :start, :roles => :app do
-    run "touch #{current_release}/tmp/restart.txt"
-  end
-
-  task :stop, :roles => :app do
-    # Do nothing.
-  end
-
-  desc "Restart Application"
-  task :restart, :roles => :app do
-    run "touch #{current_release}/tmp/restart.txt"
-  end
-end
-
-namespace :god do
-  def god_is_running
-    !capture("#{god_command} status >/dev/null 2>/dev/null || echo 'not running'").start_with?('not running')
-  end
-
-  def god_command
-    "cd #{current_path}; bundle exec god"
-  end
-
-  desc "Stop god"
-  task :terminate_if_running do
-    if god_is_running
-      run "#{god_command} terminate"
-    end
-  end
-
-  desc "Start god"
-  task :start do
-    config_file = "#{current_path}/config/resque.god"
-    environment = { :RAILS_ENV => rails_env, :RAILS_ROOT => current_path }
-    run "#{god_command} -c #{config_file}", :env => environment
-  end
-end
-
-before "deploy:update", "god:terminate_if_running"
-after "deploy:update", "god:start"
-
-after "deploy", "deploy:cleanup"
-after "deploy:migrations", "deploy:cleanup"
