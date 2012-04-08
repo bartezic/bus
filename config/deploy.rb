@@ -1,46 +1,26 @@
-# RVM
-
-$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
-require "rvm/capistrano"
-set :rvm_ruby_string, 'default'
-set :rvm_type, :user
-
-# Bundler
-
 require "bundler/capistrano"
 
-# General
+load "config/recipes/base"
+load "config/recipes/nginx"
+load "config/recipes/unicorn"
+load "config/recipes/postgresql"
+load "config/recipes/nodejs"
+load "config/recipes/rbenv"
+load "config/recipes/check"
 
+server "91.234.32.79", :web, :app, :db, primary: true
+
+set :user, "deployer"
 set :application, "bus"
-set :user, "bus"
-
-set :deploy_to, "/home/#{user}/#{application}"
-set :deploy_via, :copy
-
+set :deploy_to, "/home/#{user}/apps/#{application}"
+set :deploy_via, :remote_cache
 set :use_sudo, false
+
+set :scm, "git"
+set :repository, "git@github.com:bartezic/#{application}.git"
+set :branch, "master"
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-# Git
-
-set :scm, :git
-set :repository, "git@github.com:bartezic/#{application}.git"
-set :branch, "master"
-
-# VPS
-
-role :web, "91.234.32.79"
-role :app, "91.234.32.79"
-role :db,  "91.234.32.79", :primary => true
-role :db,  "91.234.32.79"
-
-# Passenger
-
-namespace :deploy do
- task :start do ; end
- task :stop do ; end
- task :restart, :roles => :app, :except => { :no_release => true } do
-   run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
- end
-end
+after "deploy", "deploy:cleanup" # keep only the last 5 releases
