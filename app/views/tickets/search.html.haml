@@ -22,7 +22,7 @@
             = number_field_tag :child , '', :class => "input-small", :placeholder => "Пільгових", :rel => "tooltip", :title => "Діти до 14 років, студенти до 21 року та пенсіонери", :in => 1...30
       = submit_tag "Шукати"
   .span9
-    #search_title
-      = render "tickets/search_title", :t => @tickets, :p => @params
+    / #search_title
+    /   = render "tickets/search_title", :t => @tickets, :p => @params
     #trips
       = render "tickets/search", :t => @tickets, :p => @params
