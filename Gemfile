@@ -46,6 +46,7 @@ end
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
+gem 'whenever', :require => false
 
 # Use unicorn as the app server
 gem 'unicorn'
