@@ -2,7 +2,7 @@
   %td
     = f.check_box :direction
   %td
-    = f.select :city_id, [''] +City.find(:all, :order => "country_id, name" ).collect {|p| [ p.name, p.id ] }
+    = f.select :city_id, cities
   %td
     = f.text_field :place_stop
   %td

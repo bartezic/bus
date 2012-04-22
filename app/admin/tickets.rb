@@ -11,11 +11,8 @@ ActiveAdmin.register Ticket do
       @ticket.build_two_ways_visa_price
       @ticket.build_visa_price
       @ticket.build_health_insurance_price
-      
-      respond_to do |format|
-        format.html # new.html.erb
-        format.json { render json: @country }
-      end
+      @dates = DepartureDate.all.collect {|p| [ p.day_of_life, p.id ] }
+      @cities = City.find(:all, :order => "country_id, name" ).collect {|p| [ p.name, p.id ] }
     end
 
     def edit
@@ -28,6 +25,8 @@ ActiveAdmin.register Ticket do
       @ticket.build_two_ways_visa_price unless @ticket.two_ways_visa_price
       @ticket.build_visa_price unless @ticket.visa_price
       @ticket.build_health_insurance_price unless @ticket.health_insurance_price
+      @dates = DepartureDate.all.collect {|p| [ p.day_of_life, p.id ] }
+      @cities = City.find(:all, :order => "country_id, name" ).collect {|p| [ p.name, p.id ] }
     end
   end
 

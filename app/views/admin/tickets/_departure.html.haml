@@ -4,6 +4,6 @@
   %td
     = f.text_field :trip_number
   %td
-    = f.select :departure_date_id, [''] + DepartureDate.find(:all).collect {|p| [ p.day_of_life, p.id ] } 
+    = f.select :departure_date_id, dates
   %td
     = link_to_remove_fields "Видалити", f, :departures
