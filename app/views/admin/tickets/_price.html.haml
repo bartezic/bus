@@ -6,6 +6,8 @@
       = one_way_price.text_field :adult
     %td  
       = one_way_price.text_field :child
+    %td
+      = one_way_price.check_box :_destroy
 = f.fields_for :two_ways_price do |two_ways_price|
   %tr  
     %td
@@ -14,6 +16,8 @@
       = two_ways_price.text_field :adult
     %td  
       = two_ways_price.text_field :child
+    %td  
+      = two_ways_price.check_box :_destroy
 = f.fields_for :one_way_visa_price do |one_way_visa_price|
   %tr  
     %td
@@ -22,6 +26,8 @@
       = one_way_visa_price.text_field :adult
     %td  
       = one_way_visa_price.text_field :child
+    %td  
+      = one_way_visa_price.check_box :_destroy
 = f.fields_for :two_ways_visa_price do |two_ways_visa_price|
   %tr  
     %td
@@ -30,6 +36,8 @@
       = two_ways_visa_price.text_field :adult
     %td  
       = two_ways_visa_price.text_field :child
+    %td  
+      = two_ways_visa_price.check_box :_destroy
 = f.fields_for :visa_price do |visa_price|
   %tr  
     %td
@@ -38,6 +46,8 @@
       = visa_price.text_field :adult
     %td  
       = visa_price.text_field :child
+    %td  
+      = visa_price.check_box :_destroy
 = f.fields_for :health_insurance_price do |health_insurance_price|
   %tr  
     %td
@@ -46,3 +56,5 @@
       = health_insurance_price.text_field :adult
     %td  
       = health_insurance_price.text_field :child
+    %td  
+      = health_insurance_price.check_box :_destroy
