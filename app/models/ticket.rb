@@ -16,12 +16,12 @@ class Ticket < ActiveRecord::Base
   has_many :departures, :dependent => :destroy
   has_many :departure_dates, :through => :departures
 
-  accepts_nested_attributes_for :health_insurance_price,  :reject_if => proc { |atr| atr['adult'].blank? }
-  accepts_nested_attributes_for :visa_price,              :reject_if => proc { |atr| atr['adult'].blank? }
-  accepts_nested_attributes_for :one_way_price,           :reject_if => proc { |atr| atr['adult'].blank? }
-  accepts_nested_attributes_for :one_way_visa_price,      :reject_if => proc { |atr| atr['adult'].blank? }
-  accepts_nested_attributes_for :two_ways_price,          :reject_if => proc { |atr| atr['adult'].blank? }
-  accepts_nested_attributes_for :two_ways_visa_price,     :reject_if => proc { |atr| atr['adult'].blank? }
+  accepts_nested_attributes_for :health_insurance_price,  :reject_if => proc { |atr| atr['adult'].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :visa_price,              :reject_if => proc { |atr| atr['adult'].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :one_way_price,           :reject_if => proc { |atr| atr['adult'].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :one_way_visa_price,      :reject_if => proc { |atr| atr['adult'].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :two_ways_price,          :reject_if => proc { |atr| atr['adult'].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :two_ways_visa_price,     :reject_if => proc { |atr| atr['adult'].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :departures,              :reject_if => proc { |atr| atr['departure_date_id'].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :ways,                    :reject_if => proc { |atr| atr['city_id'].blank? }, :allow_destroy => true
 
