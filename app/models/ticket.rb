@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 class Ticket < ActiveRecord::Base
   belongs_to :carrier
   
@@ -14,24 +16,16 @@ class Ticket < ActiveRecord::Base
   has_many :departures, :dependent => :destroy
   has_many :departure_dates, :through => :departures
 
-  accepts_nested_attributes_for :health_insurance_price, :reject_if => proc { |atr| atr['adult'].blank? }
-  accepts_nested_attributes_for :visa_price, :reject_if => proc { |atr| atr['adult'].blank? }
-  accepts_nested_attributes_for :one_way_price, :reject_if => proc { |atr| atr['adult'].blank? }
-  accepts_nested_attributes_for :one_way_visa_price, :reject_if => proc { |atr| atr['adult'].blank? }
-  accepts_nested_attributes_for :two_ways_price, :reject_if => proc { |atr| atr['adult'].blank? }
-  accepts_nested_attributes_for :two_ways_visa_price, :reject_if => proc { |atr| atr['adult'].blank? }
-  accepts_nested_attributes_for :departures, :reject_if => proc { |atr| atr['departure_date_id'].blank? }, :allow_destroy => true
-  accepts_nested_attributes_for :ways, :reject_if => proc { |atr| atr['city_id'].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :health_insurance_price,  :reject_if => proc { |atr| atr['adult'].blank? }
+  accepts_nested_attributes_for :visa_price,              :reject_if => proc { |atr| atr['adult'].blank? }
+  accepts_nested_attributes_for :one_way_price,           :reject_if => proc { |atr| atr['adult'].blank? }
+  accepts_nested_attributes_for :one_way_visa_price,      :reject_if => proc { |atr| atr['adult'].blank? }
+  accepts_nested_attributes_for :two_ways_price,          :reject_if => proc { |atr| atr['adult'].blank? }
+  accepts_nested_attributes_for :two_ways_visa_price,     :reject_if => proc { |atr| atr['adult'].blank? }
+  accepts_nested_attributes_for :departures,              :reject_if => proc { |atr| atr['departure_date_id'].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :ways,                    :reject_if => proc { |atr| atr['city_id'].blank? }, :allow_destroy => true
 
   attr_reader :marshrut, :marshrut_with_detalies, :prt_departure_dates
-
-  def self.search(params)
-    if params[:one_way] == "true"
-      one_way_search(params)
-    else
-      two_ways_search(params)
-    end
-  end
 
   def marshrut(from)
     h = Hash.new
@@ -68,16 +62,24 @@ class Ticket < ActiveRecord::Base
     }
    p.join
   end
-  
+
+  def self.search(params)
+    from = City.find(params[:city_from]).country.name == "Україна" ? true : false
+    if params[:one_way] == "true"
+      one_way_search(params, from, params[:date_from])
+    else
+      two_ways_search(params, from)
+    end
+  end
+
   private
 
-  def self.one_way_search(params)
-    result = params[:city_from].blank? ? all : ticket_where_city(params[:city_from], true)
-    result2 = params[:city_to].blank? ? all : ticket_where_city(params[:city_to], true)
-    result & result2 &
+  def self.one_way_search(params, from, date)
+    ticket_where_city(params[:city_from], from) & 
+    ticket_where_city(params[:city_to], from) &
     find(Departure.where(
-      :direction => true, 
-      :departure_date_id => departure_date_id_from_date(params[:date_from])
+      :direction => from, 
+      :departure_date_id => departure_date_id_from_date(date)
     ).collect(&:ticket_id))
   end
 
@@ -89,7 +91,10 @@ class Ticket < ActiveRecord::Base
     DepartureDate.find_by_day_of_life(Date.strptime(day, '%d/%m/%Y')).id
   end
 
-  def self.two_ways_search(params)
-    all
+  def self.two_ways_search(params, from)
+    @tickets_to = one_way_search(params, from, params[:date_from])
+    @tickets_from = one_way_search(params, !from, params[:date_to])
+    @tickets_to &
+    @tickets_from
   end
 end

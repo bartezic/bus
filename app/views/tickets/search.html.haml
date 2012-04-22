@@ -1,10 +1,12 @@
+%header.jumbotron.subhead
+  %h1 Система бронювання автобусних, чартерних, рейсів.
 .row
   .span3
     = form_tag search_tickets_path, :class => "well", :method => "get", :remote => true do
       %fieldset
         %legend Куди бажаєте поїхати?
-        = select_tag :city_from, options_for_select(@cities_from.cities.collect { |p| [ p.name, p.id ] }), {:prompt => 'Оберіть місто виїзду або Всі'}
-        = select_tag :city_to, option_groups_from_collection_for_select(@countries_to, :cities, :name, :id, :name), {:prompt => 'Оберіть місто прибуття або Всі'}
+        = select_tag :city_from, cities_for_select, { :prompt => 'Оберіть місто виїзду', :class => "required" }
+        = select_tag :city_to, cities_for_select, { :prompt => 'Оберіть місто прибуття', :class => "required" }
         .block
           .block1
             = radio_button_tag :one_way, true
@@ -14,12 +16,6 @@
             = radio_button_tag :one_way, false, true
             %span Туди і назад
             = text_field_tag :date_to , '', :class => "input-small required", :placeholder => "Повернення"
-        .block
-          = label_tag :tickets, "Кількість квитків"
-          .block1
-            = number_field_tag :adult , '', :class => "input-small", :placeholder => "Повних", :in => 1...30
-          .block2
-            = number_field_tag :child , '', :class => "input-small", :placeholder => "Пільгових", :rel => "tooltip", :title => "Діти до 14 років, студенти до 21 року та пенсіонери", :in => 1...30
       = submit_tag "Шукати"
   .span9
     / #search_title

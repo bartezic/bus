@@ -32,6 +32,7 @@ ActiveAdmin.register Ticket do
   end
 
   index do
+    column :id, sortable: true
     column :carrier, sortable: true
     column :marshrut_from do |a|
       a.marshrut(true).html_safe
@@ -63,6 +64,43 @@ ActiveAdmin.register Ticket do
       row :dates_to do |a|
         a.prt_departure_dates(false).html_safe
       end
+      row :one_way_price_adult do |a|
+        a.one_way_price.adult if a.one_way_price
+      end
+      row :one_way_price_child do |a|
+        a.one_way_price.child if a.one_way_price
+      end
+      row :one_way_visa_price_adult do |a|
+        a.one_way_visa_price.adult if a.one_way_visa_price
+      end
+      row :one_way_visa_price_child do |a|
+        a.one_way_visa_price.child if a.one_way_visa_price
+      end
+      row :two_ways_price_adult do |a|
+        a.two_ways_price.adult if a.two_ways_price
+      end
+      row :two_ways_price_child do |a|
+        a.two_ways_price.child if a.two_ways_price
+      end
+      row :two_ways_visa_price_adult do |a|
+        a.two_ways_visa_price.adult if a.two_ways_visa_price
+      end
+      row :two_ways_visa_price_child do |a|
+        a.two_ways_visa_price.child if a.two_ways_visa_price
+      end
+      row :visa_price_adult do |a|
+        a.visa_price.adult if a.visa_price
+      end
+      row :visa_price_child do |a|
+        a.visa_price.child if a.visa_price
+      end
+      row :health_insurance_price_adult do |a|
+        a.health_insurance_price.adult if a.health_insurance_price
+      end
+      row :health_insurance_price_child do |a|
+        a.health_insurance_price.child if a.health_insurance_price
+      end
+
     end
   end
 

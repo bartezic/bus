@@ -1,15 +1,21 @@
+%p
+  = t_to.size
+%p
+  = t_from.size
 - if t.any? 
   %table.table.table-striped.table-bordered
     %tr
-      %th З
-      %th До
+      %th Міста по маршруту
+      %th Дати туру
       %th 
     - t.each do |ticket|
       %tr
         %td
-          %p= "#{City.find(p[:city_from]).name} - #{p[:date_from]}"
+          %p= ticket.marshrut(true)
+          %p= ticket.marshrut(false)
         %td
-          %p= "#{City.find(p[:city_to]).name}"
+          %p= ticket.prt_departure_dates(true).html_safe
+          %p= ticket.prt_departure_dates(false).html_safe
         %td= link_to 'Детальніше→', ticket, :remote => true, :class => "btn btn-info"
 - else
   %p Нажаль нічого не знайдено.

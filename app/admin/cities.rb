@@ -4,6 +4,7 @@ ActiveAdmin.register City do
   filter :name
   
   index do
+    column :id, sortable: true
     column :name, sortable: true
     column :country, sortable: false
 

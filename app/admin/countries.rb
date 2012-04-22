@@ -3,6 +3,7 @@ ActiveAdmin.register Country do
   filter :name
 
   index do
+    column :id, sortable: true
     column :name, sortable: true
     column :cities do |country|
       country.cities.map(&:name) * ', '

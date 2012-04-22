@@ -195,7 +195,10 @@ th, td, caption {
 
 .attributes_table table { 
   td, th {
-    padding: 1px;
+    padding: 0 1px 0 10px;
+  }
+  th {
+    width: auto;
   }
 }
 p {

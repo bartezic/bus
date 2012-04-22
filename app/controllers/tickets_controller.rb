@@ -22,16 +22,8 @@ class TicketsController < InheritedResources::Base
   end
 
   def search
-    if params[:one_way].blank?
-      @params = params
-      @tickets = Ticket.all
-    else
-      @params = params
-      @tickets = Ticket.search(params)
-    end
-
-    @cities_from = Country.cities_from("Україна")
-    @countries_to = Country.without("Україна")
+    @tickets = params[:commit] ? Ticket.search(params) : []
+    @params = params
     
     respond_to do |format|
       format.html # index.html.erb
