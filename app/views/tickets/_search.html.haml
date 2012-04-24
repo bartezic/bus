@@ -1,16 +1,15 @@
 - if t.any? 
-  %table.table.table-striped.table-bordered
-    %tr
-      %th З
-      %th До
-      %th 
-    - t.each do |ticket|
-      %tr
-        %td
-          %p= "#{City.find(p[:city_from]).name} - #{p[:date_from]}"
-        %td
-          %p= "#{City.find(p[:city_to]).name}"
-        %td= link_to 'Детальніше→', ticket, :remote => true, :class => "btn btn-info"
+  - t.each do |ticket|
+    .well
+      %h4= "Рейс #{ticket.departures.where(:departure_date_id => DepartureDate.find_by_day_of_life(Date.strptime(p[:date_from], '%d/%m/%Y')).id).first.trip_number} на #{p[:date_from]} із #{City.find(p[:city_from]).name} (#{City.find(p[:city_from]).country.name}) до #{City.find(p[:city_to]).name} (#{City.find(p[:city_to]).country.name})"
+      - if ticket.one_way_price
+        %h4= "Вартість в одни бік: пільговий #{ticket.one_way_price.child}; дорослий #{ticket.one_way_price.adult}"
+      - if ticket.two_ways_price
+        %h4= "Вартість в два боки: пільговий #{ticket.two_ways_price.child}; дорослий #{ticket.two_ways_price.adult}"
+      %p= ""
+      = link_to 'Детальніше про маршрут', ticket, :remote => true, :class => "btn btn-info"
+      = link_to 'Переглянути доступні зворотні дати на цей рейс', ticket, :remote => true, :class => "btn btn-primary"
+      = link_to 'Забронювати', ticket, :remote => true, :class => "btn btn-success"
 - else
   %p Нажаль нічого не знайдено.
 

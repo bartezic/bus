@@ -32,7 +32,8 @@
 }
 .search_form {
   display: block;
-  width: 270px;
+  min-width: 260px;
+  max-width: 260px;
   float: left;
 }
 .span3 {

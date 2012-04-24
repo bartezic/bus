@@ -5,7 +5,7 @@
 
 # Example:
 #
-set :output, "/home/viktor/cron_log.log"
+set :output, "/home/deployer/cron_log.log"
 #
 every :day do
   runner "DepartureDate.new_day_in_day_of_life"

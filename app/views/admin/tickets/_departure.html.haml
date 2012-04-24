@@ -4,6 +4,6 @@
   %td
     = f.text_field :trip_number
   %td
-    = f.select :departure_date_id, dates
+    = f.select :departure_date_id, dates, :prompt => ''
   %td
     = link_to_remove_fields "Видалити", f, :departures
