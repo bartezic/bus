@@ -1,24 +1,28 @@
-%header.jumbotron.subhead
-  %h1 Система бронювання автобусних, чартерних, рейсів.
 .row
-  .span3
-    = form_tag search_tickets_path, :class => "well", :method => "get", :remote => true do
-      %fieldset
-        %legend Куди бажаєте поїхати?
-        = select_tag :city_from, cities_for_select, { :prompt => 'Оберіть місто виїзду', :class => "required" }
-        = select_tag :city_to, cities_for_select, { :prompt => 'Оберіть місто прибуття', :class => "required" }
-        .block
-          .block1
-            = radio_button_tag :one_way, true
-            %span Тільки туди
-            = text_field_tag :date_from , '', :class => "input-small required", :placeholder => "Виїзд"
-          .block2
-            = radio_button_tag :one_way, false, true
-            %span Туди і назад
-            = text_field_tag :date_to , '', :class => "input-small required", :placeholder => "Повернення"
-      = submit_tag "Шукати"
-  .span9
-    / #search_title
-    /   = render "tickets/search_title", :t => @tickets, :p => @params
+  .span12
+    .row
+      .span99
+        .search_form
+          = form_tag search_tickets_path, :class => "well", :method => "get", :remote => true do
+            %fieldset
+              %legend Куди бажаєте поїхати?
+              = select_tag :city_from, cities_for_select, { :prompt => 'Оберіть місто виїзду', :class => "required" }
+              = select_tag :city_to, cities_for_select, { :prompt => 'Оберіть місто прибуття', :class => "required" }
+              .block
+                .block1
+                  = radio_button_tag :one_way, true
+                  %span Тільки туди
+                  = text_field_tag :date_from , '', :class => "input-small required", :placeholder => "Виїзд"
+                .block2
+                  = radio_button_tag :one_way, false, true
+                  %span Туди і назад
+                  = text_field_tag :date_to , '', :class => "input-small required", :placeholder => "Повернення"
+            = submit_tag "Шукати рейс", :class => "btn btn-primary"
+      .span100
+        .well
+          %h1 Доброго дня
+          %p Дорогі клієнти ви знаходитесь в системі бронювання автобусних, чартерних, рейсів туристичної компанії Монграссе. Зараз система знаходиться в процесі розробки але всі рейси які є в системі вже можна забронювати. Для того щоб знайти потрібний вам рейс заповніть форму пошуку зліва.  
+        #search_title
+          = render "tickets/search_title", :p => @params 
     #trips
       = render "tickets/search", :t => @tickets, :p => @params

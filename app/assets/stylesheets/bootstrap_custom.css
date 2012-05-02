@@ -1,0 +1,81 @@
+body {
+  background: url(/assets/container_bg.jpg) 50% 0 repeat fixed;
+}
+
+.footer {
+  border-radius: 4px 4px 0 0;
+  position: fixed;
+  bottom: 0px;
+  z-index: 1030;
+  display: block;
+  background-color: #F5F5F5;
+  border: 1px solid #E5E5E5;
+  padding: 6px;
+  margin: 0;
+}
+.block {
+  display: block;
+  width: 220px;
+  float: left;
+}
+.search_form {
+  min-width: 260px;
+  max-width: 260px;
+}
+.span99 {
+  width: 260px;
+}
+.span100 {
+  width: 880px
+}
+.block div {
+  display: block;
+  width: 100px;
+  float: left;
+}
+.block2 {
+  padding-left: 20px;   
+}
+.ui-datepicker { font-size: 10px; }
+.hero-unit{
+  padding:30px;
+  margin-bottom:10px;
+
+}
+
+
+@media (max-width: 480px) {
+  .span100 {
+    width : 100%;
+  }
+  .span99 {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 767px) {
+  .span100 {
+    width : 100%;
+  }
+  .span99 {
+    width: 260px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  .span100 {
+    width : 440px;
+  }
+  .span99 {
+    width: 260px;
+  }
+}
+@media (min-width: 980px) and (max-width: 1199px) {
+  .span100 {
+    width : 660px;
+  }
+  .span99 {
+    width: 260px;
+  }
+}

@@ -34,6 +34,7 @@ $(function () {
   });
   $('.block2').tooltip({
     selector: "input[rel=tooltip]"
-  })
-  $(".well").validate();
+  });
+  $(".well").validate()
 });
+
