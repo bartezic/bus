@@ -1,5 +1,6 @@
 require "bundler/capistrano"
 
+set :whenever_environment, defer { production }
 set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano"
 

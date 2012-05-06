@@ -6,7 +6,10 @@ Bus::Application.routes.draw do
   mount RailsAdmin::Engine => '/admin2', :as => 'rails_admin'
 
   resources :tickets, :only => [:index, :show]do
-    get :search, :on => :collection
+    collection do
+      get :search
+      get :order
+    end
   end
 
   ActiveAdmin.routes(self)

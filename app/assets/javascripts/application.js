@@ -36,5 +36,16 @@ $(function () {
     selector: "input[rel=tooltip]"
   });
   $(".well").validate()
+  order = function(ticket_id, trip_number, time_stop, place_stop) {
+    $("#trip_number").html(trip_number);
+
+    if (time_stop == ''){ $("#time_stop").html('-'); }
+    else { $("#time_stop").html(time_stop); }
+
+    if (place_stop == ''){ $("#place_stop").html('-'); }
+    else { $("#place_stop").html(place_stop); }
+
+    $('#orderPopup').modal('show');
+  }
 });
 

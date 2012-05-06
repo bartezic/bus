@@ -1,12 +1,34 @@
 .modal-header
   %a.close{data:{dismiss:"modal"}} ×
   %h3 
-    = ticket.carrier.name
+    #{ticket.cities.first.country.name} - #{ticket.cities.last.country.name} - #{ticket.cities.first.country.name}
 .modal-body
   .row-fluid.book
-    .span4
-      hjghrej
-    .span8
-      gr
+    .span12
+      %ul.thumbnails
+        %li.span3.thumbnail{ :class => "pagination-centered" }
+          - if ticket.one_way_price
+            %p 
+              %b В один бік:
+            %h2= "<b>#{ticket.one_way_price.adult} €</b>".html_safe
+            %p= "Пільговий* - <b>#{ticket.one_way_price.child} €</b>".html_safe
+          - if ticket.two_ways_price
+            %p
+              %b В два боки:
+            %h2= "<b>#{ticket.two_ways_price.adult} €</b>".html_safe
+            %p= "Пільговий* - <b>#{ticket.two_ways_price.child} €</b>".html_safe
+        %li.span9.thumbnail
+          %p 
+            %b Маршрут з України:
+            = ticket.marshrut(true).html_safe
+          %p 
+            %b Маршрут до України:
+            = ticket.marshrut(false).html_safe
+          %p 
+            %b Календар виїздів з України:
+          = ticket.prt_departure_dates(true).html_safe
+          %p 
+            %b Календар виїздів до України:
+          = ticket.prt_departure_dates(false).html_safe
 .modal-footer
-  %a.btn{data: {dismiss: "modal"}} Close
+  %a.btn{data: {dismiss: "modal"}} Закрити

@@ -1,1 +1,2 @@
 rvm use --create 1.9.3@bus
+rvm_trust_rvmrcs_flag=1

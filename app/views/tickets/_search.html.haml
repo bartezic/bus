@@ -5,10 +5,28 @@
         %li.span2.thumbnail{ :class => "pagination-centered" }
           %h1= "#{ticket.one_way_price.adult} €"
           %p= "Пільговий #{ticket.one_way_price.child} €"
-          %p= "Рейс <b>#{ticket.departures.where(:departure_date_id => DepartureDate.find_by_day_of_life(Date.strptime(p[:date_from], '%d/%m/%Y')).id).first.trip_number}</b>".html_safe
+          %p= "Рейс <b>#{trip_number(ticket, p[:date_from])}</b>".html_safe
           %p= link_to 'Детальніше', ticket, :remote => true, :class => "btn btn-primary"
-          %p= link_to 'Забронювати', ticket, :remote => true, :class => "btn btn-success"
+          %p= link_to_function "Забронювати", "order(#{ticket.id},'#{trip_number(ticket, p[:date_from])}','#{time_stop(ticket, p[:city_from])}','#{place_stop(ticket, p[:city_from])}')", :class => "btn btn-success"
 - else
   %p Нажаль нічого не знайдено.
 
 #ticketPopup.modal.fade
+
+#orderPopup.modal.fade
+  .modal-header
+    %a.close{data:{dismiss:"modal"}} ×
+    - if p[:date_from]
+      = "<b>#{City.find(p[:city_from]).name} (#{City.find(p[:city_from]).country.name})</b> - <b>#{City.find(p[:city_to]).name} (#{City.find(p[:city_to]).country.name})</b>".html_safe
+  .modal-body
+    .row-fluid.book
+      .span12
+        %ul.thumbnails
+          %li.span3.thumbnail
+            %p= "Виїзд: <b>#{p[:date_from]}</b>".html_safe
+            %p= "Час виїзду: <b id='time_stop'></b>".html_safe
+            %p= "Місце: <b id='place_stop'></b>".html_safe
+            %p= "Рейс: <b id='trip_number'></b>".html_safe
+          %li.span9.thumbnail
+  .modal-footer
+    %a.btn{data: {dismiss: "modal"}} Close
