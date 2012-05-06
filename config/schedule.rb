@@ -7,7 +7,7 @@
 #
 set :output, "/home/deployer/cron_log.log"
 #
-every :day do
+every 2.minutes do
   runner "DepartureDate.new_day_in_day_of_life"
   runner "DepartureDate.destroy_today_from_day_of_life"
 end
