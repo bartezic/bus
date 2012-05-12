@@ -3,7 +3,7 @@
     ×
   - if p[:date_from]
     = "Рейс на <b>#{p[:date_from]}</b> із <b>#{City.find(p[:city_from]).name} (#{City.find(p[:city_from]).country.name})</b> до <b>#{City.find(p[:city_to]).name} (#{City.find(p[:city_to]).country.name})</b>".html_safe
-    - if p[:date_to]
+    - if p[:date_to] != ''
       = "та звортній рейс на <b>#{p[:date_to]}</b>".html_safe
   - else
     %h3 Заповніть поля для пошуку

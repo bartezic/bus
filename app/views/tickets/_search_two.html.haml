@@ -10,6 +10,6 @@
           %p= link_to 'Детальніше', ticket, :remote => true, :class => "btn btn-primary"
           %p= link_to 'Забронювати', ticket, :remote => true, :class => "btn btn-success"
 - else
-  %p Нажаль нічого не знайдено.
+  = render "tickets/empty_search"
 
 #ticketPopup.modal.fade

@@ -28,16 +28,44 @@ $(function () {
       dates.not( this ).datepicker( "option", option, date );
     }
   });
+
   $("input[name=one_way]").change(function(){
     $("#date_to").toggle();
+    $("#date_to").val('');
+    $("#date_from, #date_to").datepicker('option', {maxDate: null});
     $("label[for=date_to]").hide()
   });
+
   $('.block2').tooltip({
     selector: "input[rel=tooltip]"
   });
-  $(".well").validate()
-  order = function(ticket_id, trip_number, time_stop, place_stop) {
+
+  $(".well").validate();
+  $("#order_form").validate({
+    rules: {
+      email: {
+        required: true,
+        email: true
+      },
+      phone: {
+        required: true,
+        number: true,
+        minlength: 9
+      },
+      name: {
+        required: true,
+        minlength: 4
+      }
+    }
+  });
+
+  order = function(ticket_id, trip_number, time_stop, place_stop, price_adult, price_child) {
     $("#trip_number").html(trip_number);
+
+    $("#price_for_adult").html(price_adult);
+    $("#price_for_child").html(price_child);
+    $("#price_sum").html(price_adult);
+    price_sum();
 
     if (time_stop == ''){ $("#time_stop").html('-'); }
     else { $("#time_stop").html(time_stop); }
@@ -46,6 +74,44 @@ $(function () {
     else { $("#place_stop").html(place_stop); }
 
     $('#orderPopup').modal('show');
+    $('#adult').prop('readonly', true);
+    $('#child').prop('readonly', true);
+    $('#order_form').serialize();
+  }
+
+  plus_adult = function(){
+    count = parseInt($('#adult').val())
+    if ((count < 0)||(count >= 30)){ $('#adult').val(0) }
+    else { $('#adult').val(count+1) }
+    price_sum();
+  }
+
+  minus_adult = function(){
+    count = parseInt($('#adult').val())
+    if (count <=0){ $('#adult').val(0) }
+    else { $('#adult').val(count-1) }
+    price_sum();
+  }
+
+  plus_child = function(){
+    count = parseInt($('#child').val())
+    if ((count < 0)||(count >= 30)){ $('#child').val(0) }
+    else { $('#child').val(count+1) }
+    price_sum();
+  }
+
+  minus_child = function(){
+    count = parseInt($('#child').val())
+    if (count <=0){ $('#child').val(0)}
+    else { $('#child').val(count-1) }
+    price_sum();
+  }
+
+  price_sum = function(){
+    $("#price_sum").html(
+      parseInt($('#adult').val()) * parseInt($("#price_for_adult").html()) +
+      parseInt($('#child').val()) * parseInt($('#price_for_child').html())
+    )
   }
 });
 

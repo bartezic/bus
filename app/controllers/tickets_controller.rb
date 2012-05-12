@@ -15,7 +15,7 @@ class TicketsController < InheritedResources::Base
   end
 
   def order
-    @tickets = params[:commit] ? Ticket.search(params) : []
-    @params = params
+    UserMailer.reserve_email(params[:name],params[:email]).deliver
+    ManagerMailer.reserve_email(params).deliver
   end
 end

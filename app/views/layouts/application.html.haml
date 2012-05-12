@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title Bus
+    %title Bus service
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = csrf_meta_tags
@@ -17,7 +17,7 @@
               %span.icon-bar
               %span.icon-bar
             %a.brand{:href => "#"}
-              Brand
+              Bus Guide
             .nav-collapse
               %ul.nav
                 %li{class: current_page?(root_path) && 'active'}= link_to "Знайти тур", :root 
@@ -38,4 +38,4 @@
         \&
         = succeed "." do
           %a{:href => "/privacy"} Privacy
-    = render 'shared/feedback'
+    / = render 'shared/feedback'

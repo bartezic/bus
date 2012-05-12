@@ -7,6 +7,8 @@ gem 'rails', '3.2.2'
 
 gem 'pg'
 
+gem 'mail'
+
 gem 'activeadmin'
 gem "meta_search",    '>= 1.1.0.pre'
 gem 'fastercsv'
