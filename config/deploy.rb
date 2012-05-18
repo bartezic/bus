@@ -1,8 +1,5 @@
 require "bundler/capistrano"
 
-set :whenever_command, "bundle exec whenever"
-require "whenever/capistrano"
-
 $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 set :rvm_ruby_string, '1.9.3@bus' 
 require "rvm/capistrano"  
@@ -33,5 +30,28 @@ set :branch, "master"
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
+
+after "deploy:assets:precompile", "deploy:restart_workers"
+after "deploy:restart_workers", "deploy:restart_scheduler"
+
+def run_remote_rake(rake_cmd)
+  rake_args = ENV['RAKE_ARGS'].to_s.split(',')
+  cmd = "cd #{fetch(:latest_release)} && #{fetch(:rake, "rake")} RAILS_ENV=#{fetch(:rails_env, "production")} #{rake_cmd}"
+  cmd += "['#{rake_args.join("','")}']" unless rake_args.empty?
+  run cmd
+  set :rakefile, nil if exists?(:rakefile)
+end
+
+namespace :deploy do
+  desc "Restart Resque Workers"
+  task :restart_workers, :roles => :db do
+    run_remote_rake "resque:restart_workers"
+  end
+
+  desc "Restart Resque scheduler"
+  task :restart_scheduler, :roles => :db do
+     run_remote_rake "resque:restart_scheduler"
+  end
+end
 
 after "deploy", "deploy:cleanup" # keep only the last 5 releases

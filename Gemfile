@@ -9,6 +9,9 @@ gem 'pg'
 
 gem 'mail'
 
+gem 'resque', :require => 'resque/server'
+gem 'resque-scheduler', :require => 'resque_scheduler'
+
 gem 'activeadmin'
 gem "meta_search",    '>= 1.1.0.pre'
 gem 'fastercsv'
@@ -48,7 +51,6 @@ end
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
-gem 'whenever', :require => false
 
 # Use unicorn as the app server
 gem 'unicorn'

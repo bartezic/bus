@@ -1,15 +1,50 @@
-- if t.any? 
-  %ul.thumbnails
+%ul.thumbnails
+  - if t.any? 
     - t.each do |ticket|
       - if ticket.two_ways_price
         %li.span2.thumbnail{ :class => "pagination-centered" }
           %h1= "#{ticket.two_ways_price.adult} €"
           %p= "Пільговий #{ticket.two_ways_price.child} €"
-          %h4= "Туди - рейс #{ticket.departures.where(:departure_date_id => DepartureDate.find_by_day_of_life(Date.strptime(p[:date_from], '%d/%m/%Y')).id).first.trip_number}"
-          %h4= "Назад - рейс #{ticket.departures.where(:departure_date_id => DepartureDate.find_by_day_of_life(Date.strptime(p[:date_to], '%d/%m/%Y')).id).first.trip_number}"
-          %p= link_to 'Детальніше', ticket, :remote => true, :class => "btn btn-primary"
-          %p= link_to 'Забронювати', ticket, :remote => true, :class => "btn btn-success"
-- else
-  = render "tickets/empty_search"
-
-#ticketPopup.modal.fade
+          %h4
+            = "Туди - рейс #{departure(ticket, p[:date_from], p[:city_from], true).trip_number}"
+            %span= link_to '<i class="icon-info-sign icon-white"></i>'.html_safe, ticket, :remote => true, :class => "label label-info", :rel => "tooltip", :title => "Детальніше про рейс"
+          %h4
+            = "Назад - рейс #{departure(ticket, p[:date_to], p[:city_from], false).trip_number}"
+            %span= link_to '<i class="icon-info-sign icon-white"></i>'.html_safe, ticket, :remote => true, :class => "label label-info", :rel => "tooltip", :title => "Детальніше про рейс"
+          %p= link_to_function "Забронювати", "order( '#{ticket.two_ways_price.adult}',
+                                                      '#{ticket.two_ways_price.child}',
+                                                      '#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}',
+                                                      '#{to_time(way(ticket, p[:city_from], true).time_stop)}',
+                                                      '#{way(ticket, p[:city_from], true).place_stop}',
+                                                      '#{departure(ticket, p[:date_from], p[:city_from], true).id}',
+                                                      '#{departure(ticket, p[:date_to], p[:city_from], false).trip_number}',
+                                                      '#{to_time(way(ticket, p[:city_to], false).time_stop)}',
+                                                      '#{way(ticket, p[:city_to], false).place_stop}',
+                                                      '#{departure(ticket, p[:date_to], p[:city_from], false).id}')", :class => "btn btn-success"
+  - if t_to.any? and t_from.any?
+    - t_to.each do |ticket_to|
+      - t_from.each do |ticket_from|
+        - if ticket_to.one_way_price && ticket_from.one_way_price
+          %li.span2.thumbnail{ :class => "pagination-centered" }
+            %h1= "#{ticket_to.one_way_price.adult + ticket_from.one_way_price.adult} €"
+            %p= "Пільговий #{ticket_to.one_way_price.child + ticket_from.one_way_price.child} €"
+            %h4
+              = "Туди - рейс #{departure(ticket_from, p[:date_from], p[:city_from], true).trip_number}"
+              %span= link_to '<i class="icon-info-sign icon-white"></i>'.html_safe, ticket_from, :remote => true, :class => "label label-info", :rel => "tooltip", :title => "Детальніше про рейс"
+            %h4
+              = "Назад - рейс #{departure(ticket_to, p[:date_to], p[:city_from], false).trip_number}"
+              %span= link_to '<i class="icon-info-sign icon-white"></i>'.html_safe, ticket_to, :remote => true, :class => "label label-info", :rel => "tooltip", :title => "Детальніше про рейс"
+            %p= link_to_function "Забронювати", "order( '#{ticket_to.one_way_price.adult + ticket_from.one_way_price.adult}',
+                                                        '#{ticket_to.one_way_price.child + ticket_from.one_way_price.child}',
+                                                        '#{departure(ticket_from, p[:date_from], p[:city_from], true).trip_number}',
+                                                        '#{to_time(way(ticket_from, p[:city_from], true).time_stop)}',
+                                                        '#{way(ticket_from, p[:city_from], true).place_stop}',
+                                                        '#{departure(ticket_from, p[:date_from], p[:city_from], true).id}',
+                                                        '#{departure(ticket_to, p[:date_to], p[:city_from], false).trip_number}',
+                                                        '#{to_time(way(ticket_to, p[:city_to], false).time_stop)}',
+                                                        '#{way(ticket_to, p[:city_to], false).place_stop}',
+                                                        '#{departure(ticket_to, p[:date_to], p[:city_from], false).id}')", :class => "btn btn-success"
+  - if t_to.any? and t_from.any? or t.any?
+    = render "tickets/all_popups", :p => p
+  - else
+    = render "tickets/empty_search"

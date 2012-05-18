@@ -4,78 +4,30 @@
       - if ticket.one_way_price
         %li.span2.thumbnail{ :class => "pagination-centered" }
           %h1= "#{ticket.one_way_price.adult} €"
-          %p= "Пільговий #{ticket.one_way_price.child} €"
-          %p= "Рейс <b>#{trip_number(ticket, p[:date_from])}</b>".html_safe
+          %p= "Пільговий #{ticket.one_way_price.child} € <span rel='tooltip' title='Діти до 14 років, студенти до 21 року та пенсіонери'><i class='icon-info-sign'></i></span></span>".html_safe
+          %p= "Рейс <b>#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}</b>".html_safe
           %p= link_to 'Детальніше', ticket, :remote => true, :class => "btn btn-primary"
-          %p= link_to_function "Забронювати", "order(#{ticket.id},'#{trip_number(ticket, p[:date_from])}','#{time_stop(ticket, p[:city_from])}','#{place_stop(ticket, p[:city_from])}','#{ticket.one_way_price.adult}','#{ticket.one_way_price.child}')", :class => "btn btn-success"
+          %p= link_to_function "Забронювати", "order( '#{ticket.one_way_price.adult}',
+                                                      '#{ticket.one_way_price.child}',
+                                                      '#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}',
+                                                      '#{to_time(way(ticket, p[:city_from], true).time_stop)}',
+                                                      '#{way(ticket, p[:city_from], true).place_stop}',
+                                                      '#{departure(ticket, p[:date_from], p[:city_from], true).id}')", :class => "btn btn-success"
+    - t.each do |ticket|
+      - if !ticket.one_way_price && ticket.two_ways_price
+        %li.span2.thumbnail{ :class => "pagination-centered" }
+          %h1= "<span rel='tooltip' title='Вартість у дві сторони' style='color:red;'>#{ticket.two_ways_price.adult} €</span>".html_safe
+          %p= "Пільговий #{ticket.two_ways_price.child} € <span rel='tooltip' title='Діти до 14 років, студенти до 21 року та пенсіонери'><i class='icon-info-sign'></i></span>".html_safe
+          %p= "Рейс <b>#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}</b>".html_safe
+          %p= link_to 'Детальніше', ticket, :remote => true, :class => "btn btn-primary"
+          %p= link_to_function "Забронювати", "order( '#{ticket.two_ways_price.adult}',
+                                                      '#{ticket.two_ways_price.child}',
+                                                      '#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}',
+                                                      '#{to_time(way(ticket, p[:city_from], true).time_stop)}',
+                                                      '#{way(ticket, p[:city_from], true).place_stop}',
+                                                      '#{departure(ticket, p[:date_from], p[:city_from], true).id}')", :class => "btn btn-success"
+    
+  = render "tickets/all_popups", :p => p
 - else
-  = render "tickets/empty_search"
-
-#ticketPopup.modal.fade
-
-#reservePopup.modal.fade
-  .modal-header
-    %a.close{data:{dismiss:"modal"}} ×
-    %h3 Дякуємо, що користуєтесь нашим сервісом.
-  .modal-body
-    Ваша резервація прийнята і дуже скоро буде розглянута нашим менеджером.
-  .modal-footer
-    %a.btn{data: {dismiss: "modal"}} Закрити
-
-#orderPopup.modal.fade
-  .modal-header
-    %a.close{data:{dismiss:"modal"}} ×
-    - if p[:date_from]
-      = "<b>#{City.find(p[:city_from]).name} (#{City.find(p[:city_from]).country.name})</b> - <b>#{City.find(p[:city_to]).name} (#{City.find(p[:city_to]).country.name})</b>".html_safe
-  .modal-body
-    .row-fluid.book
-      .span12
-        %ul.thumbnails
-          %li.span3.thumbnail
-            %p= "Виїзд: <b>#{p[:date_from]}</b>".html_safe
-            %p= "Час виїзду: <b id='time_stop'></b>".html_safe
-            %p= "Місце: <b id='place_stop'></b>".html_safe
-            %p= "Рейс: <b id='trip_number'></b>".html_safe
-          %li.span9.thumbnail
-            = form_tag order_tickets_path, :class => "form-horizontal", :id => "order_form", :method => "get", :remote => true do
-              %fieldset
-                %legend Оформіть замовлення
-                .control-group
-                  = label_tag :adult, 'Дорослих по <b id="price_for_adult"></b><b> €</b>'.html_safe, :class => 'control-label'
-                  .controls
-                    .input-prepend.input-append
-                      %span.btn{ :onclick => "minus_adult();"}
-                        %i.icon-minus-sign
-                      = text_field_tag :adult, 1, :class=>'input-mini'
-                      %span.btn{ :onclick => "plus_adult();"}
-                        %i.icon-plus-sign
-                .control-group
-                  = label_tag :child, 'Пільгових* по <b id="price_for_child"></b><b> €</b>'.html_safe, :class => 'control-label'
-                  .controls
-                    .input-prepend.input-append
-                      %span.btn{ :onclick => "minus_child();"}
-                        %i.icon-minus-sign
-                      = text_field_tag :child, 0, :class=>'input-mini'
-                      %span.btn{ :onclick => "plus_child();"}
-                        %i.icon-plus-sign
-                .control-group
-                  = label_tag :price_sum, 'Разом', :class => 'control-label'
-                  .controls
-                    %span.input-mini.uneditable-input#price_sum 0
-                .control-group
-                  = label_tag :name, "Ваше Ім'я", :class => 'control-label'
-                  .controls
-                    = text_field_tag :name, '', :class=>'input-medium'
-                .control-group
-                  = label_tag :email, 'Ваш e-mail', :class => 'control-label'
-                  .controls
-                    = text_field_tag :email, '', :class=>'input-medium'
-                .control-group
-                  = label_tag :phone, 'Ваш телефон', :class => 'control-label'
-                  .controls
-                    .input-prepend
-                      %span.add-on +380
-                      = text_field_tag :phone, '', :class=>'input-small'
-                .form-actions
-                  = submit_tag "Оформити", :class => "btn btn-success"
-                  %a.btn{data: {dismiss: "modal"}} Закрити
+  %ul.thumbnails
+    = render "tickets/empty_search"

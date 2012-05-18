@@ -5,6 +5,11 @@
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = csrf_meta_tags
+    /[if gte IE 9]
+      :css
+        body {
+          filter: none;
+        }
   %body
     .container
       %header.jumbotron.subhead

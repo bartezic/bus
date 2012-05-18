@@ -41,42 +41,49 @@ $(function () {
   });
 
   $(".well").validate();
-  $("#order_form").validate({
-    rules: {
-      email: {
-        required: true,
-        email: true
-      },
-      phone: {
-        required: true,
-        number: true,
-        minlength: 9
-      },
-      name: {
-        required: true,
-        minlength: 4
-      }
-    }
-  });
 
-  order = function(ticket_id, trip_number, time_stop, place_stop, price_adult, price_child) {
-    $("#trip_number").html(trip_number);
-
+  order = function( price_adult, price_child, 
+                    trip_number_from, time_stop_from, place_stop_from, departure_from_id, 
+                    trip_number_to, time_stop_to, place_stop_to, departure_to_id) {
+    
     $("#price_for_adult").html(price_adult);
     $("#price_for_child").html(price_child);
-    $("#price_sum").html(price_adult);
     price_sum();
 
-    if (time_stop == ''){ $("#time_stop").html('-'); }
-    else { $("#time_stop").html(time_stop); }
+    $("#trip_number_from").html(trip_number_from);
+    $("#departure_from_id").val(departure_from_id);
+    if (time_stop_from == ''){ $("#time_stop_from").html('-'); }
+    else { $("#time_stop_from").html(time_stop_from); }
+    if (place_stop_from == ''){ $("#place_stop_from").html('-'); }
+    else { $("#place_stop_from").html(place_stop_from); }
 
-    if (place_stop == ''){ $("#place_stop").html('-'); }
-    else { $("#place_stop").html(place_stop); }
+    $("#trip_number_to").html(trip_number_to);
+    $("#departure_to_id").val(departure_to_id);
+    if (time_stop_to == ''){ $("#time_stop_to").html('-'); }
+    else { $("#time_stop_to").html(time_stop_to); }
+    if (place_stop_to == ''){ $("#place_stop_to").html('-'); }
+    else { $("#place_stop_to").html(place_stop_to); }
 
-    $('#orderPopup').modal('show');
     $('#adult').prop('readonly', true);
     $('#child').prop('readonly', true);
-    $('#order_form').serialize();
+    $("#order_form").validate({
+      rules: {
+        email: {
+          required: true,
+          email: true
+        },
+        phone: {
+          required: true,
+          number: true,
+          minlength: 9
+        },
+        name: {
+          required: true,
+          minlength: 4
+        }
+      }
+    });
+    $('#orderPopup').modal('show');
   }
 
   plus_adult = function(){

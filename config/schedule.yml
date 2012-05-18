@@ -1,0 +1,7 @@
+manage_departure_dates:
+  cron: "0 6 * * *"
+  queue: cron_job_queue
+  class: CronJob
+  args: "manage_departure_dates"
+  description: Delete all departure dates for today with ticket departure dependence
+  rails_envs: production

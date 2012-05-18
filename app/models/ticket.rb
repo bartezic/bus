@@ -92,9 +92,13 @@ class Ticket < ActiveRecord::Base
   end
 
   def self.two_ways_search(params, from)
-    @tickets_to = one_way_search(params, from, params[:date_from])
-    @tickets_from = one_way_search(params, !from, params[:date_to])
-    @tickets_to &
-    @tickets_from
+    @tickets_from = one_way_search(params, from, params[:date_from])
+    @tickets_to = one_way_search(params, !from, params[:date_to])
+    @tickets = @tickets_to & @tickets_from
+    {
+      :tickets_to => @tickets_to - @tickets,
+      :tickets_from => @tickets_from - @tickets,
+      :tickets => @tickets
+    }
   end
 end

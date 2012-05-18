@@ -1,7 +1,7 @@
 <% if @params[:one_way] == "true" %>
   $("#trips").html(" <%= escape_javascript(render('tickets/search', :t => @tickets, :p => @params)) %>")
 <% else %>
-  $("#trips").html(" <%= escape_javascript(render('tickets/search_two', :t => @tickets, :t_to => @tickets_to, :t_from => @tickets_from, :p => @params)) %>")
+  $("#trips").html(" <%= escape_javascript(render('tickets/search_two', :t => @tickets[:tickets], :t_to => @tickets[:tickets_to], :t_from => @tickets[:tickets_from], :p => @params)) %>")
 <% end %>
 
 $("#search_title").html("<%= escape_javascript(render('tickets/search_title', :t => @tickets, :p => @params)) %>")

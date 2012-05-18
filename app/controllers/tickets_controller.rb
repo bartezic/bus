@@ -11,11 +11,15 @@ class TicketsController < InheritedResources::Base
 
   def search
     @tickets = params[:commit] ? Ticket.search(params) : []
+    puts @tickets
     @params = params
   end
 
   def order
-    UserMailer.reserve_email(params[:name],params[:email]).deliver
-    ManagerMailer.reserve_email(params).deliver
+    Resque.enqueue_in(2, ReserveNotification, 
+      Reservation.create!(params.delete_if { |k,v| 
+        ["utf8","commit","action","controller"].include?(k) 
+      }).id
+    )
   end
 end
