@@ -17,6 +17,17 @@ body {
   /* IE6-8 */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9283ef', endColorstr='#ffffff',GradientType=0 ); 
 }
+
+#logo {
+  background: url(logo.png) no-repeat center;
+  height: 75px;
+  width: 150px;
+}
+
+#slogan {
+  padding-top: 20px;
+}
+
 [class^="icon-"] {
     background-image: url("glyphicons-halflings.png");
 }

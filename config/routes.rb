@@ -1,9 +1,9 @@
 Bus::Application.routes.draw do
   root :to => 'tickets#search'
-  
-  resources :carriers
 
-  mount RailsAdmin::Engine => '/admin2', :as => 'rails_admin'
+  resources :cities
+  resources :carriers
+  resources :countries
 
   resources :tickets, :only => [:index, :show]do
     collection do
@@ -12,15 +12,18 @@ Bus::Application.routes.draw do
     end
   end
 
+  resources :information, :only => [] do 
+    collection do
+      get :about_us
+      get :how_it_works
+    end
+  end
+
   ActiveAdmin.routes(self)
-
   devise_for :admin_users, ActiveAdmin::Devise.config
-
-  resources :cities
-
-  resources :countries
   
-  mount Resque::Server, :at => "/resque"
+  mount RailsAdmin::Engine => '/admin2', :as => 'rails_admin'
+  mount Resque::Server, :at => '/resque'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
