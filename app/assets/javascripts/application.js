@@ -86,6 +86,15 @@ $(function () {
     $('#orderPopup').modal('show');
   }
 
+  for_delete_county = function(select_list, city_id, index){
+    if (city_id != ''){
+      el = $('option[value='+city_id+']')[index];
+      el.parentNode.disabled = true;
+    } else {
+      el = $('optgroup').each(function(index){ this.disabled = false });
+    }
+  }
+
   plus_adult = function(){
     count = parseInt($('#adult').val())
     if ((count < 0)||(count >= 30)){ $('#adult').val(0) }

@@ -5,12 +5,10 @@
         %li.span2.thumbnail{ :class => "pagination-centered" }
           %h1= "#{ticket.two_ways_price.adult} €"
           %p= "Пільговий #{ticket.two_ways_price.child} €"
-          %h4
-            = "Туди - рейс #{departure(ticket, p[:date_from], p[:city_from], true).trip_number}"
-            %span= link_to '<i class="icon-info-sign icon-white"></i>'.html_safe, ticket, :remote => true, :class => "label label-info", :rel => "tooltip", :title => "Детальніше про рейс"
-          %h4
-            = "Назад - рейс #{departure(ticket, p[:date_to], p[:city_from], false).trip_number}"
-            %span= link_to '<i class="icon-info-sign icon-white"></i>'.html_safe, ticket, :remote => true, :class => "label label-info", :rel => "tooltip", :title => "Детальніше про рейс"
+          %p= "Туди - рейс <b>#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}</b>".html_safe
+          %p= link_to 'Детальніше', ticket, :remote => true, :class => "btn btn-primary"
+          %p= "Назад - рейс <b>#{departure(ticket, p[:date_to], p[:city_from], false).trip_number}</b>".html_safe
+          %p= link_to 'Детальніше', ticket, :remote => true, :class => "btn btn-primary"
           %p= link_to_function "Забронювати", "order( '#{ticket.two_ways_price.adult}',
                                                       '#{ticket.two_ways_price.child}',
                                                       '#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}',
@@ -28,12 +26,10 @@
           %li.span2.thumbnail{ :class => "pagination-centered" }
             %h1= "#{ticket_to.one_way_price.adult + ticket_from.one_way_price.adult} €"
             %p= "Пільговий #{ticket_to.one_way_price.child + ticket_from.one_way_price.child} €"
-            %h4
-              = "Туди - рейс #{departure(ticket_from, p[:date_from], p[:city_from], true).trip_number}"
-              %span= link_to '<i class="icon-info-sign icon-white"></i>'.html_safe, ticket_from, :remote => true, :class => "label label-info", :rel => "tooltip", :title => "Детальніше про рейс"
-            %h4
-              = "Назад - рейс #{departure(ticket_to, p[:date_to], p[:city_from], false).trip_number}"
-              %span= link_to '<i class="icon-info-sign icon-white"></i>'.html_safe, ticket_to, :remote => true, :class => "label label-info", :rel => "tooltip", :title => "Детальніше про рейс"
+            %p= "Туди - рейс <b>#{departure(ticket_from, p[:date_from], p[:city_from], true).trip_number}</b>".html_safe
+            %p= link_to 'Детальніше', ticket_from, :remote => true, :class => "btn btn-primary"
+            %p= "Назад - рейс <b>#{departure(ticket_to, p[:date_to], p[:city_from], false).trip_number}</b>".html_safe
+            %p= link_to 'Детальніше', ticket_to, :remote => true, :class => "btn btn-primary"
             %p= link_to_function "Забронювати", "order( '#{ticket_to.one_way_price.adult + ticket_from.one_way_price.adult}',
                                                         '#{ticket_to.one_way_price.child + ticket_from.one_way_price.child}',
                                                         '#{departure(ticket_from, p[:date_from], p[:city_from], true).trip_number}',

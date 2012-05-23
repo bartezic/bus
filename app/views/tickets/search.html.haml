@@ -6,8 +6,8 @@
           = form_tag search_tickets_path, :class => "well", :method => "get", :remote => true do
             %fieldset
               %legend Куди бажаєте поїхати?
-              = select_tag :city_from, cities_for_select, { :prompt => 'Оберіть місто виїзду', :class => "required" }
-              = select_tag :city_to, cities_for_select, { :prompt => 'Оберіть місто прибуття', :class => "required" }
+              = select_tag :city_from, cities_for_select, { :onchange => "for_delete_county('#{cities_for_select_js}',$(this).val(), 1);", :prompt => 'Оберіть місто виїзду', :class => "required" }
+              = select_tag :city_to, cities_for_select, { :onchange => "for_delete_county('#{cities_for_select_js}',$(this).val(), 0);", :prompt => 'Оберіть місто прибуття', :class => "required" }
               .block
                 .block1
                   = radio_button_tag :one_way, true
