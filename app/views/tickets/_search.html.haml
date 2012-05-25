@@ -2,7 +2,7 @@
   %ul.thumbnails
     - t.each do |ticket|
       - if ticket.one_way_price
-        %li.span2.thumbnail{ :class => "pagination-centered" }
+        %li.span2.thumbnail.ticket_background{ :class => "pagination-centered" }
           %h1= "#{ticket.one_way_price.adult} €"
           %p= "Пільговий #{ticket.one_way_price.child} € <span rel='tooltip' title='Діти до 14 років, студенти до 21 року та пенсіонери'><i class='icon-info-sign'></i></span></span>".html_safe
           %p= "Рейс <b>#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}</b>".html_safe
@@ -15,7 +15,7 @@
                                                       '#{departure(ticket, p[:date_from], p[:city_from], true).id}')", :class => "btn btn-success"
     - t.each do |ticket|
       - if !ticket.one_way_price && ticket.two_ways_price
-        %li.span2.thumbnail{ :class => "pagination-centered" }
+        %li.span2.thumbnail.ticket_background{ :class => "pagination-centered" }
           %h1= "<span rel='tooltip' title='Вартість у дві сторони' style='color:red;'>#{ticket.two_ways_price.adult} €</span>".html_safe
           %p= "Пільговий #{ticket.two_ways_price.child} € <span rel='tooltip' title='Діти до 14 років, студенти до 21 року та пенсіонери'><i class='icon-info-sign'></i></span>".html_safe
           %p= "Рейс <b>#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}</b>".html_safe
@@ -28,6 +28,10 @@
                                                       '#{departure(ticket, p[:date_from], p[:city_from], true).id}')", :class => "btn btn-success"
     
   = render "tickets/all_popups", :p => p
-- else
+
+- elsif p[:commit] 
   %ul.thumbnails
     = render "tickets/empty_search"
+- else
+  %ul.thumbnails
+    = render "tickets/start_block"

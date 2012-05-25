@@ -2,7 +2,7 @@
   - if t.any? 
     - t.each do |ticket|
       - if ticket.two_ways_price
-        %li.span2.thumbnail{ :class => "pagination-centered" }
+        %li.span2.thumbnail.ticket_background{ :class => "pagination-centered" }
           %h1= "#{ticket.two_ways_price.adult} €"
           %p= "Пільговий #{ticket.two_ways_price.child} €"
           %p= "Туди - рейс <b>#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}</b>".html_safe
@@ -23,7 +23,7 @@
     - t_to.each do |ticket_to|
       - t_from.each do |ticket_from|
         - if ticket_to.one_way_price && ticket_from.one_way_price
-          %li.span2.thumbnail{ :class => "pagination-centered" }
+          %li.span2.thumbnail.ticket_background{ :class => "pagination-centered" }
             %h1= "#{ticket_to.one_way_price.adult + ticket_from.one_way_price.adult} €"
             %p= "Пільговий #{ticket_to.one_way_price.child + ticket_from.one_way_price.child} €"
             %p= "Туди - рейс <b>#{departure(ticket_from, p[:date_from], p[:city_from], true).trip_number}</b>".html_safe
