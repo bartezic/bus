@@ -15,7 +15,7 @@ class TicketsController < InheritedResources::Base
     @params = params
   end
 
-  def order
+  def reservation
     Resque.enqueue_in(2, ReserveNotification, 
       Reservation.create!(params.delete_if { |k,v| 
         ["utf8","commit","action","controller"].include?(k) 

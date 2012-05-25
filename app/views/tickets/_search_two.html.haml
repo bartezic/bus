@@ -9,7 +9,7 @@
           %p= link_to 'Детальніше', ticket, :remote => true, :class => "btn btn-primary"
           %p= "Назад - рейс <b>#{departure(ticket, p[:date_to], p[:city_from], false).trip_number}</b>".html_safe
           %p= link_to 'Детальніше', ticket, :remote => true, :class => "btn btn-primary"
-          %p= link_to_function "Забронювати", "order( '#{ticket.two_ways_price.adult}',
+          %p= link_to_function "Забронювати", "reservation( '#{ticket.two_ways_price.adult}',
                                                       '#{ticket.two_ways_price.child}',
                                                       '#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}',
                                                       '#{to_time(way(ticket, p[:city_from], true).time_stop)}',
@@ -30,7 +30,7 @@
             %p= link_to 'Детальніше', ticket_from, :remote => true, :class => "btn btn-primary"
             %p= "Назад - рейс <b>#{departure(ticket_to, p[:date_to], p[:city_from], false).trip_number}</b>".html_safe
             %p= link_to 'Детальніше', ticket_to, :remote => true, :class => "btn btn-primary"
-            %p= link_to_function "Забронювати", "order( '#{ticket_to.one_way_price.adult + ticket_from.one_way_price.adult}',
+            %p= link_to_function "Забронювати", "reservation( '#{ticket_to.one_way_price.adult + ticket_from.one_way_price.adult}',
                                                         '#{ticket_to.one_way_price.child + ticket_from.one_way_price.child}',
                                                         '#{departure(ticket_from, p[:date_from], p[:city_from], true).trip_number}',
                                                         '#{to_time(way(ticket_from, p[:city_from], true).time_stop)}',

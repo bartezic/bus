@@ -7,7 +7,7 @@
           %p= "Пільговий #{ticket.one_way_price.child} € <span rel='tooltip' title='Діти до 14 років, студенти до 21 року та пенсіонери'><i class='icon-info-sign'></i></span></span>".html_safe
           %p= "Рейс <b>#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}</b>".html_safe
           %p= link_to 'Детальніше', ticket, :remote => true, :class => "btn btn-primary"
-          %p= link_to_function "Забронювати", "order( '#{ticket.one_way_price.adult}',
+          %p= link_to_function "Забронювати", "reservation( '#{ticket.one_way_price.adult}',
                                                       '#{ticket.one_way_price.child}',
                                                       '#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}',
                                                       '#{to_time(way(ticket, p[:city_from], true).time_stop)}',
@@ -20,7 +20,7 @@
           %p= "Пільговий #{ticket.two_ways_price.child} € <span rel='tooltip' title='Діти до 14 років, студенти до 21 року та пенсіонери'><i class='icon-info-sign'></i></span>".html_safe
           %p= "Рейс <b>#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}</b>".html_safe
           %p= link_to 'Детальніше', ticket, :remote => true, :class => "btn btn-primary"
-          %p= link_to_function "Забронювати", "order( '#{ticket.two_ways_price.adult}',
+          %p= link_to_function "Забронювати", "reservation( '#{ticket.two_ways_price.adult}',
                                                       '#{ticket.two_ways_price.child}',
                                                       '#{departure(ticket, p[:date_from], p[:city_from], true).trip_number}',
                                                       '#{to_time(way(ticket, p[:city_from], true).time_stop)}',
@@ -28,7 +28,6 @@
                                                       '#{departure(ticket, p[:date_from], p[:city_from], true).id}')", :class => "btn btn-success"
     
   = render "tickets/all_popups", :p => p
-
 - elsif p[:commit] 
   %ul.thumbnails
     = render "tickets/empty_search"

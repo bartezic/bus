@@ -42,7 +42,7 @@ $(function () {
 
   $(".well").validate();
 
-  order = function( price_adult, price_child, 
+  reservation = function( price_adult, price_child, 
                     trip_number_from, time_stop_from, place_stop_from, departure_from_id, 
                     trip_number_to, time_stop_to, place_stop_to, departure_to_id) {
     
@@ -66,7 +66,7 @@ $(function () {
 
     $('#adult').prop('readonly', true);
     $('#child').prop('readonly', true);
-    $("#order_form").validate({
+    $("#reservation_form").validate({
       rules: {
         email: {
           required: true,
@@ -83,7 +83,7 @@ $(function () {
         }
       }
     });
-    $('#orderPopup').modal('show');
+    $('#reservationPopup').modal('show');
   }
 
   for_delete_county = function(select_list, city_id, index){

@@ -8,7 +8,7 @@ Bus::Application.routes.draw do
   resources :tickets, :only => [:index, :show]do
     collection do
       get :search
-      get :order
+      get :reservation
     end
   end
 

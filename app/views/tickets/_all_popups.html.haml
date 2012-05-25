@@ -9,7 +9,7 @@
   .modal-footer
     %a.btn{data: {dismiss: "modal"}} Закрити
 
-#orderPopup.modal.fade
+#reservationPopup.modal.fade
   .modal-header
     %a.close{data:{dismiss:"modal"}} ×
     = "<b>#{City.find(p[:city_from]).name} (#{City.find(p[:city_from]).country.name}) - #{City.find(p[:city_to]).name} (#{City.find(p[:city_to]).country.name})</b>".html_safe
@@ -32,7 +32,7 @@
               %p= "Місце: <b id='place_stop_to'></b>".html_safe
               %p= "Рейс: <b id='trip_number_to'></b>".html_safe
           %li.span9.thumbnail
-            = form_tag order_tickets_path, :class => "form-horizontal", :id => "order_form", :method => "get", :remote => true do
+            = form_tag reservation_tickets_path, :class => "form-horizontal", :id => "reservation_form", :method => "get", :remote => true do
               %fieldset
                 %legend Оформіть замовлення
                 .control-group
