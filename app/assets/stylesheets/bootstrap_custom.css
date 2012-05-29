@@ -17,14 +17,27 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9283ef', endColorstr='#ffffff',GradientType=0 ); 
 }
 
-#logo {
-  background: url(logo.png) no-repeat center;
-  height: 75px;
-  width: 150px;
+.logo {
+  float: left;
+  height: 80px;
+  margin: 10px
+}
+
+.title {
+  margin-top: 40px; 
+  font-size: 25px
+} 
+
+.push25 {
+  height: 25px;
 }
 
 #slogan {
   padding-top: 20px;
+}
+
+form {
+  margin: 0px;
 }
 
 .thumbnails > li {
@@ -99,6 +112,14 @@ body {
   .span99 {
     width: 100%;
   }
+  .thumbnails > li {
+    margin-left: 0px;
+  }
+  .title {
+    margin-top: 0px;
+    padding: 30px;
+    font-size: 20px
+  } 
 }
 
 
@@ -109,6 +130,14 @@ body {
   .span99 {
     width: 260px;
   }
+  .thumbnails > li {
+    margin-left: 0px;
+  }
+  .title {
+    margin-top: 0px;
+    padding: 30px;
+    font-size: 20px
+  }  
 }
 
 @media (min-width: 768px) and (max-width: 979px) {

@@ -11,7 +11,6 @@ class TicketsController < InheritedResources::Base
 
   def search
     @tickets = params[:commit] ? Ticket.search(params) : []
-    puts @tickets
     @params = params
   end
 
@@ -20,6 +19,15 @@ class TicketsController < InheritedResources::Base
       Reservation.create!(params.delete_if { |k,v| 
         ["utf8","commit","action","controller"].include?(k) 
       }).id
-    )
+    ) if params[:commit]
+  end
+
+  def ticket_request
+    print params
+    Resque.enqueue_in(2, RequestNotification,
+      Request.create!(params.delete_if { |k,v| 
+        ["utf8","commit","action","controller"].include?(k) 
+      }).id
+    ) if params[:commit]
   end
 end

@@ -9,6 +9,15 @@
   .modal-footer
     %a.btn{data: {dismiss: "modal"}} Закрити
 
+#requestedPopup.modal.fade
+  .modal-header
+    %a.close{data:{dismiss:"modal"}} ×
+    %h3 Дякуємо, що користуєтесь нашим сервісом.
+  .modal-body
+    Ваш запит прийнятий і дуже скоро буде розглянутий нашим менеджером.
+  .modal-footer
+    %a.btn{data: {dismiss: "modal"}} Закрити
+
 #reservationPopup.modal.fade
   .modal-header
     %a.close{data:{dismiss:"modal"}} ×
@@ -16,7 +25,7 @@
     - if p[:one_way] == "false"
       = "<b> - #{City.find(p[:city_from]).name} (#{City.find(p[:city_from]).country.name})</b>".html_safe
   .modal-body
-    .row-fluid.book
+    .row-fluid
       .span12
         %ul.thumbnails
           %li.span3.thumbnail

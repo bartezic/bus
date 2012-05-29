@@ -30,7 +30,7 @@
   = render "tickets/all_popups", :p => p
 - elsif p[:commit] 
   %ul.thumbnails
-    = render "tickets/empty_search"
+    = render "tickets/empty_search", :p => p
 - else
   %ul.thumbnails
     = render "tickets/start_block"

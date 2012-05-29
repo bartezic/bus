@@ -1,2 +1,81 @@
-%li.span12.thumbnail{ :class => "pagination-centered" }
-  %h3 Нажаль нічого не знайдено.
+%li.span12.thumbnail.ticket_background{ :class => "pagination-centered" }
+  %span 
+    %h3 Нажаль потрібних рейсів не знайдено, залиште запит на рейс і наші менеджери спробують вам допомогти
+  %span= link_to_function "Залишити запит", "request();", :class => "btn btn-success"
+
+#emptyPopup.modal.fade
+  .modal-header
+    %a.close{data:{dismiss:"modal"}} ×
+    %h3 Запит на рейс
+  .modal-body 
+    = form_tag ticket_request_tickets_path, :class => "form-horizontal", :id => "ticket_request_form", :method => "get", :remote => true do
+      %fieldset
+        .control-group
+          = label_tag :city_from, "Місто виїзду", :class => 'control-label'
+          .controls
+            = select_tag :city_from_id, cities_for_select_with(p[:city_from])
+        .control-group
+          = label_tag :city_to, " Місто прибуття", :class => 'control-label'
+          .controls
+            = select_tag :city_to_id, cities_for_select_with(p[:city_to])
+        .control-group
+          = label_tag :one_way, "Тільки туди", :class => 'control-label'
+          .controls
+            %label.radio
+              = radio_button_tag :one_way, true
+        .control-group
+          = label_tag :one_way, "Туди і назад", :class => 'control-label'
+          .controls
+            %label.radio
+              = radio_button_tag :one_way, false, true
+        .control-group
+          = label_tag :date_from2, "День виїзду", :class => 'control-label'
+          .controls
+            = text_field_tag :date_from , p[:date_from], :class => "input-small", :id => 'date_from2'
+        .control-group.date_to2
+          = label_tag :date_to2, "День повернення", :class => 'control-label'
+          .controls
+            = text_field_tag :date_to , p[:date_to], :class => "input-small", :id => 'date_to2'
+        .control-group
+          = label_tag :adult, 'Дорослих', :class => 'control-label'
+          .controls
+            .input-prepend.input-append
+              %span.btn{ :onclick => "minus_adult();"}
+                %i.icon-minus-sign
+              = text_field_tag :adult, 1, :class=>'input-mini'
+              %span.btn{ :onclick => "plus_adult();"}
+                %i.icon-plus-sign
+        .control-group
+          = label_tag :child, 'Пільгових', :class => 'control-label'
+          .controls
+            .input-prepend.input-append
+              %span.btn{ :onclick => "minus_child();"}
+                %i.icon-minus-sign
+              = text_field_tag :child, 0, :class=>'input-mini'
+              %span.btn{ :onclick => "plus_child();"}
+                %i.icon-plus-sign
+        .control-group
+          = label_tag :visa, "Чи бажаєте візу", :class => 'control-label'
+          .controls
+            %label.checkbox
+              = check_box_tag :visa
+        .control-group
+          = label_tag :name, "Ваше Ім'я", :class => 'control-label'
+          .controls
+            = text_field_tag :name, '', :class=>'input-medium'
+        .control-group
+          = label_tag :email, 'Ваш e-mail', :class => 'control-label'
+          .controls
+            = text_field_tag :email, '', :class=>'input-medium'
+        .control-group
+          = label_tag :phone, 'Ваш телефон', :class => 'control-label'
+          .controls
+            .input-prepend
+              %span.add-on +380
+              = text_field_tag :phone, '', :class=>'input-small'
+        .control-group
+          = label_tag :email, 'Побажання', :class => 'control-label'
+          .controls
+            = text_area_tag :notice, '', :class=>'input-large'
+        .form-actions
+          = submit_tag "Залишити запит", :class => "btn btn-success"

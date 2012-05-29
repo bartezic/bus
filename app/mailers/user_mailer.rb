@@ -7,4 +7,9 @@ class UserMailer < ActionMailer::Base
     @username = username
     mail(:to => email, :subject => "Дякуємо за резервацію")
   end
+
+  def request_email(username, email)
+    @username = username
+    mail(:to => email, :subject => "Дякуємо за резервацію")
+  end
 end

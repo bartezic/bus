@@ -1,14 +1,10 @@
 Bus::Application.routes.draw do
   root :to => 'tickets#search'
-
-  resources :cities
-  resources :carriers
-  resources :countries
-
   resources :tickets, :only => [:index, :show]do
     collection do
       get :search
       get :reservation
+      get :ticket_request
     end
   end
 

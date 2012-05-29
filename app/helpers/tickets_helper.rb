@@ -5,6 +5,10 @@ module TicketsHelper
     option_groups_from_collection_for_select(Country.all, :cities, :name, :id, :name)
   end
 
+  def cities_for_select_with(selected)
+    option_groups_from_collection_for_select(Country.all, :cities, :name, :id, :name, selected)
+  end
+
   def cities_for_select_js
     escape_javascript(option_groups_from_collection_for_select(Country.all, :cities, :name, :id, :name))
   end

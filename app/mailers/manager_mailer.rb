@@ -7,4 +7,9 @@ class ManagerMailer < ActionMailer::Base
     @params = params
     mail(:to => 'bartezic@inbox.ru', :subject => "Нова резервація")
   end
+
+  def request_email(params)
+    @params = params
+    mail(:to => 'bartezic@inbox.ru', :subject => "Новий запит")
+  end
 end

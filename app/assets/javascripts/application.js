@@ -17,7 +17,8 @@
 
 $(function () {
   var dates = $( "#date_from, #date_to" ).datepicker({
-    defaultDate: "+1w",
+    minDate: new Date(),
+    numberOfMonths: 2,
     onSelect: function( selectedDate ) {
       var option = this.id == "date_from" ? "minDate" : "maxDate",
       instance = $( this ).data( "datepicker" ),
@@ -41,6 +42,30 @@ $(function () {
   });
 
   $(".well").validate();
+
+  request = function() {
+    $('#emptyPopup').modal('show');
+
+    var dates = $( "#date_from2, #date_to2" ).datepicker({
+      minDate: new Date(),
+      numberOfMonths: 2,
+      onSelect: function( selectedDate ) {
+        var option = this.id == "date_from2" ? "minDate" : "maxDate",
+        instance = $( this ).data( "datepicker" ),
+        date = $.datepicker.parseDate(
+          instance.settings.dateFormat ||
+          $.datepicker._defaults.dateFormat,
+          selectedDate, instance.settings );
+        dates.not( this ).datepicker( "option", option, date );
+      }
+    });
+
+    $("input[name=one_way]").change(function(){
+      $(".date_to2").toggle();
+      $("#date_to2").val('');
+      $("#date_from2, #date_to2").datepicker('option', {maxDate: null});
+    });
+  }
 
   reservation = function( price_adult, price_child, 
                     trip_number_from, time_stop_from, place_stop_from, departure_from_id, 

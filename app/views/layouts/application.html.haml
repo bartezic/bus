@@ -14,10 +14,8 @@
     .container
       .row
         .span12
-          %ul.thumbnails
-            %li#logo
-            %li#slogan
-              %h1 Система бронювання автобусних, чартерних, рейсів.
+          %img.logo{:src => 'assets/logo.png' }
+          %p.title Бронювання чартерних автобусних рейсів.
 
       .navbar
         .navbar-inner
@@ -44,6 +42,7 @@
 
       = render 'shared/flash'
       = yield
+      .push25
       .footer
         \© 2012
         = succeed "." do
