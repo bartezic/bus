@@ -1,7 +1,7 @@
 ActionMailer::Base.smtp_settings = {
   :address              => "smtp.gmail.com",
   :port                 => 587,
-  :domain               => "91.234.32.79",
+  :domain               => "busguide.com.ua",
   :user_name            => "busguideservice",
   :password             => "bus-guide12",
   :authentication       => "plain",
