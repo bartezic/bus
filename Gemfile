@@ -58,6 +58,7 @@ gem 'unicorn'
 # Deploy with Capistrano
 gem 'capistrano'
 gem 'rvm-capistrano'
+gem 'net-ssh', '2.4.0'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
