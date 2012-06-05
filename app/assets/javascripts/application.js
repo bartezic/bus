@@ -34,14 +34,25 @@ $(function () {
     $("#date_to").toggle();
     $("#date_to").val('');
     $("#date_from, #date_to").datepicker('option', {maxDate: null});
-    $("label[for=date_to]").hide()
+    $("label[for=date_to]").toggle();
+    var src = ($("#placeholder_img").attr("src") === "http://placehold.it/760x290") ? "http://placehold.it/760x265" : "http://placehold.it/760x290";
+    $("#placeholder_img").attr("src",src);
   });
 
   $('.block2').tooltip({
     selector: "input[rel=tooltip]"
   });
 
-  $(".well").validate();
+  $("#city_from, #city_to").chosen({no_results_text: "Нічого не знайдено", required: true});
+
+  $('#search_form').validate({
+    rules: {
+      city_from: "required",
+      city_to: "required",
+      date_from: "required",
+      date_to: "required"
+    }
+  });
 
   request = function() {
     $('#emptyPopup').modal('show');

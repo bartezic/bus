@@ -1,7 +1,9 @@
 !!!
 %html
   %head
-    %title Bus service
+    %title Бронювання чартерних автобусних рейсів
+    %meta{ :name => "keywords", :content => "Болгарія, автобус в Болгарію, квитки на автобус в Болгарію, чартерні рейси, автобусні квитки до Болгарії" }
+    %meta{ :name => "description", :content => "Бронювання чартерних автобусних рейсів до Болгарії" }
     = stylesheet_link_tag    "application"
     = javascript_include_tag "application"
     = csrf_meta_tags
@@ -15,8 +17,7 @@
       .row
         .span12
           %img.logo{:src => '../assets/logo.png' }
-          %p.title Бронювання чартерних автобусних рейсів.
-
+            %p.title Бронювання чартерних автобусних рейсів.
       .navbar
         .navbar-inner
           .container
@@ -28,7 +29,10 @@
               Bus Guide
             .nav-collapse
               %ul.nav
-                %li{class: current_page?(root_path) && 'active'}= link_to "Знайти рейс", :root
+                %li.divider-vertical
+                %li{class: current_page?(root_path) && 'active'}= link_to "Головна", :root
+                %li.divider-vertical
+                %li{class: current_page?(search_tickets_path) && 'active'}= link_to "Знайти рейс", search_tickets_path
                 %li.divider-vertical
                 %li{class: current_page?(about_us_information_index_path) && 'active'}= link_to "Про нас", about_us_information_index_path
                 %li.divider-vertical
@@ -47,9 +51,6 @@
         \© 2012
         = succeed "." do
           %a{:href => "http://mongrasse.com.ua", :target => "_blank", :title => "Туристична компанія Монграссе"} TK Mongrasse
-        All Rights Reserved.
-        %a{:href => "/terms"} Terms
-        \&
-        = succeed "." do
-          %a{:href => "/privacy"} Privacy
+        Created by 
+        %a{:target => '_blank', :href => "http://www.linkedin.com/pub/viktor-oleksyn/44/573/954"} Viktor Oleksyn
     / = render 'shared/feedback'

@@ -3,26 +3,42 @@
     .row
       .span99
         .search_form
-          = form_tag search_tickets_path, :class => "well", :method => "get", :remote => true do
-            %fieldset
-              %legend Куди бажаєте поїхати?
-              = select_tag :city_from, cities_for_select, { :onchange => "for_delete_county('#{cities_for_select_js}',$(this).val(), 1);", :prompt => 'Оберіть місто виїзду', :class => "required" }
-              = select_tag :city_to, cities_for_select, { :onchange => "for_delete_county('#{cities_for_select_js}',$(this).val(), 0);", :prompt => 'Оберіть місто прибуття', :class => "required" }
-              .block
-                .block1
-                  = radio_button_tag :one_way, true
-                  %span Тільки туди
-                  = text_field_tag :date_from , '', :class => "input-small required", :placeholder => "Виїзд"
-                .block2
-                  = radio_button_tag :one_way, false, true
-                  %span Туди і назад
-                  = text_field_tag :date_to , '', :class => "input-small required", :placeholder => "Повернення"
-            = submit_tag "Шукати рейс", :class => "btn btn-primary"
+          = form_tag search_tickets_path, :id => "search_form", :class => "well form-horizontal", :method => "get", :remote => true do
+            %fieldsets
+              .control-group
+                = label_tag :city_from, "Місто виїзду", :class => 'control-label'
+                .controls
+                  = select_tag :city_from, cities_for_select, { :onchange => "for_delete_county('#{cities_for_select_js}',$(this).val(), 1);", :prompt => 'Оберіть...', :class => 'required' }
+              .control-group
+                = label_tag :city_to, "Місто прибуття", :class => 'control-label'
+                .controls
+                  = select_tag :city_to, cities_for_select, { :onchange => "for_delete_county('#{cities_for_select_js}',$(this).val(), 0);", :prompt => 'Оберіть...' }
+              .control-group
+                = label_tag :one_way, "Тільки туди", :class => 'control-label'
+                .controls
+                  %label.radio
+                    = radio_button_tag :one_way, true
+              .control-group
+                = label_tag :one_way, "Туди і назад", :class => 'control-label'
+                .controls
+                  %label.radio
+                    = radio_button_tag :one_way, false, true
+              .control-group
+                = label_tag :date_from, "Виїзд", :class => 'control-label'
+                .controls
+                  = text_field_tag :date_from , '', :class => "input-small", :placeholder => "Оберіть..."
+              .control-group
+                = label_tag :date_to, "Повернення", :class => 'control-label'
+                .controls
+                  = text_field_tag :date_to , '', :class => "input-small", :placeholder => "Оберіть..."
+              .form-actions
+                = submit_tag "Шукати рейс", :class => "btn btn-primary"
       .span100
-        .well
-          %h1 Доброго дня
-          %p Дорогі клієнти ви знаходитесь в системі бронювання автобусних, чартерних, рейсів туристичної компанії Монграссе. Зараз система знаходиться в процесі розробки але всі рейси які є в системі вже можна забронювати. Для того щоб знайти потрібний вам рейс заповніть форму пошуку зліва.  
-        #search_title
-          = render "tickets/search_title", :p => @params 
+        %img{ :id => "placeholder_img", :src=>"http://placehold.it/760x290" }
+        
+        
+    #search_title
+      = render "tickets/search_title", :p => @params 
+
     #trips
       = render "tickets/search", :t => @tickets, :p => @params
