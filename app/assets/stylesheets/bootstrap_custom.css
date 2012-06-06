@@ -1,31 +1,66 @@
 body {
-  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzkyODNlZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+) 50% 0 repeat fixed;
-  /* IE10 */ 
-  background-image: -ms-linear-gradient(bottom, #FFFFFF 0%, #dddddd 100%);
-  /* Mozilla Firefox */ 
-  background-image: -moz-linear-gradient(bottom, #FFFFFF 0%, #dddddd 100%);
-  /* Opera */ 
-  background-image: -o-linear-gradient(bottom, #FFFFFF 0%, #dddddd 100%);
-  /* Webkit (Safari/Chrome 10) */ 
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #FFFFFF), color-stop(1, #dddddd));
-  /* Webkit (Chrome 11+) */ 
-  background-image: -webkit-linear-gradient(bottom, #FFFFFF 0%, #dddddd 100%);
-  /* Proposed W3C Markup */ 
-  background-image: linear-gradient(bottom, #FFFFFF 0%, #dddddd 100%);
-  /* IE6-8 */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddddd', endColorstr='#ffffff',GradientType=0 ); 
+  background-image: -ms-linear-gradient(top, #F2E5BD 0%, #D1EB5E 100%);
+  background-image: -moz-linear-gradient(top, #F2E5BD 0%, #D1EB5E 100%);
+  background-image: -o-linear-gradient(top, #F2E5BD 0%, #D1EB5E 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F2E5BD), color-stop(1, #D1EB5E));
+  background-image: -webkit-linear-gradient(top, #F2E5BD 0%, #D1EB5E 100%);
+  background-image: linear-gradient(top, #F2E5BD 0%, #D1EB5E 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F2E5BD', endColorstr='#D1EB5E',GradientType=0 ); 
+}
+
+.delimeter.top {
+  background: url('delimeter_top.png') no-repeat;
+  border-top: 1px solid rgba(255, 255, 255, 0.02);
+}
+.flex-container{
+  max-width: 990px;
+  margin: 0 auto;
+}
+.delimeter {
+  height: 21px;
+  width: 932px;
+  margin: 0 auto;
 }
 
 .logo {
   float: left;
-  height: 80px;
-  margin: 10px
+  height: 30px;
+  margin: 10px;
+  background: transparent;
+}
+
+#placeholder_img{
+  border-radius: 4px;
+}
+
+.form-actions {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+#search_form.form-horizontal .control-label {
+  float: left;
+  width: 100px;
+}
+
+#search_form.form-horizontal .controls {
+  margin-left: 120px;
+}
+
+#search_form.form-horizontal .form-actions {
+  padding-left: 120px;
+}
+
+label.error {
+  color: red;
 }
 
 .title {
-  margin-top: 40px; 
-  font-size: 25px
+  padding: 15px 0 0 0; 
+  font-size: 25px;
+  font-weight: bold;
 } 
 
 .push25 {
@@ -50,39 +85,35 @@ form {
 }
 
 [class^="icon-"] {
-    background-image: url("glyphicons-halflings.png");
+  background-image: url("glyphicons-halflings.png");
 }
 .icon-white {
-    background-image: url("glyphicons-halflings-white.png");
+  background-image: url("glyphicons-halflings-white.png");
 }
 .form-horizontal .control-group {
   margin-bottom: 5px;
 }
-.footer {
-  border-radius: 4px 4px 0 0;
-  position: fixed;
-  bottom: 0px;
-  z-index: 1030;
-  display: block;
-  background-color: #F5F5F5;
-  border: 1px solid #E5E5E5;
-  padding: 6px;
-  margin: 0;
+.footer_content {
+  opacity: 0.5;
+  -moz-opacity: 0.5;
+  filter:alpha(opacity=5);
+  text-align: center;
+}
+.footer_content:hover {
+  opacity: 1;
+  -moz-opacity: 1;
+  filter:alpha(opacity=10);
 }
 .block {
   display: block;
   width: 220px;
   float: left;
 }
-.search_form {
-  min-width: 260px;
-  max-width: 260px;
-}
 .span99 {
-  width: 260px;
+  width: 380px;
 }
 .span100 {
-  width: 880px
+  width: 760px
 }
 .block div {
   display: block;
@@ -116,9 +147,7 @@ form {
     margin-left: 0px;
   }
   .title {
-    margin-top: 0px;
-    padding: 30px;
-    font-size: 20px
+    font-size: 13px
   } 
 }
 
@@ -128,31 +157,42 @@ form {
     width : 100%;
   }
   .span99 {
-    width: 260px;
+    width: 100%;
   }
   .thumbnails > li {
     margin-left: 0px;
   }
   .title {
-    margin-top: 0px;
-    padding: 30px;
-    font-size: 20px
-  }  
+    font-size: 19px;
+    font-weight: normal;
+  }
+  .delimeter {
+    width: 400px;
+  }
+  .delimeter.top {
+    background: url('delimeter_top400.png') no-repeat;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
   .span100 {
-    width : 440px;
+    width : 320px;
   }
   .span99 {
-    width: 260px;
+    width: 380px;
+  }
+  .delimeter {
+    width: 700px;
+  }
+  .delimeter.top {
+    background: url('delimeter_top700.png') no-repeat;
   }
 }
 @media (min-width: 980px) and (max-width: 1199px) {
   .span100 {
-    width : 660px;
+    width : 560px;
   }
   .span99 {
-    width: 260px;
+    width: 380px;
   }
 }

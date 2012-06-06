@@ -16,6 +16,25 @@
 //= require_tree .
 
 $(function () {
+
+  $('.flexslider').flexslider({
+    controlsContainer: ".flex-container",
+    animation: "fade",              //String: Select your animation type, "fade" or "slide"
+    slideDirection: "horizontal",   //String: Select the sliding direction, "horizontal" or "vertical"
+    slideshow: true,                //Boolean: Animate slider automatically
+    slideshowSpeed: 7000,           //Integer: Set the speed of the slideshow cycling, in milliseconds
+    animationDuration: 600,         //Integer: Set the speed of animations, in milliseconds
+    directionNav: true,             //Boolean: Create navigation for previous/next navigation? (true/false)
+    controlNav: true,               //Boolean: Create navigation for paging control of each clide? Note: Leave true for manualControls usage
+    keyboardNav: true,              //Boolean: Allow slider navigating via keyboard left/right keys
+    mousewheel: false,              //Boolean: Allow slider navigating via mousewheel
+    randomize: true,               //Boolean: Randomize slide order
+    slideToStart: 0,                //Integer: The slide that the slider should start on. Array notation (0 = first slide)
+    animationLoop: true,            //Boolean: Should the animation loop? If false, directionNav will received "disable" classes at either end
+    pauseOnAction: true,            //Boolean: Pause the slideshow when interacting with control elements, highly recommended.
+    pauseOnHover: true          
+  });
+
   var dates = $( "#date_from, #date_to" ).datepicker({
     minDate: new Date(),
     numberOfMonths: 2,
@@ -34,14 +53,25 @@ $(function () {
     $("#date_to").toggle();
     $("#date_to").val('');
     $("#date_from, #date_to").datepicker('option', {maxDate: null});
-    $("label[for=date_to]").hide()
+    $("label[for=date_to]").toggle();
+    var src = ($("#placeholder_img").attr("src") === "http://placehold.it/760x290") ? "http://placehold.it/760x265" : "http://placehold.it/760x290";
+    $("#placeholder_img").attr("src",src);
   });
 
   $('.block2').tooltip({
     selector: "input[rel=tooltip]"
   });
 
-  $(".well").validate();
+  $("#city_from, #city_to").chosen({no_results_text: "Нічого не знайдено", required: true});
+
+  $('#search_form').validate({
+    rules: {
+      city_from: "required",
+      city_to: "required",
+      date_from: "required",
+      date_to: "required"
+    }
+  });
 
   request = function() {
     $('#emptyPopup').modal('show');

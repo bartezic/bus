@@ -1,5 +1,5 @@
 Bus::Application.routes.draw do
-  root :to => 'tickets#search'
+  root :to => 'information#start_page'
   resources :tickets, :only => [:index, :show]do
     collection do
       get :search
@@ -12,6 +12,7 @@ Bus::Application.routes.draw do
     collection do
       get :about_us
       get :how_it_works
+      get :start_page
     end
   end
 

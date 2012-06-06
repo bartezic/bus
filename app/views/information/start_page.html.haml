@@ -1,0 +1,21 @@
+.row
+  .span12{ :class => "pagination-centered" }
+    .flex-container
+      .flexslider
+        %ul.slides
+          %li
+            %img{:src => "../assets/1.jpg"}/
+            %p.flex-caption Captions and cupcakes. Winning combination.
+          %li
+            %img{:src => "../assets/2.jpg"}/
+            %p.flex-caption This image is wrapped in a link!
+          %li
+            %img{:src => "../assets/3.jpg"}/
+            %p.flex-caption{ :style => "font-size: 30px"} 
+              This image is 
+              %a{:href=>"#"} wrapped 
+              in a link!
+    .push25
+    .push25
+    .well
+      %h1= link_to "Знайти більше рейсів", search_tickets_path 
