@@ -12,7 +12,7 @@ gem 'mail'
 gem 'resque', :require => 'resque/server'
 gem 'resque-scheduler', :require => 'resque_scheduler'
 
-gem 'activeadmin'
+gem 'activeadmin', "~> 0.4.4"
 gem "meta_search",    '>= 1.1.0.pre'
 gem 'fastercsv'
 gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
