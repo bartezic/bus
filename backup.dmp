@@ -1,0 +1,2587 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'SQL_ASCII';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: active_admin_comments; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE active_admin_comments (
+    id integer NOT NULL,
+    resource_id character varying(255) NOT NULL,
+    resource_type character varying(255) NOT NULL,
+    author_id integer,
+    author_type character varying(255),
+    body text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    namespace character varying(255)
+);
+
+
+ALTER TABLE public.active_admin_comments OWNER TO bus;
+
+--
+-- Name: admin_notes_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE admin_notes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.admin_notes_id_seq OWNER TO bus;
+
+--
+-- Name: admin_notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE admin_notes_id_seq OWNED BY active_admin_comments.id;
+
+
+--
+-- Name: admin_notes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('admin_notes_id_seq', 1, false);
+
+
+--
+-- Name: admin_users; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE admin_users (
+    id integer NOT NULL,
+    email character varying(255) DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying(255),
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip character varying(255),
+    last_sign_in_ip character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.admin_users OWNER TO bus;
+
+--
+-- Name: admin_users_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE admin_users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.admin_users_id_seq OWNER TO bus;
+
+--
+-- Name: admin_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE admin_users_id_seq OWNED BY admin_users.id;
+
+
+--
+-- Name: admin_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('admin_users_id_seq', 2, true);
+
+
+--
+-- Name: carriers; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE carriers (
+    id integer NOT NULL,
+    name character varying(255),
+    city_id integer,
+    address character varying(255),
+    phone character varying(255),
+    telephone character varying(255),
+    fax character varying(255),
+    email character varying(255),
+    web_site character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.carriers OWNER TO bus;
+
+--
+-- Name: carriers_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE carriers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.carriers_id_seq OWNER TO bus;
+
+--
+-- Name: carriers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE carriers_id_seq OWNED BY carriers.id;
+
+
+--
+-- Name: carriers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('carriers_id_seq', 16, true);
+
+
+--
+-- Name: cities; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE cities (
+    id integer NOT NULL,
+    name character varying(255),
+    country_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.cities OWNER TO bus;
+
+--
+-- Name: cities_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE cities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.cities_id_seq OWNER TO bus;
+
+--
+-- Name: cities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE cities_id_seq OWNED BY cities.id;
+
+
+--
+-- Name: cities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('cities_id_seq', 34, true);
+
+
+--
+-- Name: countries; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE countries (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.countries OWNER TO bus;
+
+--
+-- Name: countries_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE countries_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.countries_id_seq OWNER TO bus;
+
+--
+-- Name: countries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE countries_id_seq OWNED BY countries.id;
+
+
+--
+-- Name: countries_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('countries_id_seq', 2, true);
+
+
+--
+-- Name: departure_dates; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE departure_dates (
+    id integer NOT NULL,
+    day_of_life date,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.departure_dates OWNER TO bus;
+
+--
+-- Name: departure_dates_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE departure_dates_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.departure_dates_id_seq OWNER TO bus;
+
+--
+-- Name: departure_dates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE departure_dates_id_seq OWNED BY departure_dates.id;
+
+
+--
+-- Name: departure_dates_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('departure_dates_id_seq', 1232, true);
+
+
+--
+-- Name: departures; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE departures (
+    id integer NOT NULL,
+    trip_number character varying(255),
+    departure_date_id integer,
+    ticket_id integer,
+    direction boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.departures OWNER TO bus;
+
+--
+-- Name: departures_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE departures_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.departures_id_seq OWNER TO bus;
+
+--
+-- Name: departures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE departures_id_seq OWNED BY departures.id;
+
+
+--
+-- Name: departures_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('departures_id_seq', 1202, true);
+
+
+--
+-- Name: health_insurance_prices; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE health_insurance_prices (
+    id integer NOT NULL,
+    ticket_id integer,
+    adult integer,
+    child integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.health_insurance_prices OWNER TO bus;
+
+--
+-- Name: health_insurances_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE health_insurances_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.health_insurances_id_seq OWNER TO bus;
+
+--
+-- Name: health_insurances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE health_insurances_id_seq OWNED BY health_insurance_prices.id;
+
+
+--
+-- Name: health_insurances_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('health_insurances_id_seq', 1, true);
+
+
+--
+-- Name: one_way_prices; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE one_way_prices (
+    id integer NOT NULL,
+    ticket_id integer,
+    adult integer,
+    child integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.one_way_prices OWNER TO bus;
+
+--
+-- Name: one_way_prices_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE one_way_prices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.one_way_prices_id_seq OWNER TO bus;
+
+--
+-- Name: one_way_prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE one_way_prices_id_seq OWNED BY one_way_prices.id;
+
+
+--
+-- Name: one_way_prices_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('one_way_prices_id_seq', 4, true);
+
+
+--
+-- Name: one_way_visa_prices; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE one_way_visa_prices (
+    id integer NOT NULL,
+    ticket_id integer,
+    adult integer,
+    child integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.one_way_visa_prices OWNER TO bus;
+
+--
+-- Name: one_way_visa_prices_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE one_way_visa_prices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.one_way_visa_prices_id_seq OWNER TO bus;
+
+--
+-- Name: one_way_visa_prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE one_way_visa_prices_id_seq OWNED BY one_way_visa_prices.id;
+
+
+--
+-- Name: one_way_visa_prices_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('one_way_visa_prices_id_seq', 1, false);
+
+
+--
+-- Name: rails_admin_histories; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE rails_admin_histories (
+    id integer NOT NULL,
+    message text,
+    username character varying(255),
+    item integer,
+    "table" character varying(255),
+    month smallint,
+    year bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.rails_admin_histories OWNER TO bus;
+
+--
+-- Name: rails_admin_histories_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE rails_admin_histories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.rails_admin_histories_id_seq OWNER TO bus;
+
+--
+-- Name: rails_admin_histories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE rails_admin_histories_id_seq OWNED BY rails_admin_histories.id;
+
+
+--
+-- Name: rails_admin_histories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('rails_admin_histories_id_seq', 1, false);
+
+
+--
+-- Name: requests; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE requests (
+    id integer NOT NULL,
+    city_from_id integer,
+    city_to_id integer,
+    one_way boolean,
+    visa boolean,
+    adult integer,
+    child integer,
+    name character varying(255),
+    phone character varying(255),
+    email character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    date_from date,
+    date_to date,
+    notice character varying(255)
+);
+
+
+ALTER TABLE public.requests OWNER TO bus;
+
+--
+-- Name: requests_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.requests_id_seq OWNER TO bus;
+
+--
+-- Name: requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE requests_id_seq OWNED BY requests.id;
+
+
+--
+-- Name: requests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('requests_id_seq', 1, false);
+
+
+--
+-- Name: reservations; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE reservations (
+    id integer NOT NULL,
+    city_from_id integer,
+    city_to_id integer,
+    departure_from_id integer,
+    departure_to_id integer,
+    one_way boolean,
+    visa boolean,
+    adult integer,
+    child integer,
+    phone character varying(255),
+    email character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.reservations OWNER TO bus;
+
+--
+-- Name: reservations_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE reservations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.reservations_id_seq OWNER TO bus;
+
+--
+-- Name: reservations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE reservations_id_seq OWNED BY reservations.id;
+
+
+--
+-- Name: reservations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('reservations_id_seq', 4, true);
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE schema_migrations (
+    version character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.schema_migrations OWNER TO bus;
+
+--
+-- Name: tickets; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE tickets (
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    carrier_id integer
+);
+
+
+ALTER TABLE public.tickets OWNER TO bus;
+
+--
+-- Name: tickets_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE tickets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tickets_id_seq OWNER TO bus;
+
+--
+-- Name: tickets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE tickets_id_seq OWNED BY tickets.id;
+
+
+--
+-- Name: tickets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('tickets_id_seq', 13, true);
+
+
+--
+-- Name: two_ways_prices; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE two_ways_prices (
+    id integer NOT NULL,
+    ticket_id integer,
+    adult integer,
+    child integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.two_ways_prices OWNER TO bus;
+
+--
+-- Name: two_ways_prices_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE two_ways_prices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.two_ways_prices_id_seq OWNER TO bus;
+
+--
+-- Name: two_ways_prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE two_ways_prices_id_seq OWNED BY two_ways_prices.id;
+
+
+--
+-- Name: two_ways_prices_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('two_ways_prices_id_seq', 13, true);
+
+
+--
+-- Name: two_ways_visa_prices; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE two_ways_visa_prices (
+    id integer NOT NULL,
+    ticket_id integer,
+    adult integer,
+    child integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.two_ways_visa_prices OWNER TO bus;
+
+--
+-- Name: two_ways_visa_prices_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE two_ways_visa_prices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.two_ways_visa_prices_id_seq OWNER TO bus;
+
+--
+-- Name: two_ways_visa_prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE two_ways_visa_prices_id_seq OWNED BY two_ways_visa_prices.id;
+
+
+--
+-- Name: two_ways_visa_prices_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('two_ways_visa_prices_id_seq', 6, true);
+
+
+--
+-- Name: visa_prices; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE visa_prices (
+    id integer NOT NULL,
+    ticket_id integer,
+    adult integer,
+    child integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.visa_prices OWNER TO bus;
+
+--
+-- Name: visas_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE visas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.visas_id_seq OWNER TO bus;
+
+--
+-- Name: visas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE visas_id_seq OWNED BY visa_prices.id;
+
+
+--
+-- Name: visas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('visas_id_seq', 5, true);
+
+
+--
+-- Name: ways; Type: TABLE; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE TABLE ways (
+    id integer NOT NULL,
+    city_id integer,
+    ticket_id integer,
+    direction boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    place_stop character varying(255),
+    time_stop time without time zone
+);
+
+
+ALTER TABLE public.ways OWNER TO bus;
+
+--
+-- Name: ways_id_seq; Type: SEQUENCE; Schema: public; Owner: bus
+--
+
+CREATE SEQUENCE ways_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ways_id_seq OWNER TO bus;
+
+--
+-- Name: ways_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bus
+--
+
+ALTER SEQUENCE ways_id_seq OWNED BY ways.id;
+
+
+--
+-- Name: ways_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bus
+--
+
+SELECT pg_catalog.setval('ways_id_seq', 484, true);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY active_admin_comments ALTER COLUMN id SET DEFAULT nextval('admin_notes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY admin_users ALTER COLUMN id SET DEFAULT nextval('admin_users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY carriers ALTER COLUMN id SET DEFAULT nextval('carriers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY cities ALTER COLUMN id SET DEFAULT nextval('cities_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY countries ALTER COLUMN id SET DEFAULT nextval('countries_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY departure_dates ALTER COLUMN id SET DEFAULT nextval('departure_dates_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY departures ALTER COLUMN id SET DEFAULT nextval('departures_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY health_insurance_prices ALTER COLUMN id SET DEFAULT nextval('health_insurances_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY one_way_prices ALTER COLUMN id SET DEFAULT nextval('one_way_prices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY one_way_visa_prices ALTER COLUMN id SET DEFAULT nextval('one_way_visa_prices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY rails_admin_histories ALTER COLUMN id SET DEFAULT nextval('rails_admin_histories_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY requests ALTER COLUMN id SET DEFAULT nextval('requests_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY reservations ALTER COLUMN id SET DEFAULT nextval('reservations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY tickets ALTER COLUMN id SET DEFAULT nextval('tickets_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY two_ways_prices ALTER COLUMN id SET DEFAULT nextval('two_ways_prices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY two_ways_visa_prices ALTER COLUMN id SET DEFAULT nextval('two_ways_visa_prices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY visa_prices ALTER COLUMN id SET DEFAULT nextval('visas_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bus
+--
+
+ALTER TABLE ONLY ways ALTER COLUMN id SET DEFAULT nextval('ways_id_seq'::regclass);
+
+
+--
+-- Data for Name: active_admin_comments; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY active_admin_comments (id, resource_id, resource_type, author_id, author_type, body, created_at, updated_at, namespace) FROM stdin;
+\.
+
+
+--
+-- Data for Name: admin_users; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY admin_users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, created_at, updated_at) FROM stdin;
+2	bartezic@gmail.com	$2a$10$n2nDsC0FqK25gz6I9Do5COUuxkUzbJRx9LaByEP9CnVTwnXXxW2Pm	\N	\N	2012-04-08 12:55:42.017442	18	2013-04-02 13:03:26.085785	2012-12-16 09:17:42.442824	195.234.75.165	46.200.15.247	2012-04-08 12:55:04.343058	2013-04-02 13:03:26.086358
+\.
+
+
+--
+-- Data for Name: carriers; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY carriers (id, name, city_id, address, phone, telephone, fax, email, web_site, created_at, updated_at) FROM stdin;
+3	Міст-Тур	2	79005, пр. Шевченка, 34		+38-032-297-08-52		office@meest-tour.com.ua	www.meest-tour.com	2012-04-08 13:11:58.323777	2012-04-08 13:11:58.323777
+4	Гал-Круїз	2	79008, вул. Братів Рогатинців, 12/10		+38-032-25-72-70	+38-032-25-72-55	office@gal-cruise.com.ua		2012-04-08 13:14:53.444906	2012-04-08 13:14:53.444906
+5	Океан-Тур	2	вул. Ш. Алейхема, 7		+38-032-242-27-22	+38-032-242-27-22	oksana1@oceantour.com.ua	oceantour.com.ua	2012-04-08 13:17:44.831678	2012-04-08 13:17:44.831678
+6	Баварія-Тур	2	79016, вул. Шептицьких, 25		+38-032-244-55-25 (232-38-50)	+38-032-244-55-26	bavaria@tur.lviv.ua	www.bavaria-tour.com.ua	2012-04-08 13:24:17.959054	2012-04-08 13:24:17.959054
+7	Алма Тур	3	04053, Львівська пл., 14 		+38-044-583-50-70 	+38-044-272-00-76 	alma@almatour.kiev.ua	www.almatour.com.ua	2012-04-08 13:28:17.92217	2012-04-08 13:28:17.92217
+8	Балкан Тревел	3	01034, вул. Рейтарська,31/16, оф. 3		+38-044-502-21-31 (279-20-72)	+38-044-279-20-72	balkan@balkantravel.com.ua	www.balkantravel.com.ua	2012-04-08 17:44:38.361677	2012-04-08 17:44:38.361677
+1	Аполон Тревел	1	58000, Головна, 36	+38-050-434-74-94	+38-037-258-53-51	+38-037-258-44-62	zorica52@mail.ru	apolontravel.com.ua	2012-04-08 13:03:32.01065	2012-04-08 17:46:24.039604
+2	Танго Тревел	2	пл. Я. Осмомисла, буд.1, оф.6		+38-032-236-75-65 (64,63)	+38-032-236-75-65 (64,63)	office@tangotravel.com.ua	tangotravel.com.ua	2012-04-08 13:07:28.273277	2012-04-08 17:47:33.15742
+9	Кей	2	вул. Дорошенка, 19		+38-034-278-43-19 (278-42-62)	+38-034-278-42-62	key@key.if.ua	www.key.if.ua	2012-04-08 18:00:35.986442	2012-04-08 18:00:35.986442
+10	Алголь	2	79044, вул. Мельника, 16а		+38-032-242-41-21 (22,23)	+38-032-242-41-24	algol@algol.com.ua	www.algol.com.ua	2012-04-08 18:04:39.663849	2012-04-08 18:04:39.663849
+11	Аккорд-Тур	2	79013, вул. Новий Світ 15/5 		+38-032-232-83-83 	+38-032-232-87-87	mail@akkord-tour.com.ua	www.akkord-tour.com.ua	2012-04-08 18:07:05.502053	2012-04-08 18:07:05.502053
+12	Диліжанс-Тревел	2	79005, вул. І.Франка 50	+38-098-546-79-79	+38-032-242-58-18		busrent.dt@gmail.com	dt.lviv.ua	2012-04-08 18:10:50.078033	2012-04-08 18:10:50.078033
+13	Бумеранг	2	вул. Iвана Франка 73/2		+38-032-297-06-57	+38-032-297-08-48 (58)	bumerang@utel.net.ua	bumerang.lviv.ua	2012-04-08 18:16:17.781935	2012-04-08 18:16:17.781935
+14	ТК-Велт	3	вул. Еспланадна, 20, оф. 209, поверх 2	+38-067-406-46-36	+38-044-461-90-22		tkwelt@tkwelt.com.ua	tkwelt.com.ua	2012-04-08 18:20:17.071041	2012-04-08 18:20:17.071041
+15	Медіаінфо Тур	3	04070, вул. Набережне шосе 4, оф. 16		+38-044-501-94-41 (545-63-38)	+38-044-545-63-37	info@mediainfotour.ua	www.mediainfotour.ua	2012-04-08 18:23:44.046298	2012-04-08 18:23:44.046298
+16	Вир Мандрів	2	вул. Леся Курбаса, 8		+38-032-243-75-55 (74-44)		info@wyr.com.ua	wyr.com.ua	2012-04-08 18:44:18.921018	2012-04-08 18:44:18.921018
+\.
+
+
+--
+-- Data for Name: cities; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY cities (id, name, country_id, created_at, updated_at) FROM stdin;
+1	Чернівці	1	2012-04-08 12:59:34.221154	2012-04-08 12:59:34.221154
+2	Львів	1	2012-04-08 13:04:22.975996	2012-04-08 13:04:22.975996
+3	Київ	1	2012-04-08 13:25:12.686803	2012-04-08 13:25:12.686803
+4	Івано-Франківськ	1	2012-04-08 17:48:20.848053	2012-04-08 17:48:20.848053
+5	Балчик	2	2012-04-08 18:51:28.544734	2012-04-08 18:51:28.544734
+6	Албена	2	2012-04-08 18:51:46.74318	2012-04-08 18:51:46.74318
+7	Кранево	2	2012-04-08 18:52:17.064389	2012-04-08 18:52:17.064389
+8	Золоті Піски	2	2012-04-08 18:52:44.783923	2012-04-08 18:52:44.783923
+9	Сонячний День	2	2012-04-08 18:54:21.128211	2012-04-08 18:54:21.128211
+10	Св. Константин і Єлена	2	2012-04-08 18:54:52.062062	2012-04-08 18:54:52.062062
+11	Варна	2	2012-04-08 18:55:10.52806	2012-04-08 18:55:10.52806
+12	Камчія	2	2012-04-08 18:55:24.58192	2012-04-08 18:55:24.58192
+13	Бяла	2	2012-04-08 18:55:51.421826	2012-04-08 18:55:51.421826
+14	Обзор	2	2012-04-08 18:56:18.400185	2012-04-08 18:56:18.400185
+16	Несебр	2	2012-04-08 18:56:52.227308	2012-04-08 18:56:52.227308
+17	Равда	2	2012-04-08 18:57:17.034488	2012-04-08 18:57:17.034488
+18	Ахелой	2	2012-04-08 18:57:44.179919	2012-04-08 18:57:44.179919
+19	Помор’є	2	2012-04-08 18:58:06.591271	2012-04-08 18:58:06.591271
+20	Сарафово	2	2012-04-08 18:58:24.459539	2012-04-08 18:58:24.459539
+21	Бургас	2	2012-04-08 18:58:39.500757	2012-04-08 18:58:39.500757
+22	Черноморєц	2	2012-04-08 18:58:54.572816	2012-04-08 18:58:54.572816
+23	Созополь	2	2012-04-08 18:59:15.912599	2012-04-08 18:59:15.912599
+24	Стрий	1	2012-04-08 19:00:01.724855	2012-04-08 19:00:01.724855
+25	Коломия	1	2012-04-08 19:00:21.556351	2012-04-08 19:00:21.556351
+26	Єленіте	2	2012-04-08 19:01:10.477407	2012-04-08 19:01:10.477407
+27	Св. Влас	2	2012-04-08 19:01:26.25103	2012-04-08 19:01:26.25103
+28	Рогатин	1	2012-04-08 19:01:56.29035	2012-04-08 19:01:56.29035
+30	Констанс	2	2012-04-08 19:03:21.208255	2012-04-08 19:03:21.208255
+31	Хмельницький	1	2012-04-08 19:05:13.514039	2012-04-08 19:05:13.514039
+32	Кам'янець-Подільський	1	2012-04-08 19:05:41.59253	2012-04-08 19:05:41.59253
+34	Каварна	2	2012-04-08 19:10:04.410972	2012-04-08 19:10:04.410972
+15	Сонячний Берег	2	2012-04-08 18:56:36.474704	2012-04-08 20:15:43.860494
+\.
+
+
+--
+-- Data for Name: countries; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY countries (id, name, created_at, updated_at) FROM stdin;
+1	Україна	2012-04-08 12:30:04.362911	2012-04-08 12:30:04.362911
+2	Болгарія	2012-04-08 12:30:21.063767	2012-04-08 12:30:21.063767
+\.
+
+
+--
+-- Data for Name: departure_dates; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY departure_dates (id, day_of_life, created_at, updated_at) FROM stdin;
+1079	2014-07-11	2012-10-17 02:00:02.811389	2012-10-17 02:00:02.811389
+1082	2014-07-14	2012-10-20 02:00:03.378768	2012-10-20 02:00:03.378768
+1085	2014-07-17	2012-10-23 02:00:03.915836	2012-10-23 02:00:03.915836
+1088	2014-07-20	2012-10-26 02:00:03.160169	2012-10-26 02:00:03.160169
+1091	2014-07-23	2012-10-29 02:00:03.206111	2012-10-29 02:00:03.206111
+1094	2014-07-26	2012-11-01 02:00:01.831627	2012-11-01 02:00:01.831627
+1097	2014-07-29	2012-11-04 02:00:05.448208	2012-11-04 02:00:05.448208
+1100	2014-08-01	2012-11-07 02:00:07.395062	2012-11-07 02:00:07.395062
+1103	2014-08-04	2012-11-10 02:00:02.844786	2012-11-10 02:00:02.844786
+1106	2014-08-07	2012-11-13 02:00:00.950477	2012-11-13 02:00:00.950477
+1109	2014-08-10	2012-11-16 02:00:02.052005	2012-11-16 02:00:02.052005
+1112	2014-08-13	2012-11-19 02:00:06.725677	2012-11-19 02:00:06.725677
+1115	2014-08-16	2012-11-22 02:00:00.884842	2012-11-22 02:00:00.884842
+1118	2014-08-19	2012-11-25 02:00:02.748438	2012-11-25 02:00:02.748438
+1121	2014-08-22	2012-11-28 02:00:03.740466	2012-11-28 02:00:03.740466
+1124	2014-08-25	2012-12-01 02:00:02.72283	2012-12-01 02:00:02.72283
+1127	2014-08-28	2012-12-04 02:00:01.390209	2012-12-04 02:00:01.390209
+1130	2014-08-31	2012-12-07 02:00:01.261159	2012-12-07 02:00:01.261159
+1133	2014-09-03	2012-12-10 02:00:08.568357	2012-12-10 02:00:08.568357
+1136	2014-09-06	2012-12-13 02:00:04.551118	2012-12-13 02:00:04.551118
+1139	2014-09-09	2012-12-16 02:00:00.474962	2012-12-16 02:00:00.474962
+1142	2014-09-12	2012-12-19 02:00:04.813415	2012-12-19 02:00:04.813415
+1145	2014-09-15	2012-12-22 02:00:04.86545	2012-12-22 02:00:04.86545
+1148	2014-09-18	2012-12-25 02:00:07.028284	2012-12-25 02:00:07.028284
+1151	2014-09-21	2012-12-28 02:00:04.046844	2012-12-28 02:00:04.046844
+1154	2014-09-24	2012-12-31 02:00:00.547403	2012-12-31 02:00:00.547403
+1157	2014-09-27	2013-01-03 02:00:03.538569	2013-01-03 02:00:03.538569
+1160	2014-09-30	2013-01-06 02:00:06.103927	2013-01-06 02:00:06.103927
+1163	2014-10-03	2013-01-09 02:00:03.016986	2013-01-09 02:00:03.016986
+1166	2014-10-06	2013-01-12 02:00:05.979997	2013-01-12 02:00:05.979997
+1169	2014-10-09	2013-01-15 02:00:06.883889	2013-01-15 02:00:06.883889
+1172	2014-10-12	2013-01-18 02:00:03.037442	2013-01-18 02:00:03.037442
+1175	2014-10-15	2013-01-21 02:00:07.059806	2013-01-21 02:00:07.059806
+1178	2014-10-18	2013-01-24 02:00:05.228219	2013-01-24 02:00:05.228219
+1181	2014-10-21	2013-01-27 02:00:03.925881	2013-01-27 02:00:03.925881
+1184	2014-10-24	2013-01-30 02:00:05.819314	2013-01-30 02:00:05.819314
+1187	2014-10-27	2013-02-02 02:00:04.026972	2013-02-02 02:00:04.026972
+1190	2014-10-30	2013-02-05 02:00:03.733968	2013-02-05 02:00:03.733968
+1193	2014-11-02	2013-02-08 02:00:04.092635	2013-02-08 02:00:04.092635
+1196	2014-11-05	2013-02-11 02:00:07.051761	2013-02-11 02:00:07.051761
+1199	2014-11-08	2013-02-14 02:00:00.977854	2013-02-14 02:00:00.977854
+1202	2014-11-11	2013-02-17 02:00:04.800102	2013-02-17 02:00:04.800102
+1205	2014-11-14	2013-02-20 02:00:03.597353	2013-02-20 02:00:03.597353
+1208	2014-11-17	2013-02-23 02:00:04.077927	2013-02-23 02:00:04.077927
+1211	2014-11-20	2013-02-26 02:00:04.160197	2013-02-26 02:00:04.160197
+1214	2014-11-23	2013-03-01 02:00:05.409645	2013-03-01 02:00:05.409645
+1217	2014-11-26	2013-03-04 02:00:04.744771	2013-03-04 02:00:04.744771
+1220	2014-11-29	2013-03-07 02:00:09.311275	2013-03-07 02:00:09.311275
+1223	2014-12-02	2013-03-10 02:00:05.001341	2013-03-10 02:00:05.001341
+1226	2014-12-05	2013-03-13 02:00:09.66672	2013-03-13 02:00:09.66672
+1229	2014-12-08	2013-03-16 02:00:00.74661	2013-03-16 02:00:00.74661
+1232	2014-12-11	2013-03-19 02:00:05.864648	2013-03-19 02:00:05.864648
+1080	2014-07-12	2012-10-18 02:00:04.468556	2012-10-18 02:00:04.468556
+1083	2014-07-15	2012-10-21 02:00:07.051587	2012-10-21 02:00:07.051587
+1086	2014-07-18	2012-10-24 02:00:00.716056	2012-10-24 02:00:00.716056
+1089	2014-07-21	2012-10-27 02:00:06.282842	2012-10-27 02:00:06.282842
+1092	2014-07-24	2012-10-30 02:00:04.149902	2012-10-30 02:00:04.149902
+1095	2014-07-27	2012-11-02 02:00:04.896433	2012-11-02 02:00:04.896433
+1098	2014-07-30	2012-11-05 02:00:03.251554	2012-11-05 02:00:03.251554
+1101	2014-08-02	2012-11-08 02:00:05.502552	2012-11-08 02:00:05.502552
+1104	2014-08-05	2012-11-11 02:00:03.080434	2012-11-11 02:00:03.080434
+1107	2014-08-08	2012-11-14 02:00:02.810725	2012-11-14 02:00:02.810725
+1110	2014-08-11	2012-11-17 02:00:01.169357	2012-11-17 02:00:01.169357
+1113	2014-08-14	2012-11-20 02:00:04.45324	2012-11-20 02:00:04.45324
+1116	2014-08-17	2012-11-23 02:00:01.057772	2012-11-23 02:00:01.057772
+1119	2014-08-20	2012-11-26 02:00:03.153291	2012-11-26 02:00:03.153291
+1122	2014-08-23	2012-11-29 02:00:02.391171	2012-11-29 02:00:02.391171
+1125	2014-08-26	2012-12-02 02:00:01.503421	2012-12-02 02:00:01.503421
+1128	2014-08-29	2012-12-05 02:00:00.635518	2012-12-05 02:00:00.635518
+1131	2014-09-01	2012-12-08 02:00:03.566235	2012-12-08 02:00:03.566235
+1134	2014-09-04	2012-12-11 02:00:05.215045	2012-12-11 02:00:05.215045
+1137	2014-09-07	2012-12-14 02:00:02.096197	2012-12-14 02:00:02.096197
+1140	2014-09-10	2012-12-17 02:00:00.73003	2012-12-17 02:00:00.73003
+1143	2014-09-13	2012-12-20 02:00:02.913062	2012-12-20 02:00:02.913062
+1146	2014-09-16	2012-12-23 02:00:07.373851	2012-12-23 02:00:07.373851
+1149	2014-09-19	2012-12-26 02:00:02.338548	2012-12-26 02:00:02.338548
+1152	2014-09-22	2012-12-29 02:00:01.041783	2012-12-29 02:00:01.041783
+1155	2014-09-25	2013-01-01 02:00:00.407838	2013-01-01 02:00:00.407838
+1158	2014-09-28	2013-01-04 02:00:02.885507	2013-01-04 02:00:02.885507
+1161	2014-10-01	2013-01-07 02:00:10.775827	2013-01-07 02:00:10.775827
+1164	2014-10-04	2013-01-10 02:00:04.892815	2013-01-10 02:00:04.892815
+1167	2014-10-07	2013-01-13 02:00:00.688872	2013-01-13 02:00:00.688872
+1170	2014-10-10	2013-01-16 02:00:01.349703	2013-01-16 02:00:01.349703
+1173	2014-10-13	2013-01-19 02:00:05.998249	2013-01-19 02:00:05.998249
+1176	2014-10-16	2013-01-22 02:00:01.25703	2013-01-22 02:00:01.25703
+1179	2014-10-19	2013-01-25 02:00:08.581747	2013-01-25 02:00:08.581747
+1182	2014-10-22	2013-01-28 02:00:06.671632	2013-01-28 02:00:06.671632
+1185	2014-10-25	2013-01-31 02:00:05.904089	2013-01-31 02:00:05.904089
+1188	2014-10-28	2013-02-03 02:00:05.939064	2013-02-03 02:00:05.939064
+1191	2014-10-31	2013-02-06 02:00:03.391375	2013-02-06 02:00:03.391375
+1194	2014-11-03	2013-02-09 02:00:06.807733	2013-02-09 02:00:06.807733
+1197	2014-11-06	2013-02-12 02:00:05.754173	2013-02-12 02:00:05.754173
+1200	2014-11-09	2013-02-15 02:00:00.488556	2013-02-15 02:00:00.488556
+1203	2014-11-12	2013-02-18 02:00:04.073872	2013-02-18 02:00:04.073872
+1206	2014-11-15	2013-02-21 02:00:05.617661	2013-02-21 02:00:05.617661
+1209	2014-11-18	2013-02-24 02:00:04.899038	2013-02-24 02:00:04.899038
+1212	2014-11-21	2013-02-27 02:00:05.851896	2013-02-27 02:00:05.851896
+1215	2014-11-24	2013-03-02 02:00:01.035662	2013-03-02 02:00:01.035662
+1218	2014-11-27	2013-03-05 02:00:04.537643	2013-03-05 02:00:04.537643
+1221	2014-11-30	2013-03-08 02:00:06.933094	2013-03-08 02:00:06.933094
+1224	2014-12-03	2013-03-11 02:00:03.565155	2013-03-11 02:00:03.565155
+1227	2014-12-06	2013-03-14 02:00:12.325766	2013-03-14 02:00:12.325766
+1230	2014-12-09	2013-03-17 02:00:33.756454	2013-03-17 02:00:33.756454
+601	2013-03-20	2012-04-22 11:49:15.436294	2012-04-22 11:49:15.436294
+602	2013-03-21	2012-04-22 11:49:15.452679	2012-04-22 11:49:15.452679
+603	2013-03-22	2012-04-22 11:49:15.45423	2012-04-22 11:49:15.45423
+604	2013-03-23	2012-04-22 11:49:15.455755	2012-04-22 11:49:15.455755
+605	2013-03-24	2012-04-22 11:49:15.457197	2012-04-22 11:49:15.457197
+606	2013-03-25	2012-04-22 11:49:15.458678	2012-04-22 11:49:15.458678
+607	2013-03-26	2012-04-22 11:49:15.477305	2012-04-22 11:49:15.477305
+608	2013-03-27	2012-04-22 11:49:15.478787	2012-04-22 11:49:15.478787
+609	2013-03-28	2012-04-22 11:49:15.480265	2012-04-22 11:49:15.480265
+610	2013-03-29	2012-04-22 11:49:15.481713	2012-04-22 11:49:15.481713
+611	2013-03-30	2012-04-22 11:49:15.484983	2012-04-22 11:49:15.484983
+612	2013-03-31	2012-04-22 11:49:15.486405	2012-04-22 11:49:15.486405
+613	2013-04-01	2012-04-22 11:49:15.487755	2012-04-22 11:49:15.487755
+614	2013-04-02	2012-04-22 11:49:15.489205	2012-04-22 11:49:15.489205
+615	2013-04-03	2012-04-22 11:49:15.603321	2012-04-22 11:49:15.603321
+616	2013-04-04	2012-04-22 11:49:15.666231	2012-04-22 11:49:15.666231
+617	2013-04-05	2012-04-22 11:49:15.789498	2012-04-22 11:49:15.789498
+618	2013-04-06	2012-04-22 11:49:15.906172	2012-04-22 11:49:15.906172
+619	2013-04-07	2012-04-22 11:49:16.022995	2012-04-22 11:49:16.022995
+620	2013-04-08	2012-04-22 11:49:16.046445	2012-04-22 11:49:16.046445
+621	2013-04-09	2012-04-22 11:49:16.047914	2012-04-22 11:49:16.047914
+622	2013-04-10	2012-04-22 11:49:16.049437	2012-04-22 11:49:16.049437
+623	2013-04-11	2012-04-22 11:49:16.050947	2012-04-22 11:49:16.050947
+624	2013-04-12	2012-04-22 11:49:16.053236	2012-04-22 11:49:16.053236
+625	2013-04-13	2012-04-22 11:49:16.054677	2012-04-22 11:49:16.054677
+626	2013-04-14	2012-04-22 11:49:16.056137	2012-04-22 11:49:16.056137
+627	2013-04-15	2012-04-22 11:49:16.057676	2012-04-22 11:49:16.057676
+628	2013-04-16	2012-04-22 11:49:16.060171	2012-04-22 11:49:16.060171
+629	2013-04-17	2012-04-22 11:49:16.061609	2012-04-22 11:49:16.061609
+630	2013-04-18	2012-04-22 11:49:16.06309	2012-04-22 11:49:16.06309
+631	2013-04-19	2012-04-22 11:49:16.064784	2012-04-22 11:49:16.064784
+632	2013-04-20	2012-04-22 11:49:16.066282	2012-04-22 11:49:16.066282
+633	2013-04-21	2012-04-22 11:49:16.067777	2012-04-22 11:49:16.067777
+634	2013-04-22	2012-04-22 11:49:16.069235	2012-04-22 11:49:16.069235
+635	2013-04-23	2012-05-19 02:00:10.802669	2012-05-19 02:00:10.802669
+636	2013-04-24	2012-05-19 04:15:25.96136	2012-05-19 04:15:25.96136
+637	2013-04-25	2012-05-19 04:16:59.40601	2012-05-19 04:16:59.40601
+638	2013-04-26	2012-05-19 04:19:16.020113	2012-05-19 04:19:16.020113
+639	2013-04-27	2012-05-19 04:20:59.277769	2012-05-19 04:20:59.277769
+640	2013-04-28	2012-05-19 04:22:58.906136	2012-05-19 04:22:58.906136
+641	2013-04-29	2012-05-19 04:24:58.904256	2012-05-19 04:24:58.904256
+642	2013-04-30	2012-05-19 04:26:58.105679	2012-05-19 04:26:58.105679
+643	2013-05-01	2012-05-19 04:32:47.40813	2012-05-19 04:32:47.40813
+644	2013-05-02	2012-05-19 04:33:08.22341	2012-05-19 04:33:08.22341
+645	2013-05-03	2012-05-19 04:34:57.722505	2012-05-19 04:34:57.722505
+646	2013-05-04	2012-05-19 04:37:05.209398	2012-05-19 04:37:05.209398
+647	2013-05-05	2012-05-19 04:39:24.930993	2012-05-19 04:39:24.930993
+648	2013-05-06	2012-05-19 04:41:41.883908	2012-05-19 04:41:41.883908
+649	2013-05-07	2012-05-19 04:43:24.319886	2012-05-19 04:43:24.319886
+650	2013-05-08	2012-05-19 04:45:39.209575	2012-05-19 04:45:39.209575
+651	2013-05-09	2012-05-19 04:47:07.44015	2012-05-19 04:47:07.44015
+652	2013-05-10	2012-05-19 04:48:58.44703	2012-05-19 04:48:58.44703
+653	2013-05-11	2012-05-19 04:51:00.883601	2012-05-19 04:51:00.883601
+654	2013-05-12	2012-05-19 04:53:00.7043	2012-05-19 04:53:00.7043
+655	2013-05-13	2012-05-19 04:55:42.702801	2012-05-19 04:55:42.702801
+656	2013-05-14	2012-05-19 04:57:43.338267	2012-05-19 04:57:43.338267
+657	2013-05-15	2012-05-19 04:59:27.921749	2012-05-19 04:59:27.921749
+658	2013-05-16	2012-05-19 05:01:31.324884	2012-05-19 05:01:31.324884
+659	2013-05-17	2012-05-19 05:02:57.416651	2012-05-19 05:02:57.416651
+660	2013-05-18	2012-05-19 05:04:57.264483	2012-05-19 05:04:57.264483
+661	2013-05-19	2012-05-19 05:06:55.848528	2012-05-19 05:06:55.848528
+662	2013-05-20	2012-05-19 05:08:59.366024	2012-05-19 05:08:59.366024
+663	2013-05-21	2012-05-19 05:10:56.876522	2012-05-19 05:10:56.876522
+664	2013-05-22	2012-05-19 05:12:58.874352	2012-05-19 05:12:58.874352
+665	2013-05-23	2012-05-19 05:14:57.093883	2012-05-19 05:14:57.093883
+666	2013-05-24	2012-05-19 05:16:55.911174	2012-05-19 05:16:55.911174
+667	2013-05-25	2012-05-19 05:18:55.602504	2012-05-19 05:18:55.602504
+668	2013-05-26	2012-05-19 05:20:58.80388	2012-05-19 05:20:58.80388
+669	2013-05-27	2012-05-19 05:22:56.071916	2012-05-19 05:22:56.071916
+670	2013-05-28	2012-05-19 05:24:59.104709	2012-05-19 05:24:59.104709
+671	2013-05-29	2012-05-19 05:27:00.887211	2012-05-19 05:27:00.887211
+672	2013-05-30	2012-05-19 05:28:56.817392	2012-05-19 05:28:56.817392
+673	2013-05-31	2012-05-19 05:31:00.270508	2012-05-19 05:31:00.270508
+674	2013-06-01	2012-05-19 05:33:01.71629	2012-05-19 05:33:01.71629
+675	2013-06-02	2012-05-19 05:34:55.906806	2012-05-19 05:34:55.906806
+676	2013-06-03	2012-05-19 05:37:00.508483	2012-05-19 05:37:00.508483
+677	2013-06-04	2012-05-19 05:38:59.935036	2012-05-19 05:38:59.935036
+678	2013-06-05	2012-05-19 05:40:59.027762	2012-05-19 05:40:59.027762
+679	2013-06-06	2012-05-19 05:42:57.4442	2012-05-19 05:42:57.4442
+680	2013-06-07	2012-05-19 05:44:59.371865	2012-05-19 05:44:59.371865
+681	2013-06-08	2012-05-19 05:46:57.573983	2012-05-19 05:46:57.573983
+682	2013-06-09	2012-05-19 05:48:59.850973	2012-05-19 05:48:59.850973
+683	2013-06-10	2012-05-19 05:50:59.226992	2012-05-19 05:50:59.226992
+684	2013-06-11	2012-05-19 05:52:57.404445	2012-05-19 05:52:57.404445
+685	2013-06-12	2012-05-19 05:55:00.955131	2012-05-19 05:55:00.955131
+686	2013-06-13	2012-05-19 05:56:58.972002	2012-05-19 05:56:58.972002
+687	2013-06-14	2012-05-19 05:58:58.05735	2012-05-19 05:58:58.05735
+688	2013-06-15	2012-05-19 06:01:00.144531	2012-05-19 06:01:00.144531
+689	2013-06-16	2012-05-19 06:02:59.684839	2012-05-19 06:02:59.684839
+690	2013-06-17	2012-05-19 06:04:57.679635	2012-05-19 06:04:57.679635
+691	2013-06-18	2012-05-19 06:06:59.002202	2012-05-19 06:06:59.002202
+692	2013-06-19	2012-05-19 06:08:59.111749	2012-05-19 06:08:59.111749
+693	2013-06-20	2012-05-19 06:10:57.865502	2012-05-19 06:10:57.865502
+694	2013-06-21	2012-05-19 06:13:00.006423	2012-05-19 06:13:00.006423
+695	2013-06-22	2012-05-19 06:15:01.309477	2012-05-19 06:15:01.309477
+696	2013-06-23	2012-05-19 06:16:58.225577	2012-05-19 06:16:58.225577
+697	2013-06-24	2012-05-19 06:18:59.924132	2012-05-19 06:18:59.924132
+698	2013-06-25	2012-05-19 06:21:01.336203	2012-05-19 06:21:01.336203
+699	2013-06-26	2012-05-19 06:22:55.9825	2012-05-19 06:22:55.9825
+700	2013-06-27	2012-05-19 06:24:57.423884	2012-05-19 06:24:57.423884
+701	2013-06-28	2012-05-19 06:26:58.480962	2012-05-19 06:26:58.480962
+702	2013-06-29	2012-05-19 06:28:56.189529	2012-05-19 06:28:56.189529
+703	2013-06-30	2012-05-19 06:30:59.01979	2012-05-19 06:30:59.01979
+704	2013-07-01	2012-05-19 06:33:00.141299	2012-05-19 06:33:00.141299
+705	2013-07-02	2012-05-19 06:34:57.7483	2012-05-19 06:34:57.7483
+706	2013-07-03	2012-05-19 06:36:56.804105	2012-05-19 06:36:56.804105
+707	2013-07-04	2012-05-19 06:38:58.020051	2012-05-19 06:38:58.020051
+708	2013-07-05	2012-05-19 06:40:57.43819	2012-05-19 06:40:57.43819
+709	2013-07-06	2012-05-19 06:42:58.537954	2012-05-19 06:42:58.537954
+710	2013-07-07	2012-05-19 06:44:58.226598	2012-05-19 06:44:58.226598
+711	2013-07-08	2012-05-19 06:46:56.861589	2012-05-19 06:46:56.861589
+712	2013-07-09	2012-05-19 06:48:57.235346	2012-05-19 06:48:57.235346
+713	2013-07-10	2012-05-19 06:50:59.676978	2012-05-19 06:50:59.676978
+714	2013-07-11	2012-05-19 06:52:57.661157	2012-05-19 06:52:57.661157
+715	2013-07-12	2012-05-19 06:54:59.358417	2012-05-19 06:54:59.358417
+716	2013-07-13	2012-05-19 06:56:59.755015	2012-05-19 06:56:59.755015
+717	2013-07-14	2012-05-19 06:58:57.116353	2012-05-19 06:58:57.116353
+718	2013-07-15	2012-05-19 07:00:57.577926	2012-05-19 07:00:57.577926
+719	2013-07-16	2012-05-19 07:02:59.94548	2012-05-19 07:02:59.94548
+720	2013-07-17	2012-05-19 07:04:55.65762	2012-05-19 07:04:55.65762
+721	2013-07-18	2012-05-19 07:06:56.689303	2012-05-19 07:06:56.689303
+722	2013-07-19	2012-05-19 07:09:00.339304	2012-05-19 07:09:00.339304
+723	2013-07-20	2012-05-19 07:10:57.825382	2012-05-19 07:10:57.825382
+724	2013-07-21	2012-05-19 07:12:57.748196	2012-05-19 07:12:57.748196
+725	2013-07-22	2012-05-19 07:14:56.886636	2012-05-19 07:14:56.886636
+726	2013-07-23	2012-05-19 07:16:57.99231	2012-05-19 07:16:57.99231
+727	2013-07-24	2012-05-19 07:18:58.596502	2012-05-19 07:18:58.596502
+728	2013-07-25	2012-05-19 07:21:01.673024	2012-05-19 07:21:01.673024
+729	2013-07-26	2012-05-19 07:22:57.29611	2012-05-19 07:22:57.29611
+730	2013-07-27	2012-05-19 07:24:58.993164	2012-05-19 07:24:58.993164
+731	2013-07-28	2012-05-19 07:26:59.550874	2012-05-19 07:26:59.550874
+732	2013-07-29	2012-05-19 07:28:57.279057	2012-05-19 07:28:57.279057
+733	2013-07-30	2012-05-19 07:30:57.798066	2012-05-19 07:30:57.798066
+734	2013-07-31	2012-05-19 07:33:00.427403	2012-05-19 07:33:00.427403
+735	2013-08-01	2012-05-19 07:34:59.137684	2012-05-19 07:34:59.137684
+736	2013-08-02	2012-05-19 07:36:56.73841	2012-05-19 07:36:56.73841
+737	2013-08-03	2012-05-19 07:38:58.877432	2012-05-19 07:38:58.877432
+738	2013-08-04	2012-05-19 07:40:56.865659	2012-05-19 07:40:56.865659
+739	2013-08-05	2012-05-19 07:42:56.810964	2012-05-19 07:42:56.810964
+740	2013-08-06	2012-05-19 07:44:57.567112	2012-05-19 07:44:57.567112
+741	2013-08-07	2012-05-19 07:46:56.54179	2012-05-19 07:46:56.54179
+742	2013-08-08	2012-05-19 07:48:54.444543	2012-05-19 07:48:54.444543
+743	2013-08-09	2012-05-19 07:50:59.931047	2012-05-19 07:50:59.931047
+744	2013-08-10	2012-05-19 07:52:58.801203	2012-05-19 07:52:58.801203
+745	2013-08-11	2012-05-19 07:54:55.882581	2012-05-19 07:54:55.882581
+746	2013-08-12	2012-05-19 07:56:59.798253	2012-05-19 07:56:59.798253
+747	2013-08-13	2012-05-19 07:58:57.442215	2012-05-19 07:58:57.442215
+748	2013-08-14	2012-05-19 08:00:58.070824	2012-05-19 08:00:58.070824
+749	2013-08-15	2012-05-19 08:02:58.45094	2012-05-19 08:02:58.45094
+750	2013-08-16	2012-05-19 08:04:58.950115	2012-05-19 08:04:58.950115
+751	2013-08-17	2012-05-19 08:06:56.473009	2012-05-19 08:06:56.473009
+752	2013-08-18	2012-05-19 08:08:59.511667	2012-05-19 08:08:59.511667
+753	2013-08-19	2012-05-19 08:10:59.919721	2012-05-19 08:10:59.919721
+754	2013-08-20	2012-05-19 08:12:56.394512	2012-05-19 08:12:56.394512
+755	2013-08-21	2012-05-19 08:14:58.899854	2012-05-19 08:14:58.899854
+756	2013-08-22	2012-05-19 08:16:58.880615	2012-05-19 08:16:58.880615
+757	2013-08-23	2012-05-19 08:18:55.600893	2012-05-19 08:18:55.600893
+758	2013-08-24	2012-05-19 08:20:57.914219	2012-05-19 08:20:57.914219
+759	2013-08-25	2012-05-19 08:22:58.098048	2012-05-19 08:22:58.098048
+760	2013-08-26	2012-05-19 08:24:56.76147	2012-05-19 08:24:56.76147
+761	2013-08-27	2012-05-19 08:26:58.433357	2012-05-19 08:26:58.433357
+762	2013-08-28	2012-05-19 08:28:55.500711	2012-05-19 08:28:55.500711
+763	2013-08-29	2012-05-19 08:30:57.004024	2012-05-19 08:30:57.004024
+764	2013-08-30	2012-05-19 08:32:57.471337	2012-05-19 08:32:57.471337
+765	2013-08-31	2012-05-19 08:34:58.653139	2012-05-19 08:34:58.653139
+766	2013-09-01	2012-05-19 08:36:52.109649	2012-05-19 08:36:52.109649
+767	2013-09-02	2012-05-19 08:38:56.936643	2012-05-19 08:38:56.936643
+768	2013-09-03	2012-05-19 08:40:58.825404	2012-05-19 08:40:58.825404
+769	2013-09-04	2012-05-19 08:42:55.982087	2012-05-19 08:42:55.982087
+770	2013-09-05	2012-05-19 08:44:58.417315	2012-05-19 08:44:58.417315
+771	2013-09-06	2012-05-19 08:46:57.868369	2012-05-19 08:46:57.868369
+772	2013-09-07	2012-05-19 08:48:54.355632	2012-05-19 08:48:54.355632
+773	2013-09-08	2012-05-19 08:50:57.325221	2012-05-19 08:50:57.325221
+774	2013-09-09	2012-05-19 08:52:59.110874	2012-05-19 08:52:59.110874
+775	2013-09-10	2012-05-19 08:54:51.502245	2012-05-19 08:54:51.502245
+776	2013-09-11	2012-05-19 08:56:57.750902	2012-05-19 08:56:57.750902
+777	2013-09-12	2012-05-19 08:58:57.277042	2012-05-19 08:58:57.277042
+778	2013-09-13	2012-05-19 09:00:57.596065	2012-05-19 09:00:57.596065
+779	2013-09-14	2012-05-19 09:02:53.597571	2012-05-19 09:02:53.597571
+780	2013-09-15	2012-05-19 09:04:57.401863	2012-05-19 09:04:57.401863
+781	2013-09-16	2012-05-19 09:06:56.774884	2012-05-19 09:06:56.774884
+782	2013-09-17	2012-05-19 09:08:58.703767	2012-05-19 09:08:58.703767
+783	2013-09-18	2012-05-19 09:10:58.570993	2012-05-19 09:10:58.570993
+784	2013-09-19	2012-05-19 09:12:56.798535	2012-05-19 09:12:56.798535
+785	2013-09-20	2012-05-19 09:14:57.376082	2012-05-19 09:14:57.376082
+786	2013-09-21	2012-05-19 09:16:57.451147	2012-05-19 09:16:57.451147
+787	2013-09-22	2012-05-19 09:18:56.226798	2012-05-19 09:18:56.226798
+788	2013-09-23	2012-05-19 09:20:53.142087	2012-05-19 09:20:53.142087
+789	2013-09-24	2012-05-19 09:22:56.826196	2012-05-19 09:22:56.826196
+790	2013-09-25	2012-05-19 09:24:56.908568	2012-05-19 09:24:56.908568
+791	2013-09-26	2012-05-19 09:26:57.656844	2012-05-19 09:26:57.656844
+792	2013-09-27	2012-05-19 09:28:57.480026	2012-05-19 09:28:57.480026
+793	2013-09-28	2012-05-19 09:30:55.775444	2012-05-19 09:30:55.775444
+794	2013-09-29	2012-05-19 09:32:57.628088	2012-05-19 09:32:57.628088
+795	2013-09-30	2012-05-19 09:34:58.468209	2012-05-19 09:34:58.468209
+796	2013-10-01	2012-05-19 09:36:53.663587	2012-05-19 09:36:53.663587
+797	2013-10-02	2012-05-19 09:38:56.744027	2012-05-19 09:38:56.744027
+798	2013-10-03	2012-05-19 09:41:00.395892	2012-05-19 09:41:00.395892
+799	2013-10-04	2012-05-19 09:42:55.192854	2012-05-19 09:42:55.192854
+800	2013-10-05	2012-05-19 09:44:58.713883	2012-05-19 09:44:58.713883
+801	2013-10-06	2012-05-19 09:46:58.384328	2012-05-19 09:46:58.384328
+802	2013-10-07	2012-05-19 09:48:57.381591	2012-05-19 09:48:57.381591
+803	2013-10-08	2012-05-19 09:50:58.25399	2012-05-19 09:50:58.25399
+804	2013-10-09	2012-05-19 09:52:59.216239	2012-05-19 09:52:59.216239
+805	2013-10-10	2012-05-19 09:54:58.425326	2012-05-19 09:54:58.425326
+806	2013-10-11	2012-05-19 09:56:57.210807	2012-05-19 09:56:57.210807
+807	2013-10-12	2012-05-19 09:58:59.304906	2012-05-19 09:58:59.304906
+808	2013-10-13	2012-05-19 10:00:56.246699	2012-05-19 10:00:56.246699
+809	2013-10-14	2012-05-19 10:03:36.043676	2012-05-19 10:03:36.043676
+810	2013-10-15	2012-05-19 10:04:40.01125	2012-05-19 10:04:40.01125
+811	2013-10-16	2012-05-19 10:07:23.690114	2012-05-19 10:07:23.690114
+812	2013-10-17	2012-05-19 10:08:56.27162	2012-05-19 10:08:56.27162
+813	2013-10-18	2012-05-19 10:11:00.0335	2012-05-19 10:11:00.0335
+814	2013-10-19	2012-05-19 10:12:55.700487	2012-05-19 10:12:55.700487
+815	2013-10-20	2012-05-19 10:14:55.970361	2012-05-19 10:14:55.970361
+816	2013-10-21	2012-05-19 10:16:58.800126	2012-05-19 10:16:58.800126
+817	2013-10-22	2012-05-19 10:18:58.88513	2012-05-19 10:18:58.88513
+818	2013-10-23	2012-05-19 10:20:58.460107	2012-05-19 10:20:58.460107
+819	2013-10-24	2012-05-19 10:22:59.453554	2012-05-19 10:22:59.453554
+820	2013-10-25	2012-05-19 10:24:58.356751	2012-05-19 10:24:58.356751
+821	2013-10-26	2012-05-19 10:26:56.98556	2012-05-19 10:26:56.98556
+822	2013-10-27	2012-05-19 10:28:56.250123	2012-05-19 10:28:56.250123
+823	2013-10-28	2012-05-19 10:30:58.936942	2012-05-19 10:30:58.936942
+824	2013-10-29	2012-05-19 10:32:57.245244	2012-05-19 10:32:57.245244
+825	2013-10-30	2012-05-19 10:35:00.916375	2012-05-19 10:35:00.916375
+826	2013-10-31	2012-05-19 10:36:57.203122	2012-05-19 10:36:57.203122
+827	2013-11-01	2012-05-19 10:38:56.403853	2012-05-19 10:38:56.403853
+828	2013-11-02	2012-05-19 10:40:57.956207	2012-05-19 10:40:57.956207
+829	2013-11-03	2012-05-19 10:42:57.302078	2012-05-19 10:42:57.302078
+830	2013-11-04	2012-05-19 10:44:56.875036	2012-05-19 10:44:56.875036
+831	2013-11-05	2012-05-19 10:46:57.948917	2012-05-19 10:46:57.948917
+832	2013-11-06	2012-05-19 10:48:57.2014	2012-05-19 10:48:57.2014
+833	2013-11-07	2012-05-19 10:50:56.90176	2012-05-19 10:50:56.90176
+834	2013-11-08	2012-05-19 10:52:55.74095	2012-05-19 10:52:55.74095
+835	2013-11-09	2012-05-19 10:54:58.755934	2012-05-19 10:54:58.755934
+836	2013-11-10	2012-05-19 10:56:54.789487	2012-05-19 10:56:54.789487
+837	2013-11-11	2012-05-19 10:58:59.386805	2012-05-19 10:58:59.386805
+838	2013-11-12	2012-05-19 11:01:00.77742	2012-05-19 11:01:00.77742
+839	2013-11-13	2012-05-19 11:02:57.306881	2012-05-19 11:02:57.306881
+840	2013-11-14	2012-05-19 11:04:58.715882	2012-05-19 11:04:58.715882
+841	2013-11-15	2012-05-19 11:06:57.797868	2012-05-19 11:06:57.797868
+842	2013-11-16	2012-05-19 11:08:55.877037	2012-05-19 11:08:55.877037
+843	2013-11-17	2012-05-19 11:10:58.808878	2012-05-19 11:10:58.808878
+844	2013-11-18	2012-05-19 11:12:55.545836	2012-05-19 11:12:55.545836
+845	2013-11-19	2012-05-19 11:14:56.93034	2012-05-19 11:14:56.93034
+846	2013-11-20	2012-05-19 11:16:56.331576	2012-05-19 11:16:56.331576
+847	2013-11-21	2012-05-19 11:18:50.815122	2012-05-19 11:18:50.815122
+848	2013-11-22	2012-05-19 11:20:56.824591	2012-05-19 11:20:56.824591
+849	2013-11-23	2012-05-19 11:22:59.753896	2012-05-19 11:22:59.753896
+850	2013-11-24	2012-05-19 11:24:58.043889	2012-05-19 11:24:58.043889
+851	2013-11-25	2012-05-19 11:26:56.282514	2012-05-19 11:26:56.282514
+852	2013-11-26	2012-05-19 11:28:59.232858	2012-05-19 11:28:59.232858
+853	2013-11-27	2012-05-19 11:31:00.073209	2012-05-19 11:31:00.073209
+854	2013-11-28	2012-05-19 11:32:56.868415	2012-05-19 11:32:56.868415
+855	2013-11-29	2012-05-19 11:34:57.982514	2012-05-19 11:34:57.982514
+856	2013-11-30	2012-05-19 11:36:59.489497	2012-05-19 11:36:59.489497
+857	2013-12-01	2012-05-19 11:38:56.192127	2012-05-19 11:38:56.192127
+858	2013-12-02	2012-05-19 11:40:58.315615	2012-05-19 11:40:58.315615
+859	2013-12-03	2012-05-19 11:42:57.660509	2012-05-19 11:42:57.660509
+860	2013-12-04	2012-05-19 11:44:56.652778	2012-05-19 11:44:56.652778
+861	2013-12-05	2012-05-19 11:46:58.443174	2012-05-19 11:46:58.443174
+862	2013-12-06	2012-05-19 11:48:59.372707	2012-05-19 11:48:59.372707
+863	2013-12-07	2012-05-19 11:50:56.653565	2012-05-19 11:50:56.653565
+864	2013-12-08	2012-05-19 11:52:57.072976	2012-05-19 11:52:57.072976
+865	2013-12-09	2012-05-19 11:54:58.195319	2012-05-19 11:54:58.195319
+866	2013-12-10	2012-05-19 11:56:57.149059	2012-05-19 11:56:57.149059
+867	2013-12-11	2012-05-19 11:58:57.713712	2012-05-19 11:58:57.713712
+868	2013-12-12	2012-05-19 12:00:58.449527	2012-05-19 12:00:58.449527
+869	2013-12-13	2012-05-19 12:02:54.919248	2012-05-19 12:02:54.919248
+870	2013-12-14	2012-05-19 12:04:58.234363	2012-05-19 12:04:58.234363
+871	2013-12-15	2012-05-19 12:06:58.37057	2012-05-19 12:06:58.37057
+872	2013-12-16	2012-05-19 12:08:57.070544	2012-05-19 12:08:57.070544
+873	2013-12-17	2012-05-19 12:10:59.023218	2012-05-19 12:10:59.023218
+874	2013-12-18	2012-05-19 12:12:57.301746	2012-05-19 12:12:57.301746
+875	2013-12-19	2012-05-19 12:14:55.641267	2012-05-19 12:14:55.641267
+876	2013-12-20	2012-05-19 12:16:56.560163	2012-05-19 12:16:56.560163
+877	2013-12-21	2012-05-19 12:18:59.748746	2012-05-19 12:18:59.748746
+878	2013-12-22	2012-05-19 12:20:55.359339	2012-05-19 12:20:55.359339
+879	2013-12-23	2012-05-19 12:22:59.145811	2012-05-19 12:22:59.145811
+880	2013-12-24	2012-05-19 12:24:58.594757	2012-05-19 12:24:58.594757
+881	2013-12-25	2012-05-19 12:26:58.027634	2012-05-19 12:26:58.027634
+882	2013-12-26	2012-05-19 12:28:59.536947	2012-05-19 12:28:59.536947
+883	2013-12-27	2012-05-19 12:31:00.871384	2012-05-19 12:31:00.871384
+884	2013-12-28	2012-05-19 12:32:55.73873	2012-05-19 12:32:55.73873
+885	2013-12-29	2012-05-19 12:34:57.590931	2012-05-19 12:34:57.590931
+886	2013-12-30	2012-05-19 12:37:00.995165	2012-05-19 12:37:00.995165
+887	2013-12-31	2012-05-19 12:38:57.29746	2012-05-19 12:38:57.29746
+888	2014-01-01	2012-05-19 12:41:00.342396	2012-05-19 12:41:00.342396
+889	2014-01-02	2012-05-19 12:43:00.613131	2012-05-19 12:43:00.613131
+890	2014-01-03	2012-05-19 12:44:57.153105	2012-05-19 12:44:57.153105
+891	2014-01-04	2012-05-19 12:46:57.294523	2012-05-19 12:46:57.294523
+892	2014-01-05	2012-05-19 12:48:59.593088	2012-05-19 12:48:59.593088
+893	2014-01-06	2012-05-19 12:50:58.186316	2012-05-19 12:50:58.186316
+894	2014-01-07	2012-05-19 12:52:57.249591	2012-05-19 12:52:57.249591
+895	2014-01-08	2012-05-19 12:55:00.677073	2012-05-19 12:55:00.677073
+896	2014-01-09	2012-05-19 12:56:58.338693	2012-05-19 12:56:58.338693
+897	2014-01-10	2012-05-19 12:58:58.009059	2012-05-19 12:58:58.009059
+898	2014-01-11	2012-05-19 13:00:59.783799	2012-05-19 13:00:59.783799
+899	2014-01-12	2012-05-19 13:02:57.087619	2012-05-19 13:02:57.087619
+900	2014-01-13	2012-05-19 13:04:57.534468	2012-05-19 13:04:57.534468
+901	2014-01-14	2012-05-19 13:07:00.535481	2012-05-19 13:07:00.535481
+902	2014-01-15	2012-05-19 13:08:58.880596	2012-05-19 13:08:58.880596
+903	2014-01-16	2012-05-19 13:10:58.564446	2012-05-19 13:10:58.564446
+904	2014-01-17	2012-05-19 13:13:01.133707	2012-05-19 13:13:01.133707
+905	2014-01-18	2012-05-19 13:14:59.162635	2012-05-19 13:14:59.162635
+906	2014-01-19	2012-05-19 13:16:58.349472	2012-05-19 13:16:58.349472
+907	2014-01-20	2012-05-19 13:18:57.684879	2012-05-19 13:18:57.684879
+908	2014-01-21	2012-05-19 13:20:58.289897	2012-05-19 13:20:58.289897
+909	2014-01-22	2012-05-19 13:22:58.507941	2012-05-19 13:22:58.507941
+910	2014-01-23	2012-05-19 13:24:59.5113	2012-05-19 13:24:59.5113
+911	2014-01-24	2012-05-19 13:26:58.012792	2012-05-19 13:26:58.012792
+912	2014-01-25	2012-05-19 13:28:54.311678	2012-05-19 13:28:54.311678
+913	2014-01-26	2012-05-19 13:30:56.099725	2012-05-19 13:30:56.099725
+914	2014-01-27	2012-05-19 13:32:58.951108	2012-05-19 13:32:58.951108
+915	2014-01-28	2012-05-19 13:34:56.80354	2012-05-19 13:34:56.80354
+916	2014-01-29	2012-05-19 13:36:59.767506	2012-05-19 13:36:59.767506
+917	2014-01-30	2012-05-19 13:38:57.261672	2012-05-19 13:38:57.261672
+918	2014-01-31	2012-05-19 13:40:56.346922	2012-05-19 13:40:56.346922
+919	2014-02-01	2012-05-19 13:42:58.321763	2012-05-19 13:42:58.321763
+920	2014-02-02	2012-05-19 13:44:59.9664	2012-05-19 13:44:59.9664
+921	2014-02-03	2012-05-19 13:46:57.219235	2012-05-19 13:46:57.219235
+922	2014-02-04	2012-05-19 13:49:00.24506	2012-05-19 13:49:00.24506
+923	2014-02-05	2012-05-19 13:51:00.277269	2012-05-19 13:51:00.277269
+924	2014-02-06	2012-05-19 13:52:58.352347	2012-05-19 13:52:58.352347
+925	2014-02-07	2012-05-19 13:55:01.599704	2012-05-19 13:55:01.599704
+926	2014-02-08	2012-05-19 13:56:55.469762	2012-05-19 13:56:55.469762
+927	2014-02-09	2012-05-19 13:58:57.493502	2012-05-19 13:58:57.493502
+928	2014-02-10	2012-05-19 14:00:59.002099	2012-05-19 14:00:59.002099
+929	2014-02-11	2012-05-19 14:03:00.448246	2012-05-19 14:03:00.448246
+930	2014-02-12	2012-05-19 14:04:58.157272	2012-05-19 14:04:58.157272
+931	2014-02-13	2012-05-19 14:06:59.566654	2012-05-19 14:06:59.566654
+932	2014-02-14	2012-05-19 14:08:59.999507	2012-05-19 14:08:59.999507
+933	2014-02-15	2012-05-19 14:10:58.233336	2012-05-19 14:10:58.233336
+934	2014-02-16	2012-05-19 14:13:00.118474	2012-05-19 14:13:00.118474
+935	2014-02-17	2012-05-19 14:14:55.786813	2012-05-19 14:14:55.786813
+936	2014-02-18	2012-05-19 14:16:54.852964	2012-05-19 14:16:54.852964
+937	2014-02-19	2012-05-19 14:19:00.039126	2012-05-19 14:19:00.039126
+938	2014-02-20	2012-05-19 14:21:00.807902	2012-05-19 14:21:00.807902
+939	2014-02-21	2012-05-19 14:22:57.81712	2012-05-19 14:22:57.81712
+940	2014-02-22	2012-05-19 14:24:57.495105	2012-05-19 14:24:57.495105
+941	2014-02-23	2012-05-19 14:26:59.742265	2012-05-19 14:26:59.742265
+942	2014-02-24	2012-05-19 14:28:58.730259	2012-05-19 14:28:58.730259
+943	2014-02-25	2012-05-19 14:30:59.643196	2012-05-19 14:30:59.643196
+944	2014-02-26	2012-05-19 14:33:00.259896	2012-05-19 14:33:00.259896
+945	2014-02-27	2012-05-19 14:34:57.91621	2012-05-19 14:34:57.91621
+946	2014-02-28	2012-05-19 14:36:57.770187	2012-05-19 14:36:57.770187
+947	2014-03-01	2012-05-19 14:39:00.568489	2012-05-19 14:39:00.568489
+948	2014-03-02	2012-05-19 14:40:58.70154	2012-05-19 14:40:58.70154
+949	2014-03-03	2012-05-19 14:42:59.259871	2012-05-19 14:42:59.259871
+950	2014-03-04	2012-05-19 14:44:59.839655	2012-05-19 14:44:59.839655
+951	2014-03-05	2012-05-19 14:46:57.221262	2012-05-19 14:46:57.221262
+952	2014-03-06	2012-05-19 14:48:58.523233	2012-05-19 14:48:58.523233
+953	2014-03-07	2012-05-19 14:50:57.338484	2012-05-19 14:50:57.338484
+954	2014-03-08	2012-05-19 14:52:58.514285	2012-05-19 14:52:58.514285
+955	2014-03-09	2012-05-19 14:54:59.599173	2012-05-19 14:54:59.599173
+956	2014-03-10	2012-05-19 14:56:58.311453	2012-05-19 14:56:58.311453
+957	2014-03-11	2012-05-19 14:58:57.285399	2012-05-19 14:58:57.285399
+958	2014-03-12	2012-05-19 15:01:00.379622	2012-05-19 15:01:00.379622
+959	2014-03-13	2012-05-19 15:02:59.818921	2012-05-19 15:02:59.818921
+960	2014-03-14	2012-05-19 15:04:57.697153	2012-05-19 15:04:57.697153
+961	2014-03-15	2012-05-19 15:06:58.413324	2012-05-19 15:06:58.413324
+962	2014-03-16	2012-05-19 15:08:59.712759	2012-05-19 15:08:59.712759
+963	2014-03-17	2012-05-19 15:10:56.828405	2012-05-19 15:10:56.828405
+964	2014-03-18	2012-05-19 15:12:58.14627	2012-05-19 15:12:58.14627
+965	2014-03-19	2012-05-19 15:14:58.979442	2012-05-19 15:14:58.979442
+966	2014-03-20	2012-05-19 15:16:57.240479	2012-05-19 15:16:57.240479
+967	2014-03-21	2012-05-19 15:18:57.172091	2012-05-19 15:18:57.172091
+968	2014-03-22	2012-05-19 15:20:59.415222	2012-05-19 15:20:59.415222
+969	2014-03-23	2012-05-19 15:22:55.094391	2012-05-19 15:22:55.094391
+970	2014-03-24	2012-05-19 15:24:57.398298	2012-05-19 15:24:57.398298
+971	2014-03-25	2012-05-19 15:26:59.081676	2012-05-19 15:26:59.081676
+972	2014-03-26	2012-05-19 15:28:57.434865	2012-05-19 15:28:57.434865
+973	2014-03-27	2012-05-19 15:30:59.671381	2012-05-19 15:30:59.671381
+974	2014-03-28	2012-05-19 15:32:55.408711	2012-05-19 15:32:55.408711
+975	2014-03-29	2012-05-19 15:34:57.328952	2012-05-19 15:34:57.328952
+976	2014-03-30	2012-05-19 15:36:58.503334	2012-05-19 15:36:58.503334
+977	2014-03-31	2012-05-19 15:39:00.530155	2012-05-19 15:39:00.530155
+978	2014-04-01	2012-05-19 15:40:54.373664	2012-05-19 15:40:54.373664
+979	2014-04-02	2012-05-19 15:42:56.512994	2012-05-19 15:42:56.512994
+980	2014-04-03	2012-05-19 15:44:59.606394	2012-05-19 15:44:59.606394
+981	2014-04-04	2012-05-19 15:46:58.762751	2012-05-19 15:46:58.762751
+982	2014-04-05	2012-05-19 15:48:57.621478	2012-05-19 15:48:57.621478
+983	2014-04-06	2012-05-19 15:50:58.81344	2012-05-19 15:50:58.81344
+984	2014-04-07	2012-05-19 15:52:58.657529	2012-05-19 15:52:58.657529
+985	2014-04-08	2012-05-19 15:54:57.626821	2012-05-19 15:54:57.626821
+986	2014-04-09	2012-05-19 15:56:58.54718	2012-05-19 15:56:58.54718
+987	2014-04-10	2012-05-19 15:58:58.614803	2012-05-19 15:58:58.614803
+988	2014-04-11	2012-05-19 16:01:16.409528	2012-05-19 16:01:16.409528
+989	2014-04-12	2012-05-19 16:03:39.441487	2012-05-19 16:03:39.441487
+990	2014-04-13	2012-05-19 16:05:41.304765	2012-05-19 16:05:41.304765
+991	2014-04-14	2012-05-19 16:07:37.189019	2012-05-19 16:07:37.189019
+992	2014-04-15	2012-05-19 16:09:31.180316	2012-05-19 16:09:31.180316
+993	2014-04-16	2012-05-19 16:10:58.808952	2012-05-19 16:10:58.808952
+994	2014-04-17	2012-05-19 16:22:43.629831	2012-05-19 16:22:43.629831
+995	2014-04-18	2012-05-19 16:26:45.075886	2012-05-19 16:26:45.075886
+996	2014-04-19	2012-05-19 16:30:43.529756	2012-05-19 16:30:43.529756
+997	2014-04-20	2012-05-19 16:32:45.557336	2012-05-19 16:32:45.557336
+998	2014-04-21	2012-05-19 16:41:00.196025	2012-05-19 16:41:00.196025
+999	2014-04-22	2012-05-19 16:42:57.574884	2012-05-19 16:42:57.574884
+1000	2014-04-23	2012-05-19 16:44:58.35453	2012-05-19 16:44:58.35453
+1001	2014-04-24	2012-05-19 16:47:10.837486	2012-05-19 16:47:10.837486
+1002	2014-04-25	2012-05-19 16:49:03.813338	2012-05-19 16:49:03.813338
+1003	2014-04-26	2012-05-19 16:50:58.589628	2012-05-19 16:50:58.589628
+1004	2014-04-27	2012-05-19 16:53:00.39948	2012-05-19 16:53:00.39948
+1005	2014-04-28	2012-05-19 16:55:30.396534	2012-05-19 16:55:30.396534
+1006	2014-04-29	2012-05-19 16:57:39.880369	2012-05-19 16:57:39.880369
+1007	2014-04-30	2012-05-19 16:59:36.388687	2012-05-19 16:59:36.388687
+1008	2014-05-01	2012-05-19 17:01:12.170764	2012-05-19 17:01:12.170764
+1009	2014-05-02	2012-05-19 17:06:49.804177	2012-05-19 17:06:49.804177
+1010	2014-05-03	2012-05-19 17:09:01.053945	2012-05-19 17:09:01.053945
+1011	2014-05-04	2012-05-19 17:11:52.707578	2012-05-19 17:11:52.707578
+1012	2014-05-05	2012-05-19 17:13:27.885298	2012-05-19 17:13:27.885298
+1013	2014-05-06	2012-05-19 17:15:14.724611	2012-05-19 17:15:14.724611
+1014	2014-05-07	2012-05-19 17:17:48.486508	2012-05-19 17:17:48.486508
+1015	2014-05-08	2012-05-19 17:19:13.248559	2012-05-19 17:19:13.248559
+1016	2014-05-09	2012-05-19 17:21:00.214966	2012-05-19 17:21:00.214966
+1017	2014-05-10	2012-05-19 17:24:42.551217	2012-05-19 17:24:42.551217
+1018	2014-05-11	2012-05-19 17:27:00.213785	2012-05-19 17:27:00.213785
+1019	2014-05-12	2012-05-19 17:28:58.723935	2012-05-19 17:28:58.723935
+1020	2014-05-13	2012-05-19 17:30:59.050819	2012-05-19 17:30:59.050819
+1021	2014-05-14	2012-05-19 17:32:59.428806	2012-05-19 17:32:59.428806
+1022	2014-05-15	2012-05-19 17:34:59.657383	2012-05-19 17:34:59.657383
+1023	2014-05-16	2012-05-19 17:37:00.951658	2012-05-19 17:37:00.951658
+1024	2014-05-17	2012-05-19 17:39:04.878653	2012-05-19 17:39:04.878653
+1025	2014-05-18	2012-05-19 17:40:58.49327	2012-05-19 17:40:58.49327
+1026	2014-05-19	2012-05-19 17:43:00.692541	2012-05-19 17:43:00.692541
+1027	2014-05-20	2012-05-19 17:45:14.199184	2012-05-19 17:45:14.199184
+1028	2014-05-21	2012-05-19 17:46:59.72997	2012-05-19 17:46:59.72997
+1029	2014-05-22	2012-05-19 17:51:56.012893	2012-05-19 17:51:56.012893
+1030	2014-05-23	2012-05-19 17:52:57.250529	2012-05-19 17:52:57.250529
+1031	2014-05-24	2012-05-19 17:55:39.281652	2012-05-19 17:55:39.281652
+1032	2014-05-25	2012-05-19 17:57:26.926083	2012-05-19 17:57:26.926083
+1033	2014-05-26	2012-05-19 17:59:52.004394	2012-05-19 17:59:52.004394
+1034	2014-05-27	2012-05-19 18:02:20.756219	2012-05-19 18:02:20.756219
+1035	2014-05-28	2012-05-19 18:03:28.268533	2012-05-19 18:03:28.268533
+1036	2014-05-29	2012-05-19 18:04:59.159648	2012-05-19 18:04:59.159648
+1037	2014-05-30	2012-05-19 18:06:58.175432	2012-05-19 18:06:58.175432
+1038	2014-05-31	2012-05-21 02:00:10.1471	2012-05-21 02:00:10.1471
+1039	2014-06-01	2012-05-22 02:00:01.615729	2012-05-22 02:00:01.615729
+1040	2014-06-02	2012-05-23 02:00:05.644624	2012-05-23 02:00:05.644624
+1041	2014-06-03	2012-05-24 02:00:05.175321	2012-05-24 02:00:05.175321
+1042	2014-06-04	2012-05-25 02:00:04.601157	2012-05-25 02:00:04.601157
+1043	2014-06-05	2012-05-26 02:00:03.934414	2012-05-26 02:00:03.934414
+1044	2014-06-06	2012-05-27 02:00:03.650115	2012-05-27 02:00:03.650115
+1045	2014-06-07	2012-05-28 02:00:03.369191	2012-05-28 02:00:03.369191
+1046	2014-06-08	2012-05-29 02:00:02.75249	2012-05-29 02:00:02.75249
+1047	2014-06-09	2012-05-30 02:00:05.502747	2012-05-30 02:00:05.502747
+1048	2014-06-10	2012-05-31 02:00:08.946665	2012-05-31 02:00:08.946665
+1049	2014-06-11	2012-07-21 02:00:01.517987	2012-07-21 02:00:01.517987
+1050	2014-06-12	2012-07-22 02:00:04.799223	2012-07-22 02:00:04.799223
+1051	2014-06-13	2012-07-23 02:00:03.568715	2012-07-23 02:00:03.568715
+1052	2014-06-14	2012-07-24 02:00:06.36464	2012-07-24 02:00:06.36464
+1053	2014-06-15	2012-07-25 02:00:03.727111	2012-07-25 02:00:03.727111
+1054	2014-06-16	2012-07-26 02:00:04.671965	2012-07-26 02:00:04.671965
+1055	2014-06-17	2012-07-27 02:00:02.32007	2012-07-27 02:00:02.32007
+1056	2014-06-18	2012-07-28 02:00:05.342104	2012-07-28 02:00:05.342104
+1057	2014-06-19	2012-07-29 02:00:00.657655	2012-07-29 02:00:00.657655
+1058	2014-06-20	2012-07-30 02:00:01.954379	2012-07-30 02:00:01.954379
+1059	2014-06-21	2012-07-31 02:00:02.016712	2012-07-31 02:00:02.016712
+1060	2014-06-22	2012-08-01 02:00:03.436706	2012-08-01 02:00:03.436706
+1061	2014-06-23	2012-08-02 02:00:02.411481	2012-08-02 02:00:02.411481
+1062	2014-06-24	2012-08-03 02:00:05.100675	2012-08-03 02:00:05.100675
+1063	2014-06-25	2012-08-04 02:00:00.416017	2012-08-04 02:00:00.416017
+1064	2014-06-26	2012-08-05 02:00:07.544483	2012-08-05 02:00:07.544483
+1065	2014-06-27	2012-08-06 02:00:03.454269	2012-08-06 02:00:03.454269
+1066	2014-06-28	2012-08-07 02:00:02.565616	2012-08-07 02:00:02.565616
+1067	2014-06-29	2012-08-08 02:00:06.350535	2012-08-08 02:00:06.350535
+1068	2014-06-30	2012-08-09 02:00:05.133327	2012-08-09 02:00:05.133327
+1069	2014-07-01	2012-08-10 02:00:06.745074	2012-08-10 02:00:06.745074
+1070	2014-07-02	2012-08-11 02:00:00.691356	2012-08-11 02:00:00.691356
+1071	2014-07-03	2012-08-12 02:00:00.804805	2012-08-12 02:00:00.804805
+1072	2014-07-04	2012-08-13 02:00:04.463051	2012-08-13 02:00:04.463051
+1073	2014-07-05	2012-08-14 02:00:13.217834	2012-08-14 02:00:13.217834
+1074	2014-07-06	2012-08-15 02:00:03.055108	2012-08-15 02:00:03.055108
+1075	2014-07-07	2012-08-16 02:00:02.666283	2012-08-16 02:00:02.666283
+1076	2014-07-08	2012-08-17 02:00:02.484245	2012-08-17 02:00:02.484245
+1077	2014-07-09	2012-08-18 02:00:03.458276	2012-08-18 02:00:03.458276
+1078	2014-07-10	2012-10-16 02:00:06.683055	2012-10-16 02:00:06.683055
+1081	2014-07-13	2012-10-19 02:00:00.531205	2012-10-19 02:00:00.531205
+1084	2014-07-16	2012-10-22 02:00:03.003131	2012-10-22 02:00:03.003131
+1087	2014-07-19	2012-10-25 02:00:01.089463	2012-10-25 02:00:01.089463
+1090	2014-07-22	2012-10-28 02:00:00.433763	2012-10-28 02:00:00.433763
+1093	2014-07-25	2012-10-31 02:00:03.111178	2012-10-31 02:00:03.111178
+1096	2014-07-28	2012-11-03 02:00:05.507446	2012-11-03 02:00:05.507446
+1099	2014-07-31	2012-11-06 02:00:05.101163	2012-11-06 02:00:05.101163
+1102	2014-08-03	2012-11-09 02:00:04.733504	2012-11-09 02:00:04.733504
+1105	2014-08-06	2012-11-12 02:00:02.768466	2012-11-12 02:00:02.768466
+1108	2014-08-09	2012-11-15 02:00:02.346201	2012-11-15 02:00:02.346201
+1111	2014-08-12	2012-11-18 02:00:00.983936	2012-11-18 02:00:00.983936
+1114	2014-08-15	2012-11-21 02:00:05.085766	2012-11-21 02:00:05.085766
+1117	2014-08-18	2012-11-24 02:00:02.90526	2012-11-24 02:00:02.90526
+1120	2014-08-21	2012-11-27 02:00:05.512284	2012-11-27 02:00:05.512284
+1123	2014-08-24	2012-11-30 02:00:02.753013	2012-11-30 02:00:02.753013
+1126	2014-08-27	2012-12-03 02:00:00.872816	2012-12-03 02:00:00.872816
+1129	2014-08-30	2012-12-06 02:00:08.737404	2012-12-06 02:00:08.737404
+1132	2014-09-02	2012-12-09 02:00:00.947883	2012-12-09 02:00:00.947883
+1135	2014-09-05	2012-12-12 02:00:00.518881	2012-12-12 02:00:00.518881
+1138	2014-09-08	2012-12-15 02:00:02.853342	2012-12-15 02:00:02.853342
+1141	2014-09-11	2012-12-18 02:00:03.431455	2012-12-18 02:00:03.431455
+1144	2014-09-14	2012-12-21 02:00:04.701321	2012-12-21 02:00:04.701321
+1147	2014-09-17	2012-12-24 02:00:04.125601	2012-12-24 02:00:04.125601
+1150	2014-09-20	2012-12-27 02:00:02.757864	2012-12-27 02:00:02.757864
+1153	2014-09-23	2012-12-30 02:00:00.711871	2012-12-30 02:00:00.711871
+1156	2014-09-26	2013-01-02 02:00:00.525846	2013-01-02 02:00:00.525846
+1159	2014-09-29	2013-01-05 02:00:02.997052	2013-01-05 02:00:02.997052
+1162	2014-10-02	2013-01-08 02:00:04.724976	2013-01-08 02:00:04.724976
+1165	2014-10-05	2013-01-11 02:00:05.507243	2013-01-11 02:00:05.507243
+1168	2014-10-08	2013-01-14 02:00:02.241984	2013-01-14 02:00:02.241984
+1171	2014-10-11	2013-01-17 02:00:06.898549	2013-01-17 02:00:06.898549
+1174	2014-10-14	2013-01-20 02:00:03.015766	2013-01-20 02:00:03.015766
+1177	2014-10-17	2013-01-23 02:00:02.169571	2013-01-23 02:00:02.169571
+1180	2014-10-20	2013-01-26 02:00:04.805486	2013-01-26 02:00:04.805486
+1183	2014-10-23	2013-01-29 02:00:02.929673	2013-01-29 02:00:02.929673
+1186	2014-10-26	2013-02-01 02:00:05.070348	2013-02-01 02:00:05.070348
+1189	2014-10-29	2013-02-04 02:00:00.89525	2013-02-04 02:00:00.89525
+1192	2014-11-01	2013-02-07 02:00:02.504512	2013-02-07 02:00:02.504512
+1195	2014-11-04	2013-02-10 02:00:07.683719	2013-02-10 02:00:07.683719
+1198	2014-11-07	2013-02-13 02:00:05.138066	2013-02-13 02:00:05.138066
+1201	2014-11-10	2013-02-16 02:00:01.857375	2013-02-16 02:00:01.857375
+1204	2014-11-13	2013-02-19 02:00:05.911268	2013-02-19 02:00:05.911268
+1207	2014-11-16	2013-02-22 02:00:06.927248	2013-02-22 02:00:06.927248
+1210	2014-11-19	2013-02-25 02:00:08.774619	2013-02-25 02:00:08.774619
+1213	2014-11-22	2013-02-28 02:00:05.499009	2013-02-28 02:00:05.499009
+1216	2014-11-25	2013-03-03 02:00:10.402969	2013-03-03 02:00:10.402969
+1219	2014-11-28	2013-03-06 02:00:04.634456	2013-03-06 02:00:04.634456
+1222	2014-12-01	2013-03-09 02:00:17.22604	2013-03-09 02:00:17.22604
+1225	2014-12-04	2013-03-12 02:00:00.825125	2013-03-12 02:00:00.825125
+1228	2014-12-07	2013-03-15 02:00:04.697476	2013-03-15 02:00:04.697476
+1231	2014-12-10	2013-03-18 02:00:05.258397	2013-03-18 02:00:05.258397
+\.
+
+
+--
+-- Data for Name: departures; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY departures (id, trip_number, departure_date_id, ticket_id, direction, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: health_insurance_prices; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY health_insurance_prices (id, ticket_id, adult, child, created_at, updated_at) FROM stdin;
+1	1	7	7	2012-04-08 19:46:03.624413	2012-04-08 19:46:03.624413
+\.
+
+
+--
+-- Data for Name: one_way_prices; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY one_way_prices (id, ticket_id, adult, child, created_at, updated_at) FROM stdin;
+1	2	55	50	2012-04-08 20:24:50.505545	2012-04-08 20:24:50.505545
+2	3	50	50	2012-04-21 20:08:14.817537	2012-04-21 20:08:14.817537
+3	10	60	60	2012-04-22 15:15:31.621655	2012-04-22 15:15:31.621655
+4	13	35	35	2012-04-22 17:29:38.179487	2012-04-22 17:29:38.179487
+\.
+
+
+--
+-- Data for Name: one_way_visa_prices; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY one_way_visa_prices (id, ticket_id, adult, child, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: rails_admin_histories; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY rails_admin_histories (id, message, username, item, "table", month, year, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: requests; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY requests (id, city_from_id, city_to_id, one_way, visa, adult, child, name, phone, email, created_at, updated_at, date_from, date_to, notice) FROM stdin;
+\.
+
+
+--
+-- Data for Name: reservations; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY reservations (id, city_from_id, city_to_id, departure_from_id, departure_to_id, one_way, visa, adult, child, phone, email, created_at, updated_at, name) FROM stdin;
+1	2	8	344	469	f	t	3	1	977945094	bartezic@gmail.com	2012-05-19 17:26:09.020708	2012-05-19 17:26:09.020708	bartezic
+2	1	7	565	665	f	t	2	0	977945094	bartezic@gmail.com	2012-05-19 18:20:04.916203	2012-05-19 18:20:04.916203	bartezic
+3	2	8	369	\N	t	t	2	0	977945094	bartezic@inbox.ru	2012-06-01 05:46:58.336448	2012-06-01 05:46:58.336448	Viktor Oleksyn
+4	1	8	343	488	f	t	3	1	977945094	bartezic@gmail.com	2012-06-01 05:53:14.611854	2012-06-01 05:53:14.611854	Dmytro Choban
+\.
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY schema_migrations (version) FROM stdin;
+20120308202549
+20120308211611
+20120311094054
+20120311114101
+20120311114102
+20120311122305
+20120311125530
+20120313184204
+20120324081245
+20120324102110
+20120324155436
+20120324163018
+20120324165153
+20120324190841
+20120324191420
+20120329182843
+20120329183122
+20120329183503
+20120329183523
+20120329183556
+20120329183702
+20120330204437
+20120330204620
+20120513143121
+20120515213623
+20120525184910
+20120525205252
+\.
+
+
+--
+-- Data for Name: tickets; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY tickets (id, created_at, updated_at, carrier_id) FROM stdin;
+1	2012-04-08 19:46:03.55961	2012-04-08 20:08:03.913699	1
+2	2012-04-08 20:15:21.056296	2012-04-08 20:15:21.056296	2
+3	2012-04-21 19:49:27.829588	2012-04-21 19:49:27.829588	3
+4	2012-04-22 11:26:56.482139	2012-04-22 11:26:56.482139	4
+5	2012-04-22 11:41:10.8416	2012-04-22 11:41:10.8416	5
+6	2012-04-22 12:05:02.700691	2012-04-22 12:05:02.700691	6
+7	2012-04-22 12:14:47.030965	2012-04-22 12:14:47.030965	7
+8	2012-04-22 12:23:52.191946	2012-04-22 12:23:52.191946	8
+9	2012-04-22 15:10:33.249459	2012-04-22 15:10:33.249459	9
+10	2012-04-22 15:15:31.620605	2012-04-22 15:15:31.620605	13
+11	2012-04-22 17:06:14.944715	2012-04-22 17:06:14.944715	14
+12	2012-04-22 17:17:51.230694	2012-04-22 17:17:51.230694	15
+13	2012-04-22 17:29:38.178724	2012-04-22 17:29:38.178724	16
+\.
+
+
+--
+-- Data for Name: two_ways_prices; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY two_ways_prices (id, ticket_id, adult, child, created_at, updated_at) FROM stdin;
+1	1	60	60	2012-04-08 19:46:03.608033	2012-04-08 19:46:03.608033
+2	2	75	65	2012-04-08 20:24:50.516567	2012-04-08 20:24:50.516567
+3	3	85	75	2012-04-21 20:05:33.699848	2012-04-21 20:08:14.818659
+4	4	75	65	2012-04-22 11:26:58.097363	2012-04-22 11:26:58.097363
+5	5	85	75	2012-04-22 11:41:11.276132	2012-04-22 11:41:11.276132
+6	6	80	75	2012-04-22 12:05:02.701417	2012-04-22 12:05:02.701417
+7	7	80	80	2012-04-22 12:14:47.031688	2012-04-22 12:14:47.031688
+8	8	75	75	2012-04-22 12:23:52.192669	2012-04-22 12:23:52.192669
+9	9	85	85	2012-04-22 15:10:33.250992	2012-04-22 15:10:33.250992
+10	10	85	75	2012-04-22 15:15:31.641358	2012-04-22 15:15:31.641358
+11	11	75	75	2012-04-22 17:06:15.488264	2012-04-22 17:06:15.488264
+12	12	75	75	2012-04-22 17:17:51.231503	2012-04-22 17:17:51.231503
+13	13	85	75	2012-04-22 17:29:38.180167	2012-04-22 17:29:38.180167
+\.
+
+
+--
+-- Data for Name: two_ways_visa_prices; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY two_ways_visa_prices (id, ticket_id, adult, child, created_at, updated_at) FROM stdin;
+1	1	95	60	2012-04-08 19:46:03.621475	2012-04-08 19:46:03.621475
+3	4	110	65	2012-04-22 11:26:58.599659	2012-04-22 11:26:58.599659
+4	5	120	75	2012-04-22 11:41:11.277484	2012-04-22 11:41:11.277484
+5	6	115	75	2012-04-22 12:05:02.702012	2012-04-22 12:05:02.702012
+6	9	120	85	2012-04-22 15:10:33.252271	2012-04-22 15:10:33.252271
+\.
+
+
+--
+-- Data for Name: visa_prices; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY visa_prices (id, ticket_id, adult, child, created_at, updated_at) FROM stdin;
+1	1	45	10	2012-04-08 19:46:03.622965	2012-04-08 19:46:03.622965
+3	4	60	20	2012-04-22 11:26:58.686293	2012-04-22 11:26:58.686293
+4	5	65	20	2012-04-22 11:41:11.278711	2012-04-22 11:41:11.278711
+5	10	65	20	2012-04-22 15:15:31.642327	2012-04-22 15:15:31.642327
+\.
+
+
+--
+-- Data for Name: ways; Type: TABLE DATA; Schema: public; Owner: bus
+--
+
+COPY ways (id, city_id, ticket_id, direction, created_at, updated_at, place_stop, time_stop) FROM stdin;
+1	1	1	t	2012-04-08 19:46:03.62591	2012-04-08 19:46:03.62591	Стадіон “Буковина”	16:30:00
+2	5	1	t	2012-04-08 19:46:03.63561	2012-04-08 19:46:03.63561	Автозаправка “Лафі”	\N
+3	6	1	t	2012-04-08 19:46:03.636202	2012-04-08 19:46:03.636202	Автостанція	\N
+4	7	1	t	2012-04-08 19:46:03.636742	2012-04-08 19:46:03.636742	“Топмаркет” – автобусна зупинка	\N
+5	8	1	t	2012-04-08 19:46:03.637278	2012-04-08 19:46:03.637278	Автобусна зупинка “Управління”	\N
+6	9	1	t	2012-04-08 19:46:03.6378	2012-04-08 19:46:03.6378	Автобусна зупинка на трасі	\N
+7	10	1	t	2012-04-08 19:46:03.638325	2012-04-08 19:46:03.638325	Контрольний пункт біля входу в комплекс	\N
+8	11	1	t	2012-04-08 19:46:03.63885	2012-04-08 19:46:03.63885	Приміщення “Поліграфія”	\N
+9	12	1	t	2012-04-08 19:46:03.639376	2012-04-08 19:46:03.639376	На розвилці дороги на Камчію	\N
+10	13	1	t	2012-04-08 19:46:03.639904	2012-04-08 19:46:03.639904	АЗС біля дороги	\N
+11	14	1	t	2012-04-08 19:46:03.640432	2012-04-08 19:46:03.640432	Автостанція	\N
+12	15	1	t	2012-04-08 19:46:03.64095	2012-04-08 19:46:03.64095	Готель “Кондор”	\N
+13	16	1	t	2012-04-08 19:46:03.641467	2012-04-08 19:46:03.641467	Готель “Феста Панорама”	\N
+14	17	1	t	2012-04-08 19:46:03.641982	2012-04-08 19:46:03.641982	Пошта, ресторан “Торнадо”	\N
+15	18	1	t	2012-04-08 19:46:03.642507	2012-04-08 19:46:03.642507	Ресторан “Чорне і біле”	\N
+16	19	1	t	2012-04-08 19:46:03.643028	2012-04-08 19:46:03.643028	Автовокзал в новому місті	\N
+17	20	1	t	2012-04-08 19:46:03.643547	2012-04-08 19:46:03.643547	Біля розвилки на аеропорт	\N
+18	21	1	t	2012-04-08 19:46:03.644061	2012-04-08 19:46:03.644061	Автозаправка “Shell” по дорозі в Созополь	\N
+19	22	1	t	2012-04-08 19:46:03.644663	2012-04-08 19:46:03.644663	На трасі під мостом	\N
+20	23	1	t	2012-04-08 19:46:03.6452	2012-04-08 19:46:03.6452	Ресторан “Черно море”	\N
+21	23	1	f	2012-04-08 19:46:03.64577	2012-04-08 19:46:03.64577	Ресторан “Черно море”	15:00:00
+22	22	1	f	2012-04-08 19:46:03.646372	2012-04-08 19:46:03.646372	На трасі під мостом	15:15:00
+23	21	1	f	2012-04-08 19:46:03.646945	2012-04-08 19:46:03.646945	Автозаправка “Shell” по дорозі в Созополь	15:40:00
+24	20	1	f	2012-04-08 19:46:03.647529	2012-04-08 19:46:03.647529	Біля розвилки на аеропорт	16:00:00
+25	19	1	f	2012-04-08 19:46:03.648101	2012-04-08 19:46:03.648101	Автовокзал в новому місті	16:20:00
+26	18	1	f	2012-04-08 19:46:03.648672	2012-04-08 19:46:03.648672	Ресторан “Чорне і біле”	16:30:00
+27	17	1	f	2012-04-08 19:46:03.649242	2012-04-08 19:46:03.649242	Пошта, ресторан “Торнадо”	16:35:00
+28	16	1	f	2012-04-08 19:46:03.649809	2012-04-08 19:46:03.649809	Готель “Феста Панорама”	16:40:00
+29	15	1	f	2012-04-08 19:46:03.650374	2012-04-08 19:46:03.650374	Готель “Кондор”	17:00:00
+30	14	1	f	2012-04-08 19:46:03.650942	2012-04-08 19:46:03.650942	Автостанція	17:40:00
+31	13	1	f	2012-04-08 19:46:03.651509	2012-04-08 19:46:03.651509	АЗС біля дороги	17:50:00
+32	12	1	f	2012-04-08 19:46:03.652077	2012-04-08 19:46:03.652077	На розвилці дороги на Камчію	18:00:00
+33	11	1	f	2012-04-08 19:46:03.652646	2012-04-08 19:46:03.652646	Приміщення “Поліграфія”	18:30:00
+34	10	1	f	2012-04-08 19:46:03.653235	2012-04-08 19:46:03.653235	Контрольний пункт біля входу в комплекс	18:50:00
+35	9	1	f	2012-04-08 19:46:03.6538	2012-04-08 19:46:03.6538	Автобусна зупинка на трасі	18:50:00
+36	8	1	f	2012-04-08 19:46:03.654368	2012-04-08 19:46:03.654368	Автобусна зупинка “Управління”	19:10:00
+37	7	1	f	2012-04-08 19:46:03.654934	2012-04-08 19:46:03.654934	“Топмаркет” – автобусна зупинка	19:20:00
+38	6	1	f	2012-04-08 19:46:03.655502	2012-04-08 19:46:03.655502	Автостанція	19:30:00
+39	5	1	f	2012-04-08 19:46:03.656067	2012-04-08 19:46:03.656067	Автозаправка “Лафі”	19:50:00
+40	1	1	f	2012-04-08 19:46:03.656631	2012-04-08 19:46:03.656631	Стадіон “Буковина”	\N
+41	2	2	t	2012-04-08 20:15:21.057573	2012-04-08 20:15:21.057573		07:00:00
+42	24	2	t	2012-04-08 20:15:21.058649	2012-04-08 20:15:21.058649		08:15:00
+43	4	2	t	2012-04-08 20:15:21.059292	2012-04-08 20:15:21.059292		10:15:00
+44	25	2	t	2012-04-08 20:15:21.059877	2012-04-08 20:15:21.059877		12:45:00
+45	1	2	t	2012-04-08 20:15:21.060458	2012-04-08 20:15:21.060458		14:00:00
+46	5	2	t	2012-04-08 20:15:21.061062	2012-04-08 20:15:21.061062		\N
+47	6	2	t	2012-04-08 20:15:21.061569	2012-04-08 20:15:21.061569		\N
+48	7	2	t	2012-04-08 20:15:21.062115	2012-04-08 20:15:21.062115		\N
+49	8	2	t	2012-04-08 20:15:21.062615	2012-04-08 20:15:21.062615		\N
+50	10	2	t	2012-04-08 20:15:21.063155	2012-04-08 20:24:50.517385		\N
+51	11	2	t	2012-04-08 20:15:21.063672	2012-04-08 20:24:50.518257		\N
+52	13	2	t	2012-04-08 20:15:21.064207	2012-04-08 20:24:50.518802		\N
+53	14	2	t	2012-04-08 20:15:21.064724	2012-04-08 20:24:50.519331		\N
+54	26	2	t	2012-04-08 20:15:21.065245	2012-04-08 20:24:50.51986		\N
+55	27	2	t	2012-04-08 20:15:21.065762	2012-04-08 20:24:50.520385		\N
+56	15	2	t	2012-04-08 20:15:21.066282	2012-04-08 20:24:50.520908		\N
+57	16	2	t	2012-04-08 20:24:50.521478	2012-04-08 20:24:50.521478		\N
+58	17	2	t	2012-04-08 20:24:50.522156	2012-04-08 20:24:50.522156		\N
+59	19	2	t	2012-04-08 20:24:50.522683	2012-04-08 20:24:50.522683		\N
+60	19	2	f	2012-04-08 20:24:50.523201	2012-04-08 20:24:50.523201		17:00:00
+61	17	2	f	2012-04-08 20:24:50.523831	2012-04-08 20:24:50.523831		\N
+62	16	2	f	2012-04-08 20:24:50.524346	2012-04-08 20:24:50.524346		17:20:00
+63	15	2	f	2012-04-08 20:24:50.524922	2012-04-08 20:24:50.524922		17:40:00
+64	26	2	f	2012-04-08 20:24:50.525492	2012-04-08 20:24:50.525492		17:50:00
+65	27	2	f	2012-04-08 20:24:50.526062	2012-04-08 20:24:50.526062		18:00:00
+66	14	2	f	2012-04-08 20:24:50.526641	2012-04-08 20:24:50.526641		18:10:00
+67	13	2	f	2012-04-08 20:24:50.52721	2012-04-08 20:24:50.52721		\N
+68	11	2	f	2012-04-08 20:24:50.527734	2012-04-08 20:24:50.527734		19:10:00
+69	10	2	f	2012-04-08 20:24:50.528304	2012-04-08 20:24:50.528304		19:20:00
+70	8	2	f	2012-04-08 20:24:50.528876	2012-04-08 20:24:50.528876		19:30:00
+71	7	2	f	2012-04-08 20:24:50.529445	2012-04-08 20:24:50.529445		19:40:00
+72	6	2	f	2012-04-08 20:24:50.530013	2012-04-08 20:24:50.530013		19:50:00
+73	5	2	f	2012-04-08 20:24:50.530585	2012-04-08 20:24:50.530585		\N
+74	1	2	f	2012-04-08 20:24:50.531143	2012-04-08 20:24:50.531143		\N
+75	4	2	f	2012-04-08 20:24:50.5317	2012-04-08 20:24:50.5317		\N
+76	24	2	f	2012-04-08 20:24:50.532219	2012-04-08 20:24:50.532219		\N
+77	2	2	f	2012-04-08 20:24:50.532734	2012-04-08 20:24:50.532734		\N
+78	2	3	t	2012-04-21 19:49:27.831035	2012-04-21 19:49:27.831035	Пр. Шевченка, 34	07:00:00
+79	28	3	t	2012-04-21 19:49:27.832148	2012-04-21 19:49:27.832148	Автостанція – пост ДАІ	08:30:00
+80	4	3	t	2012-04-21 19:49:27.832794	2012-04-21 19:49:27.832794	Кінотеатр “Космос”	10:00:00
+81	25	3	t	2012-04-21 19:49:27.833432	2012-04-21 19:49:27.833432	На кільці	12:30:00
+82	1	3	t	2012-04-21 19:49:27.834076	2012-04-21 19:49:27.834076	Залізничний вокзал	13:30:00
+83	6	3	t	2012-04-21 19:49:27.834692	2012-04-21 19:49:27.834692	Офіс “Албенаавтотранс”	\N
+84	7	3	t	2012-04-21 19:49:27.835334	2012-04-21 19:49:27.835334	Автобусна зупинка біля ресторану “Бочка”	\N
+85	8	3	t	2012-04-21 19:49:27.835885	2012-04-21 19:49:27.835885	Готель “Бриз”	\N
+86	10	3	t	2012-04-21 19:49:27.83644	2012-04-21 19:49:27.83644	Готель “Панорама”	\N
+87	11	3	t	2012-04-21 19:49:27.836966	2012-04-21 19:49:27.836966	Кафедральний собор	\N
+88	14	3	t	2012-04-21 19:49:27.837542	2012-04-21 19:49:27.837542	Автостанція	\N
+89	26	3	t	2012-04-21 19:49:27.83812	2012-04-21 19:49:27.83812	Шлагбаум	\N
+90	27	3	t	2012-04-21 19:49:27.892909	2012-04-21 19:49:27.892909	Кільце	\N
+91	15	3	t	2012-04-21 19:49:27.893504	2012-04-21 19:49:27.893504	Готель “РІУ Хелена Резорт”	\N
+92	15	3	t	2012-04-21 19:49:27.894067	2012-04-21 19:49:27.894067	Автобусна зупинка біля готелю “Кубань”	\N
+93	15	3	t	2012-04-21 19:49:27.894586	2012-04-21 19:49:27.894586	Готель “Котва” 	\N
+94	16	3	t	2012-04-21 19:49:27.895198	2012-04-21 19:49:27.895198	Готель “Феста Панорама”	\N
+95	19	3	t	2012-04-21 19:49:27.895731	2012-04-21 19:49:27.895731	Офіс туристичної фірми “Nikol-N” (вул. Солна, 86)	\N
+96	19	3	f	2012-04-21 20:03:57.298747	2012-04-21 20:03:57.298747	Офіс туристичної фірми “Nikol-N” (вул. Солна, 86)	14:00:00
+97	16	3	f	2012-04-21 20:03:57.299968	2012-04-21 20:03:57.299968	Готель “Феста Панорама”	14:15:00
+98	15	3	f	2012-04-21 20:03:57.300569	2012-04-21 20:03:57.300569	Готель “Котва”	14:25:00
+99	15	3	f	2012-04-21 20:03:57.301157	2012-04-21 20:03:57.301157	Автобусна зупинка біля готелю “Кубань”	14:35:00
+100	15	3	f	2012-04-21 20:03:57.301765	2012-04-21 20:03:57.301765	Готель “РІУ Хелена Резорт”	14:50:00
+101	27	3	f	2012-04-21 20:03:57.30234	2012-04-21 20:03:57.30234	Кільце	15:00:00
+102	26	3	f	2012-04-21 20:03:57.302964	2012-04-21 20:03:57.302964	Шлагбаум	15:15:00
+103	14	3	f	2012-04-21 20:03:57.303538	2012-04-21 20:03:57.303538	Автостанція	16:00:00
+104	11	3	f	2012-04-21 20:03:57.30414	2012-04-21 20:03:57.30414	Кафедральний собор	17:00:00
+105	10	3	f	2012-04-21 20:03:57.30474	2012-04-21 20:03:57.30474	Готель “Панорама”	17:15:00
+106	8	3	f	2012-04-21 20:03:57.305292	2012-04-21 20:03:57.305292	Готель “Бриз”	17:30:00
+107	7	3	f	2012-04-21 20:03:57.305917	2012-04-21 20:03:57.305917	Автобусна зупинка біля ресторану “Бочка”	17:45:00
+108	6	3	f	2012-04-21 20:03:57.306528	2012-04-21 20:03:57.306528	Офіс “Албенаавтотранс”	18:00:00
+109	1	3	f	2012-04-21 20:03:57.307109	2012-04-21 20:03:57.307109	Залізничний вокзал	\N
+110	25	3	f	2012-04-21 20:03:57.307683	2012-04-21 20:03:57.307683	На кільці	\N
+111	4	3	f	2012-04-21 20:03:57.308183	2012-04-21 20:03:57.308183	Кінотеатр “Космос”	\N
+112	28	3	f	2012-04-21 20:03:57.30874	2012-04-21 20:03:57.30874	Автостанція – пост ДАІ	\N
+113	2	3	f	2012-04-21 20:03:57.309241	2012-04-21 20:03:57.309241	Пр. Шевченка, 34 	\N
+114	2	4	t	2012-04-22 11:27:00.066414	2012-04-22 11:27:00.066414		\N
+115	1	4	t	2012-04-22 11:27:00.957981	2012-04-22 11:27:00.957981		\N
+116	30	4	t	2012-04-22 11:27:00.95876	2012-04-22 11:27:00.95876		\N
+117	5	4	t	2012-04-22 11:27:00.95937	2012-04-22 11:27:00.95937		\N
+118	6	4	t	2012-04-22 11:27:00.959972	2012-04-22 11:27:00.959972		\N
+119	7	4	t	2012-04-22 11:27:00.960569	2012-04-22 11:27:00.960569		\N
+120	8	4	t	2012-04-22 11:27:00.961166	2012-04-22 11:27:00.961166		\N
+121	11	4	t	2012-04-22 11:27:00.961779	2012-04-22 11:27:00.961779		\N
+122	15	4	t	2012-04-22 11:27:00.962376	2012-04-22 11:27:00.962376		\N
+123	21	4	t	2012-04-22 11:27:00.962967	2012-04-22 11:27:00.962967		\N
+124	14	4	t	2012-04-22 11:27:00.963561	2012-04-22 11:27:00.963561		\N
+125	27	4	t	2012-04-22 11:27:00.96415	2012-04-22 11:27:00.96415		\N
+126	16	4	t	2012-04-22 11:27:00.964767	2012-04-22 11:27:00.964767		\N
+127	19	4	t	2012-04-22 11:27:00.965332	2012-04-22 11:27:00.965332		\N
+128	23	4	t	2012-04-22 11:27:00.965938	2012-04-22 11:27:00.965938		\N
+129	23	4	f	2012-04-22 11:27:00.966529	2012-04-22 11:27:00.966529		\N
+130	19	4	f	2012-04-22 11:27:00.967117	2012-04-22 11:27:00.967117		\N
+131	16	4	f	2012-04-22 11:27:00.967801	2012-04-22 11:27:00.967801		\N
+132	27	4	f	2012-04-22 11:27:00.968388	2012-04-22 11:27:00.968388		\N
+133	14	4	f	2012-04-22 11:27:00.968982	2012-04-22 11:27:00.968982		\N
+134	21	4	f	2012-04-22 11:27:00.969568	2012-04-22 11:27:00.969568		\N
+135	15	4	f	2012-04-22 11:27:00.970156	2012-04-22 11:27:00.970156		\N
+136	11	4	f	2012-04-22 11:27:00.970764	2012-04-22 11:27:00.970764		\N
+137	8	4	f	2012-04-22 11:27:01.043785	2012-04-22 11:27:01.043785		\N
+138	7	4	f	2012-04-22 11:27:01.044424	2012-04-22 11:27:01.044424		\N
+139	6	4	f	2012-04-22 11:27:01.04502	2012-04-22 11:27:01.04502		\N
+140	5	4	f	2012-04-22 11:27:01.045615	2012-04-22 11:27:01.045615		\N
+141	30	4	f	2012-04-22 11:27:01.046205	2012-04-22 11:27:01.046205		\N
+142	1	4	f	2012-04-22 11:27:01.04682	2012-04-22 11:27:01.04682		\N
+143	2	4	f	2012-04-22 11:27:01.047408	2012-04-22 11:27:01.047408		\N
+144	2	5	t	2012-04-22 11:41:11.279954	2012-04-22 11:41:11.279954	Порохова вежа	07:00:00
+145	28	5	t	2012-04-22 11:41:11.281175	2012-04-22 11:41:11.281175	Автостанція – пост ДАІ	08:30:00
+146	4	5	t	2012-04-22 11:41:11.281841	2012-04-22 11:41:11.281841	Кінотеатр “Космос”	09:30:00
+147	25	5	t	2012-04-22 11:41:11.282511	2012-04-22 11:41:11.282511	На кільці	10:30:00
+148	1	5	t	2012-04-22 11:41:11.283221	2012-04-22 11:41:11.283221	Залізничний вокзал	12:00:00
+149	5	5	t	2012-04-22 11:41:11.283874	2012-04-22 11:41:11.283874	Готель “Каліакра”	\N
+150	6	5	t	2012-04-22 11:41:11.284461	2012-04-22 11:41:11.284461	На кільці	\N
+151	7	5	t	2012-04-22 11:41:11.28505	2012-04-22 11:41:11.28505	Біля базару	\N
+152	8	5	t	2012-04-22 11:41:11.28566	2012-04-22 11:41:11.28566	Готель “Зора”	\N
+153	10	5	t	2012-04-22 11:41:11.286244	2012-04-22 11:41:11.286244	Біля в’їзду на курорт	\N
+154	11	5	t	2012-04-22 11:41:11.28683	2012-04-22 11:41:11.28683	Кафедральний собор	\N
+155	13	5	t	2012-04-22 11:41:11.287416	2012-04-22 11:41:11.287416	Біля повороту	\N
+156	14	5	t	2012-04-22 11:41:11.288003	2012-04-22 11:41:11.288003	Автостанція	\N
+157	26	5	t	2012-04-22 11:41:11.288607	2012-04-22 11:41:11.288607	Шлагбаум	\N
+158	27	5	t	2012-04-22 11:41:11.289176	2012-04-22 11:41:11.289176	Кільце	\N
+159	15	5	t	2012-04-22 11:41:11.289756	2012-04-22 11:41:11.289756	Готель “РІУ Хелена Резорт”	\N
+160	15	5	t	2012-04-22 11:41:11.290322	2012-04-22 11:41:11.290322	Автобусна зупинка біля готелю “Кубань”	\N
+161	15	5	t	2012-04-22 11:41:11.290918	2012-04-22 11:41:11.290918	Готель “Котва”	\N
+162	16	5	t	2012-04-22 11:41:11.291497	2012-04-22 11:41:11.291497	Готель “Панорама”	\N
+163	17	5	t	2012-04-22 11:41:11.292086	2012-04-22 11:41:11.292086	По місцю висадки	\N
+164	19	5	t	2012-04-22 11:41:11.292693	2012-04-22 11:41:11.292693	Офіс туристичної фірми “Nikol-N” (вул. Солна, 86)	\N
+165	19	5	f	2012-04-22 11:41:11.29328	2012-04-22 11:41:11.29328	Офіс туристичної фірми “Nikol-N” (вул. Солна, 86)	13:00:00
+166	17	5	f	2012-04-22 11:41:11.293927	2012-04-22 11:41:11.293927	По місцю висадки	13:10:00
+167	16	5	f	2012-04-22 11:41:11.294595	2012-04-22 11:41:11.294595	Готель “Панорама”	13:20:00
+168	15	5	f	2012-04-22 11:41:11.295236	2012-04-22 11:41:11.295236	Готель “Котва”	13:25:00
+169	15	5	f	2012-04-22 11:41:11.295875	2012-04-22 11:41:11.295875	Автобусна зупинка біля готелю “Кубань”	13:30:00
+170	15	5	f	2012-04-22 11:41:11.296533	2012-04-22 11:41:11.296533	Готель “РІУ Хелена Резорт”	13:35:00
+171	27	5	f	2012-04-22 11:41:11.297173	2012-04-22 11:41:11.297173	Кільце	13:40:00
+172	26	5	f	2012-04-22 11:41:11.297812	2012-04-22 11:41:11.297812	Шлагбаум	13:45:00
+173	14	5	f	2012-04-22 11:41:11.298451	2012-04-22 11:41:11.298451	Автостанція	14:00:00
+174	13	5	f	2012-04-22 11:41:11.299114	2012-04-22 11:41:11.299114	Біля повороту	14:10:00
+175	11	5	f	2012-04-22 11:41:11.299813	2012-04-22 11:41:11.299813	Кафедральний собор	15:00:00
+176	10	5	f	2012-04-22 11:41:11.300453	2012-04-22 11:41:11.300453	Біля в’їзду на курорт	15:10:00
+177	8	5	f	2012-04-22 11:41:11.30112	2012-04-22 11:41:11.30112	Готель “Зора”	15:20:00
+178	7	5	f	2012-04-22 11:41:11.301757	2012-04-22 11:41:11.301757	Біля базару	15:30:00
+179	6	5	f	2012-04-22 11:41:11.302397	2012-04-22 11:41:11.302397	На кільці	15:40:00
+180	5	5	f	2012-04-22 11:41:11.303152	2012-04-22 11:41:11.303152	Готель “Каліакра”	15:50:00
+181	1	5	f	2012-04-22 11:41:11.303791	2012-04-22 11:41:11.303791	Залізничний вокзал	\N
+182	25	5	f	2012-04-22 11:41:11.304366	2012-04-22 11:41:11.304366	На кільці	\N
+183	4	5	f	2012-04-22 11:41:11.304945	2012-04-22 11:41:11.304945	Кінотеатр “Космос”	\N
+184	28	5	f	2012-04-22 11:41:11.305543	2012-04-22 11:41:11.305543	Автостанція – пост ДАІ	\N
+185	2	5	f	2012-04-22 11:41:11.30611	2012-04-22 11:41:11.30611	Пл. Петрушевича	\N
+186	2	6	t	2012-04-22 12:05:02.702668	2012-04-22 12:05:02.702668	Залізничний вокзал (багажне відділення)	07:00:00
+187	28	6	t	2012-04-22 12:05:02.703481	2012-04-22 12:05:02.703481	Автостанція – пост ДАІ	08:30:00
+188	4	6	t	2012-04-22 12:05:02.704161	2012-04-22 12:05:02.704161	Кінотеатр “Космос”	09:30:00
+189	25	6	t	2012-04-22 12:05:02.70482	2012-04-22 12:05:02.70482	На кільці (біля кафе “Зруб”)	11:30:00
+190	1	6	t	2012-04-22 12:05:02.705512	2012-04-22 12:05:02.705512	Готель “Буковина”	12:30:00
+191	5	6	t	2012-04-22 12:05:02.706213	2012-04-22 12:05:02.706213	Готель “Каліакра”	\N
+192	6	6	t	2012-04-22 12:05:02.706794	2012-04-22 12:05:02.706794	Перед в’їздом на курорт	\N
+193	7	6	t	2012-04-22 12:05:02.707384	2012-04-22 12:05:02.707384	Біля базару	\N
+194	8	6	t	2012-04-22 12:05:02.707996	2012-04-22 12:05:02.707996	Готель “Зора”	\N
+195	9	6	t	2012-04-22 12:05:02.708586	2012-04-22 12:05:02.708586	По місцю висадки	\N
+196	10	6	t	2012-04-22 12:05:02.709187	2012-04-22 12:05:02.709187	Біля в’їзду на курорт	\N
+197	11	6	t	2012-04-22 12:05:02.709763	2012-04-22 12:05:02.709763	Кафедральний собор	\N
+198	14	6	t	2012-04-22 12:05:02.710383	2012-04-22 12:05:02.710383	Автостанція	\N
+199	26	6	t	2012-04-22 12:05:02.710961	2012-04-22 12:05:02.710961	Біля клубного комплексу	\N
+200	27	6	t	2012-04-22 12:05:02.711572	2012-04-22 12:05:02.711572	Кільце	\N
+201	15	6	t	2012-04-22 12:05:02.712204	2012-04-22 12:05:02.712204	Готель “РІУ Хелена Резорт”	\N
+202	15	6	t	2012-04-22 12:05:02.712783	2012-04-22 12:05:02.712783	Готель “Балкан”	\N
+203	15	6	t	2012-04-22 12:05:02.713368	2012-04-22 12:05:02.713368	Автобусна зупинка біля готелю “Кубань”	\N
+204	15	6	t	2012-04-22 12:05:02.713945	2012-04-22 12:05:02.713945	Готель “Котва”	\N
+205	16	6	t	2012-04-22 12:05:02.714529	2012-04-22 12:05:02.714529	Готель “Панорама”	\N
+206	19	6	t	2012-04-22 12:05:02.715192	2012-04-22 12:05:02.715192	Офіс туристичної фірми “Nikol-N” (вул. Солна, 86)	\N
+207	19	6	f	2012-04-22 12:05:02.715781	2012-04-22 12:05:02.715781	Офіс туристичної фірми “Nikol-N” (вул. Солна, 86)	17:00:00
+208	16	6	f	2012-04-22 12:05:02.716433	2012-04-22 12:05:02.716433	Готель “Панорама”	17:15:00
+209	15	6	f	2012-04-22 12:05:02.717088	2012-04-22 12:05:02.717088	Готель “Котва”	17:20:00
+210	15	6	f	2012-04-22 12:05:02.717726	2012-04-22 12:05:02.717726	Автобусна зупинка біля готелю “Кубань” 	17:25:00
+211	15	6	f	2012-04-22 12:05:02.718363	2012-04-22 12:05:02.718363	Готель “Балкан”	17:30:00
+212	15	6	f	2012-04-22 12:05:02.719029	2012-04-22 12:05:02.719029	Готель “РІУ Хелена Резорт”	17:35:00
+213	27	6	f	2012-04-22 12:05:02.719689	2012-04-22 12:05:02.719689	Кільце	17:40:00
+214	26	6	f	2012-04-22 12:05:02.720323	2012-04-22 12:05:02.720323	Біля клубного комплексу	17:50:00
+215	14	6	f	2012-04-22 12:05:02.721012	2012-04-22 12:05:02.721012	Автостанція	18:10:00
+216	11	6	f	2012-04-22 12:05:02.721669	2012-04-22 12:05:02.721669	Кафедральний собор	19:10:00
+217	10	6	f	2012-04-22 12:05:02.722305	2012-04-22 12:05:02.722305	Біля в’їзду на курорт	19:15:00
+218	9	6	f	2012-04-22 12:05:02.723012	2012-04-22 12:05:02.723012	По місцю висадки	19:20:00
+219	8	6	f	2012-04-22 12:05:02.723702	2012-04-22 12:05:02.723702	Готель “Зора”	19:25:00
+220	7	6	f	2012-04-22 12:05:02.724385	2012-04-22 12:05:02.724385	Біля базару	19:35:00
+221	6	6	f	2012-04-22 12:05:02.725025	2012-04-22 12:05:02.725025	Перед в’їздом на курорт	19:45:00
+222	5	6	f	2012-04-22 12:05:02.725711	2012-04-22 12:05:02.725711	Готель “Каліакра” 	20:00:00
+223	1	6	f	2012-04-22 12:05:02.726409	2012-04-22 12:05:02.726409	Готель “Буковина”	\N
+224	25	6	f	2012-04-22 12:05:02.727103	2012-04-22 12:05:02.727103	На кільці	\N
+225	4	6	f	2012-04-22 12:05:02.727677	2012-04-22 12:05:02.727677	Кінотеатр “Космос”	\N
+226	28	6	f	2012-04-22 12:05:02.728292	2012-04-22 12:05:02.728292	Автостанція – пост ДАІ	\N
+227	2	6	f	2012-04-22 12:05:02.728905	2012-04-22 12:05:02.728905	Залізничний вокзал (багажне відділення)	\N
+228	31	7	t	2012-04-22 12:14:47.032302	2012-04-22 12:14:47.032302	Центральний вокзал	13:15:00
+229	32	7	t	2012-04-22 12:14:47.033112	2012-04-22 12:14:47.033112		\N
+230	1	7	t	2012-04-22 12:14:47.033727	2012-04-22 12:14:47.033727	Автовокзал “Південний”	16:30:00
+231	34	7	t	2012-04-22 12:14:47.034359	2012-04-22 12:14:47.034359	Готель “Добротіца”	\N
+232	5	7	t	2012-04-22 12:14:47.034965	2012-04-22 12:14:47.034965	Морський вокзал	\N
+233	6	7	t	2012-04-22 12:14:47.035549	2012-04-22 12:14:47.035549	Автостанція	\N
+234	7	7	t	2012-04-22 12:14:47.036126	2012-04-22 12:14:47.036126		\N
+235	8	7	t	2012-04-22 12:14:47.036725	2012-04-22 12:14:47.036725	Автобусна зупинка “Управління”	\N
+236	9	7	t	2012-04-22 12:14:47.037287	2012-04-22 12:14:47.037287	Готель “Єлена”	\N
+237	10	7	t	2012-04-22 12:14:47.037882	2012-04-22 12:14:47.037882	Готель “Єлена”	\N
+238	11	7	t	2012-04-22 12:14:47.038453	2012-04-22 12:14:47.038453	Приміщення “Поліграфія”	\N
+239	12	7	t	2012-04-22 12:14:47.039027	2012-04-22 12:14:47.039027		\N
+240	13	7	t	2012-04-22 12:14:47.039598	2012-04-22 12:14:47.039598	АЗС біля дороги	\N
+241	14	7	t	2012-04-22 12:14:47.040175	2012-04-22 12:14:47.040175	Автостанція	\N
+242	15	7	t	2012-04-22 12:14:47.040767	2012-04-22 12:14:47.040767	Готель “Балкан”	\N
+243	16	7	t	2012-04-22 12:14:47.04132	2012-04-22 12:14:47.04132	Готель “Феста Панорама”	\N
+244	17	7	t	2012-04-22 12:14:47.041911	2012-04-22 12:14:47.041911	Пошта, ресторан “Торнадо”	\N
+245	18	7	t	2012-04-22 12:14:47.042494	2012-04-22 12:14:47.042494		\N
+246	19	7	t	2012-04-22 12:14:47.043066	2012-04-22 12:14:47.043066	Автовокзал в новому місті	\N
+247	20	7	t	2012-04-22 12:14:47.04364	2012-04-22 12:14:47.04364		\N
+248	21	7	t	2012-04-22 12:14:47.044211	2012-04-22 12:14:47.044211	Автозаправка “Shell” по дорозі в Созополь	\N
+249	22	7	t	2012-04-22 12:14:47.044809	2012-04-22 12:14:47.044809		\N
+250	23	7	t	2012-04-22 12:14:47.045357	2012-04-22 12:14:47.045357	Ресторан “Черно море”	\N
+251	23	7	f	2012-04-22 12:14:47.045952	2012-04-22 12:14:47.045952	Ресторан “Черно море”	\N
+252	22	7	f	2012-04-22 12:14:47.046523	2012-04-22 12:14:47.046523		\N
+253	21	7	f	2012-04-22 12:14:47.047087	2012-04-22 12:14:47.047087	Автозаправка “Shell” по дорозі в Созополь	\N
+254	20	7	f	2012-04-22 12:14:47.047656	2012-04-22 12:14:47.047656		\N
+255	19	7	f	2012-04-22 12:14:47.048223	2012-04-22 12:14:47.048223	Автовокзал в новому місті	\N
+256	18	7	f	2012-04-22 12:14:47.048809	2012-04-22 12:14:47.048809		\N
+257	17	7	f	2012-04-22 12:14:47.049354	2012-04-22 12:14:47.049354	Пошта, ресторан “Торнадо”	\N
+258	16	7	f	2012-04-22 12:14:47.049945	2012-04-22 12:14:47.049945	Готель “Феста Панорама”	\N
+259	15	7	f	2012-04-22 12:14:47.050514	2012-04-22 12:14:47.050514	Готель “Балкан”	\N
+260	14	7	f	2012-04-22 12:14:47.051085	2012-04-22 12:14:47.051085	Автостанція	\N
+261	13	7	f	2012-04-22 12:14:47.051717	2012-04-22 12:14:47.051717	АЗС біля дороги	\N
+262	12	7	f	2012-04-22 12:14:47.052284	2012-04-22 12:14:47.052284		\N
+263	11	7	f	2012-04-22 12:14:47.052901	2012-04-22 12:14:47.052901	Приміщення “Поліграфія”	\N
+264	10	7	f	2012-04-22 12:14:47.053479	2012-04-22 12:14:47.053479	Готель “Єлена”	\N
+265	9	7	f	2012-04-22 12:14:47.054044	2012-04-22 12:14:47.054044	Готель “Єлена”	\N
+266	8	7	f	2012-04-22 12:14:47.054613	2012-04-22 12:14:47.054613	Автобусна зупинка “Управління”	\N
+267	7	7	f	2012-04-22 12:14:47.055178	2012-04-22 12:14:47.055178		\N
+268	6	7	f	2012-04-22 12:14:47.05576	2012-04-22 12:14:47.05576	Автостанція	\N
+269	5	7	f	2012-04-22 12:14:47.056304	2012-04-22 12:14:47.056304	Морський вокзал	\N
+270	34	7	f	2012-04-22 12:14:47.056886	2012-04-22 12:14:47.056886	Готель “Добротіца”	\N
+271	1	7	f	2012-04-22 12:14:47.057453	2012-04-22 12:14:47.057453	Автовокзал “Південний”	\N
+272	32	7	f	2012-04-22 12:14:47.058019	2012-04-22 12:14:47.058019		\N
+273	31	7	f	2012-04-22 12:14:47.058586	2012-04-22 12:14:47.058586	Центральний вокзал	\N
+274	32	8	t	2012-04-22 12:23:52.193346	2012-04-22 12:23:52.193346	Кінотеатр “Юність”	13:30:00
+275	1	8	t	2012-04-22 12:23:52.194206	2012-04-22 12:23:52.194206	Автовокзал “Південний”	16:45:00
+276	5	8	t	2012-04-22 12:23:52.194885	2012-04-22 12:23:52.194885	Морський вокзал	\N
+277	6	8	t	2012-04-22 12:23:52.195478	2012-04-22 12:23:52.195478	Офіс “Албенаавтотранс”	\N
+278	7	8	t	2012-04-22 12:23:52.196118	2012-04-22 12:23:52.196118	Ресторан “Аполон”	\N
+279	8	8	t	2012-04-22 12:23:52.196692	2012-04-22 12:23:52.196692	Банк “ДСК”	\N
+280	10	8	t	2012-04-22 12:23:52.197306	2012-04-22 12:23:52.197306	Готель “Панорама”	\N
+281	11	8	t	2012-04-22 12:23:52.197904	2012-04-22 12:23:52.197904	Залізничний вокзал	\N
+282	14	8	t	2012-04-22 12:23:52.198492	2012-04-22 12:23:52.198492	Офіс фірми “Riki-A”	\N
+283	15	8	t	2012-04-22 12:23:52.199102	2012-04-22 12:23:52.199102	Готель “Балкан”	\N
+284	16	8	t	2012-04-22 12:23:52.199673	2012-04-22 12:23:52.199673	Готель “Феста Панорама”	\N
+285	17	8	t	2012-04-22 12:23:52.200279	2012-04-22 12:23:52.200279	Пошта, ресторан “Торнадо”	\N
+286	19	8	t	2012-04-22 12:23:52.200885	2012-04-22 12:23:52.200885	Автовокзал в новому місті	\N
+287	20	8	t	2012-04-22 12:23:52.201491	2012-04-22 12:23:52.201491	Центр міста	\N
+288	21	8	t	2012-04-22 12:23:52.202099	2012-04-22 12:23:52.202099	Залізничний вокзал	\N
+289	22	8	t	2012-04-22 12:23:52.202674	2012-04-22 12:23:52.202674	На трасі під мостом	\N
+290	23	8	t	2012-04-22 12:23:52.203288	2012-04-22 12:23:52.203288	Ресторан “Черно море”	\N
+291	23	8	f	2012-04-22 12:23:52.203876	2012-04-22 12:23:52.203876	Ресторан “Черно море”	15:00:00
+292	22	8	f	2012-04-22 12:23:52.204551	2012-04-22 12:23:52.204551	На трасі під мостом	15:15:00
+293	21	8	f	2012-04-22 12:23:52.20522	2012-04-22 12:23:52.20522	Залізничний вокзал	15:30:00
+294	20	8	f	2012-04-22 12:23:52.205871	2012-04-22 12:23:52.205871	Центр міста	15:35:00
+295	19	8	f	2012-04-22 12:23:52.206515	2012-04-22 12:23:52.206515	Автовокзал в новому місті	15:45:00
+296	17	8	f	2012-04-22 12:23:52.20718	2012-04-22 12:23:52.20718	Пошта, ресторан “Торнадо”	16:00:00
+297	16	8	f	2012-04-22 12:23:52.207829	2012-04-22 12:23:52.207829	Готель “Феста Панорама”	16:30:00
+298	15	8	f	2012-04-22 12:23:52.208476	2012-04-22 12:23:52.208476	Готель “Балкан”	17:00:00
+299	14	8	f	2012-04-22 12:23:52.209171	2012-04-22 12:23:52.209171	Офіс фірми “Riki-A”	17:30:00
+300	11	8	f	2012-04-22 12:23:52.209845	2012-04-22 12:23:52.209845	Залізничний вокзал	18:30:00
+301	10	8	f	2012-04-22 12:23:52.210488	2012-04-22 12:23:52.210488	Готель “Панорама”	18:45:00
+302	8	8	f	2012-04-22 12:23:52.21115	2012-04-22 12:23:52.21115	Банк “ДСК”	19:15:00
+303	7	8	f	2012-04-22 12:23:52.211795	2012-04-22 12:23:52.211795	Ресторан “Аполон”	19:45:00
+304	6	8	f	2012-04-22 12:23:52.212434	2012-04-22 12:23:52.212434	Офіс “Албенаавтотранс”	20:00:00
+305	5	8	f	2012-04-22 12:23:52.21312	2012-04-22 12:23:52.21312	Морський вокзал	20:15:00
+306	1	8	f	2012-04-22 12:23:52.213809	2012-04-22 12:23:52.213809	Автовокзал “Південний”	\N
+307	32	8	f	2012-04-22 12:23:52.214418	2012-04-22 12:23:52.214418	Кінотеатр “Юність”	\N
+308	2	9	t	2012-04-22 15:10:33.253569	2012-04-22 15:10:33.253569	Залізничний вокзал 	07:00:00
+309	4	9	t	2012-04-22 15:10:33.254788	2012-04-22 15:10:33.254788	Автостанція №2, вул. Пасічна	09:40:00
+310	25	9	t	2012-04-22 15:10:33.255457	2012-04-22 15:10:33.255457	На кільці 	11:40:00
+311	1	9	t	2012-04-22 15:10:33.256128	2012-04-22 15:10:33.256128	Готель “Буковина”	12:40:00
+312	5	9	t	2012-04-22 15:10:33.256856	2012-04-22 15:10:33.256856	Автовокзал	\N
+313	6	9	t	2012-04-22 15:10:33.257454	2012-04-22 15:10:33.257454	Перед в’їздом на курорт	\N
+314	7	9	t	2012-04-22 15:10:33.258039	2012-04-22 15:10:33.258039	Автобусна зупинка біля ресторану “Бочка”	\N
+315	8	9	t	2012-04-22 15:10:33.258675	2012-04-22 15:10:33.258675	Горизонт	\N
+316	10	9	t	2012-04-22 15:10:33.259272	2012-04-22 15:10:33.259272	Готель “Панорама”	\N
+317	11	9	t	2012-04-22 15:10:33.259869	2012-04-22 15:10:33.259869	Пл. Св. Марії Луції	\N
+318	14	9	t	2012-04-22 15:10:33.260449	2012-04-22 15:10:33.260449	Офіс “Riki-A”	\N
+319	14	9	t	2012-04-22 15:10:33.261041	2012-04-22 15:10:33.261041	Автовокзал	\N
+320	26	9	t	2012-04-22 15:10:33.261746	2012-04-22 15:10:33.261746	Вхід на курорт	\N
+321	27	9	t	2012-04-22 15:10:33.26264	2012-04-22 15:10:33.26264	Заправка, готель “Джулія”	\N
+322	15	9	t	2012-04-22 15:10:33.263531	2012-04-22 15:10:33.263531	Готель “Балкан”	\N
+323	16	9	t	2012-04-22 15:10:33.264406	2012-04-22 15:10:33.264406	Готель “Панорама”	\N
+324	19	9	t	2012-04-22 15:10:33.265295	2012-04-22 15:10:33.265295	Пл. Старого Пансіонату	\N
+325	23	9	t	2012-04-22 15:10:33.266249	2012-04-22 15:10:33.266249	Пл. Чорне море	\N
+326	23	9	f	2012-04-22 15:10:33.267135	2012-04-22 15:10:33.267135	Пл. Чорне море	13:45:00
+327	19	9	f	2012-04-22 15:10:33.268124	2012-04-22 15:10:33.268124	Пл. Старого Пансіонату	15:00:00
+328	16	9	f	2012-04-22 15:10:33.269113	2012-04-22 15:10:33.269113	Готель “Панорама”	15:15:00
+329	15	9	f	2012-04-22 15:10:33.270092	2012-04-22 15:10:33.270092	Готель “Балкан”	15:20:00
+330	27	9	f	2012-04-22 15:10:33.271062	2012-04-22 15:10:33.271062	Заправка, готель “Джулія”	15:25:00
+331	26	9	f	2012-04-22 15:10:33.271797	2012-04-22 15:10:33.271797	Вхід на курорт	15:40:00
+332	14	9	f	2012-04-22 15:10:33.272488	2012-04-22 15:10:33.272488	Автовокзал	16:20:00
+333	14	9	f	2012-04-22 15:10:33.273145	2012-04-22 15:10:33.273145	Офіс “Riki-A”	16:20:00
+334	11	9	f	2012-04-22 15:10:33.273857	2012-04-22 15:10:33.273857	Пл. Св. Марії Луції	17:20:00
+335	10	9	f	2012-04-22 15:10:33.274495	2012-04-22 15:10:33.274495	Готель “Панорама”	17:30:00
+336	8	9	f	2012-04-22 15:10:33.275175	2012-04-22 15:10:33.275175	Горизонт	17:50:00
+337	7	9	f	2012-04-22 15:10:33.275835	2012-04-22 15:10:33.275835	Автобусна зупинка біля ресторану “Бочка”	18:00:00
+338	6	9	f	2012-04-22 15:10:33.276541	2012-04-22 15:10:33.276541	Перед в’їздом на курорт	18:10:00
+339	5	9	f	2012-04-22 15:10:33.277246	2012-04-22 15:10:33.277246	Автовокзал	18:30:00
+340	1	9	f	2012-04-22 15:10:33.277899	2012-04-22 15:10:33.277899	Готель “Буковина”	\N
+341	25	9	f	2012-04-22 15:10:33.278593	2012-04-22 15:10:33.278593	На кільці 	\N
+342	4	9	f	2012-04-22 15:10:33.279477	2012-04-22 15:10:33.279477	Автостанція №2, вул. Пасічна	\N
+343	2	9	f	2012-04-22 15:10:33.330858	2012-04-22 15:10:33.330858	Залізничний вокзал 	\N
+344	2	10	t	2012-04-22 15:15:31.643406	2012-04-22 15:15:31.643406		\N
+345	28	10	t	2012-04-22 15:15:31.644076	2012-04-22 15:15:31.644076		\N
+346	4	10	t	2012-04-22 15:15:31.644674	2012-04-22 15:15:31.644674		\N
+347	25	10	t	2012-04-22 15:15:31.645288	2012-04-22 15:15:31.645288		\N
+348	1	10	t	2012-04-22 15:15:31.64585	2012-04-22 15:15:31.64585		\N
+349	30	10	t	2012-04-22 15:15:31.646451	2012-04-22 15:15:31.646451		\N
+350	6	10	t	2012-04-22 15:15:31.647033	2012-04-22 15:15:31.647033		\N
+351	7	10	t	2012-04-22 15:15:31.647621	2012-04-22 15:15:31.647621		\N
+352	8	10	t	2012-04-22 15:15:31.648217	2012-04-22 15:15:31.648217		\N
+353	11	10	t	2012-04-22 15:15:31.648773	2012-04-22 15:15:31.648773		\N
+354	14	10	t	2012-04-22 15:15:31.649367	2012-04-22 15:15:31.649367		\N
+355	26	10	t	2012-04-22 15:15:31.649936	2012-04-22 15:15:31.649936		\N
+356	15	10	t	2012-04-22 15:15:31.650515	2012-04-22 15:15:31.650515		\N
+357	16	10	t	2012-04-22 15:15:31.651081	2012-04-22 15:15:31.651081		\N
+358	19	10	t	2012-04-22 15:15:31.651699	2012-04-22 15:15:31.651699		\N
+359	19	10	f	2012-04-22 15:15:31.652298	2012-04-22 15:15:31.652298		\N
+360	16	10	f	2012-04-22 15:15:31.652849	2012-04-22 15:15:31.652849		\N
+361	15	10	f	2012-04-22 15:15:31.653436	2012-04-22 15:15:31.653436		\N
+362	14	10	f	2012-04-22 15:15:31.654007	2012-04-22 15:15:31.654007		\N
+363	11	10	f	2012-04-22 15:15:31.654579	2012-04-22 15:15:31.654579		\N
+364	8	10	f	2012-04-22 15:15:31.655144	2012-04-22 15:15:31.655144		\N
+365	7	10	f	2012-04-22 15:15:31.655723	2012-04-22 15:15:31.655723		\N
+366	6	10	f	2012-04-22 15:15:31.656315	2012-04-22 15:15:31.656315		\N
+367	30	10	f	2012-04-22 15:15:31.656864	2012-04-22 15:15:31.656864		\N
+368	1	10	f	2012-04-22 15:15:31.657453	2012-04-22 15:15:31.657453		\N
+369	28	10	f	2012-04-22 15:15:31.65802	2012-04-22 15:15:31.65802		\N
+370	4	10	f	2012-04-22 15:15:31.658591	2012-04-22 15:15:31.658591		\N
+371	25	10	f	2012-04-22 15:15:31.65916	2012-04-22 15:15:31.65916		\N
+372	2	10	f	2012-04-22 15:15:31.659733	2012-04-22 15:15:31.659733		\N
+373	31	11	t	2012-04-22 17:06:15.489735	2012-04-22 17:06:15.489735	Центральний автовокзал, Вінницьке шосе, 23	13:15:00
+374	32	11	t	2012-04-22 17:06:15.490975	2012-04-22 17:06:15.490975		\N
+375	1	11	t	2012-04-22 17:06:15.491575	2012-04-22 17:06:15.491575	Кільцева дорога – автозаправка Лукойл	16:30:00
+376	34	11	t	2012-04-22 17:06:15.492238	2012-04-22 17:06:15.492238	“Топмаркет” – автобусна зупинка	\N
+377	5	11	t	2012-04-22 17:06:15.492855	2012-04-22 17:06:15.492855	Автозаправка “Лафі”	\N
+378	6	11	t	2012-04-22 17:06:15.49344	2012-04-22 17:06:15.49344	Автостанція	\N
+379	7	11	t	2012-04-22 17:06:15.494024	2012-04-22 17:06:15.494024	“Топмаркет” – автобусна зупинка	\N
+380	8	11	t	2012-04-22 17:06:15.494601	2012-04-22 17:06:15.494601	Автобусна зупинка “Управління”	\N
+381	9	11	t	2012-04-22 17:06:15.495189	2012-04-22 17:06:15.495189	Автобусна зупинка на трасі	\N
+382	10	11	t	2012-04-22 17:06:15.495792	2012-04-22 17:06:15.495792	Контрольний пункт біля входу в комплекс	\N
+383	11	11	t	2012-04-22 17:06:15.496412	2012-04-22 17:06:15.496412	Приміщення “Поліграфія”	\N
+384	12	11	t	2012-04-22 17:06:15.497001	2012-04-22 17:06:15.497001	На розвилці дороги на Камчію	\N
+385	13	11	t	2012-04-22 17:06:15.497587	2012-04-22 17:06:15.497587	АЗС біля дороги	\N
+386	14	11	t	2012-04-22 17:06:15.498173	2012-04-22 17:06:15.498173	Автостанція	\N
+387	15	11	t	2012-04-22 17:06:15.498752	2012-04-22 17:06:15.498752	Готель “Балкан”	\N
+388	16	11	t	2012-04-22 17:06:15.499341	2012-04-22 17:06:15.499341	Готель “Феста Панорама”	\N
+389	17	11	t	2012-04-22 17:06:15.499931	2012-04-22 17:06:15.499931	Пошта, ресторан “Торнадо”	\N
+390	18	11	t	2012-04-22 17:06:15.500514	2012-04-22 17:06:15.500514	Ресторан “Чорне і біле”	\N
+391	19	11	t	2012-04-22 17:06:15.501096	2012-04-22 17:06:15.501096	Автовокзал в новому місті	\N
+392	20	11	t	2012-04-22 17:06:15.50168	2012-04-22 17:06:15.50168	Біля розвилки на аеропорт	\N
+393	21	11	t	2012-04-22 17:06:15.50226	2012-04-22 17:06:15.50226	Автозаправка “Shell” по дорозі в Созополь	\N
+394	22	11	t	2012-04-22 17:06:15.502864	2012-04-22 17:06:15.502864	На трасі під мостом	\N
+395	23	11	t	2012-04-22 17:06:15.50345	2012-04-22 17:06:15.50345	Ресторан “Черно море”	\N
+396	23	11	f	2012-04-22 17:06:15.504028	2012-04-22 17:06:15.504028	Ресторан “Черно море”	15:00:00
+397	22	11	f	2012-04-22 17:06:15.504669	2012-04-22 17:06:15.504669	На трасі під мостом	15:15:00
+398	21	11	f	2012-04-22 17:06:15.505309	2012-04-22 17:06:15.505309	Автозаправка “Shell” по дорозі в Созопольс	15:40:00
+399	20	11	f	2012-04-22 17:06:15.505972	2012-04-22 17:06:15.505972	Біля розвилки на аеропорт	16:00:00
+400	19	11	f	2012-04-22 17:06:15.506611	2012-04-22 17:06:15.506611	Автовокзал в новому місті	16:20:00
+401	18	11	f	2012-04-22 17:06:15.50725	2012-04-22 17:06:15.50725	Ресторан “Чорне і біле”	16:30:00
+402	17	11	f	2012-04-22 17:06:15.507913	2012-04-22 17:06:15.507913	Пошта, ресторан “Торнадо”	16:35:00
+403	16	11	f	2012-04-22 17:06:15.508549	2012-04-22 17:06:15.508549	Готель “Феста Панорама”	16:40:00
+404	15	11	f	2012-04-22 17:06:15.509186	2012-04-22 17:06:15.509186	Готель “Балкан”	17:00:00
+405	14	11	f	2012-04-22 17:06:15.50985	2012-04-22 17:06:15.50985	Автостанція	17:40:00
+406	13	11	f	2012-04-22 17:06:15.51051	2012-04-22 17:06:15.51051	АЗС біля дороги	17:50:00
+407	12	11	f	2012-04-22 17:06:15.511162	2012-04-22 17:06:15.511162	На розвилці дороги на Камчію	18:00:00
+408	8	11	f	2012-04-22 17:06:15.511836	2012-04-22 17:06:15.511836	Приміщення “Поліграфія”	18:30:00
+409	10	11	f	2012-04-22 17:06:15.512481	2012-04-22 17:06:15.512481	Контрольний пункт біля входу в комплекс	18:50:00
+410	9	11	f	2012-04-22 17:06:15.513122	2012-04-22 17:06:15.513122	Автобусна зупинка на трасі	18:50:00
+411	8	11	f	2012-04-22 17:06:15.513758	2012-04-22 17:06:15.513758	Автобусна зупинка “Управління”	19:10:00
+412	7	11	f	2012-04-22 17:06:15.514406	2012-04-22 17:06:15.514406	“Топмаркет” – автобусна зупинка	19:20:00
+413	6	11	f	2012-04-22 17:06:15.515044	2012-04-22 17:06:15.515044	Автостанція	19:30:00
+414	5	11	f	2012-04-22 17:06:15.515684	2012-04-22 17:06:15.515684	Автозаправка “Лафі”	19:50:00
+415	34	11	f	2012-04-22 17:06:15.51632	2012-04-22 17:06:15.51632	На головній трасі	20:30:00
+416	1	11	f	2012-04-22 17:06:15.516982	2012-04-22 17:06:15.516982	Стадіон “Буковина”	\N
+417	32	11	f	2012-04-22 17:06:15.517584	2012-04-22 17:06:15.517584		\N
+418	31	11	f	2012-04-22 17:06:15.518167	2012-04-22 17:06:15.518167	Центральний автовокзал, Вінницьке шосе, 23	\N
+419	31	12	t	2012-04-22 17:17:51.232152	2012-04-22 17:17:51.232152	Автовокзал	12:30:00
+420	32	12	t	2012-04-22 17:17:51.232978	2012-04-22 17:17:51.232978	Кінотеатр “Юність”	13:30:00
+421	1	12	t	2012-04-22 17:17:51.233655	2012-04-22 17:17:51.233655	Автовокзал 	15:00:00
+422	5	12	t	2012-04-22 17:17:51.234334	2012-04-22 17:17:51.234334	Рибарска площа	\N
+423	6	12	t	2012-04-22 17:17:51.234919	2012-04-22 17:17:51.234919	Офіс “Албенаавтотранс”	\N
+424	7	12	t	2012-04-22 17:17:51.235507	2012-04-22 17:17:51.235507	Ресторан “Аполон”	\N
+425	8	12	t	2012-04-22 17:17:51.236152	2012-04-22 17:17:51.236152	Біля аквапарку	\N
+426	10	12	t	2012-04-22 17:17:51.23673	2012-04-22 17:17:51.23673	Готель “Панорама”	\N
+427	11	12	t	2012-04-22 17:17:51.237345	2012-04-22 17:17:51.237345	Залізничний вокзал	\N
+428	15	12	t	2012-04-22 17:17:51.237926	2012-04-22 17:17:51.237926	Готель “Балкан”	\N
+429	16	12	t	2012-04-22 17:17:51.238537	2012-04-22 17:17:51.238537	Готель “Феста Панорама”	\N
+430	17	12	t	2012-04-22 17:17:51.528345	2012-04-22 17:17:51.528345	Центральна площа	\N
+431	19	12	t	2012-04-22 17:17:51.529108	2012-04-22 17:17:51.529108	Автовокзал в новому місті	\N
+432	21	12	t	2012-04-22 17:17:51.529693	2012-04-22 17:17:51.529693	Залізничний вокзал	\N
+433	23	12	t	2012-04-22 17:17:51.530307	2012-04-22 17:17:51.530307	Ресторан “Черно море”	\N
+434	23	12	f	2012-04-22 17:17:51.530898	2012-04-22 17:17:51.530898	Ресторан “Черно море”	15:00:00
+435	21	12	f	2012-04-22 17:17:51.531574	2012-04-22 17:17:51.531574	Залізничний вокзал	15:30:00
+436	19	12	f	2012-04-22 17:17:51.532243	2012-04-22 17:17:51.532243	Автовокзал в новому місті	15:45:00
+437	17	12	f	2012-04-22 17:17:51.532888	2012-04-22 17:17:51.532888	Центральна площа	16:00:00
+438	16	12	f	2012-04-22 17:17:51.533535	2012-04-22 17:17:51.533535	Готель “Феста Панорама”	16:30:00
+439	15	12	f	2012-04-22 17:17:51.534214	2012-04-22 17:17:51.534214	Готель “Балкан”	17:00:00
+440	11	12	f	2012-04-22 17:17:51.534853	2012-04-22 17:17:51.534853	Залізничний вокзал	18:30:00
+441	10	12	f	2012-04-22 17:17:51.535494	2012-04-22 17:17:51.535494	Готель “Панорама”	18:45:00
+442	8	12	f	2012-04-22 17:17:51.53616	2012-04-22 17:17:51.53616	Біля аквапарку	19:15:00
+443	7	12	f	2012-04-22 17:17:51.5368	2012-04-22 17:17:51.5368	Ресторан “Аполон”	19:45:00
+444	6	12	f	2012-04-22 17:17:51.537436	2012-04-22 17:17:51.537436	Офіс “Албенаавтотранс”	20:00:00
+445	5	12	f	2012-04-22 17:17:51.538079	2012-04-22 17:17:51.538079	Рибарска площа	20:15:00
+446	1	12	f	2012-04-22 17:17:51.538727	2012-04-22 17:17:51.538727	Автовокзал 	\N
+447	32	12	f	2012-04-22 17:17:51.539328	2012-04-22 17:17:51.539328	Кінотеатр “Юність”	\N
+448	31	12	f	2012-04-22 17:17:51.539904	2012-04-22 17:17:51.539904	Автовокзал	\N
+449	2	13	t	2012-04-22 17:29:38.180775	2012-04-22 17:29:38.180775	Залізничний вокзал 	07:00:00
+450	28	13	t	2012-04-22 17:29:38.181539	2012-04-22 17:29:38.181539	Автостанція – пост ДАІ	08:30:00
+451	4	13	t	2012-04-22 17:29:38.182217	2012-04-22 17:29:38.182217	Кінотеатр “Космос”	09:30:00
+452	1	13	t	2012-04-22 17:29:38.182883	2012-04-22 17:29:38.182883	Залізничний вокзал	12:30:00
+453	5	13	t	2012-04-22 17:29:38.183545	2012-04-22 17:29:38.183545	Готель “Каліакра”	\N
+454	6	13	t	2012-04-22 17:29:38.184177	2012-04-22 17:29:38.184177	Перед в’їздом на кільце	\N
+455	7	13	t	2012-04-22 17:29:38.184806	2012-04-22 17:29:38.184806	Біля базару	\N
+456	8	13	t	2012-04-22 17:29:38.185404	2012-04-22 17:29:38.185404	Готель “Зора”	\N
+457	10	13	t	2012-04-22 17:29:38.185985	2012-04-22 17:29:38.185985	Готель “Панорама”	\N
+458	11	13	t	2012-04-22 17:29:38.186586	2012-04-22 17:29:38.186586	Кафедральний собор	\N
+459	14	13	t	2012-04-22 17:29:38.187201	2012-04-22 17:29:38.187201	Автостанція	\N
+460	26	13	t	2012-04-22 17:29:38.187791	2012-04-22 17:29:38.187791	Біля клубного комплексу	\N
+461	27	13	t	2012-04-22 17:29:38.188396	2012-04-22 17:29:38.188396	Кільце	\N
+462	15	13	t	2012-04-22 17:29:38.188971	2012-04-22 17:29:38.188971	Готель “РІУ Хелена Резорт”	\N
+463	15	13	t	2012-04-22 17:29:38.189568	2012-04-22 17:29:38.189568	Автобусна зупинка біля готелю “Кубань”	\N
+464	15	13	t	2012-04-22 17:29:38.190163	2012-04-22 17:29:38.190163	Готель “Котва”	\N
+465	16	13	t	2012-04-22 17:29:38.190766	2012-04-22 17:29:38.190766	Готель “Панорама”	\N
+466	19	13	t	2012-04-22 17:29:38.191356	2012-04-22 17:29:38.191356	Офіс туристичної фірми “Nikol-N” (вул. Солна, 86)	\N
+467	19	13	f	2012-04-22 17:29:38.191952	2012-04-22 17:29:38.191952	Офіс туристичної фірми “Nikol-N” (вул. Солна, 86)	14:00:00
+468	16	13	f	2012-04-22 17:29:38.19261	2012-04-22 17:29:38.19261	Готель “Панорама”	14:20:00
+469	15	13	f	2012-04-22 17:29:38.193265	2012-04-22 17:29:38.193265	Готель “Котва”	14:35:00
+470	15	13	f	2012-04-22 17:29:38.1939	2012-04-22 17:29:38.1939	Автобусна зупинка біля готелю “Кубань”	14:45:00
+471	15	13	f	2012-04-22 17:29:38.194545	2012-04-22 17:29:38.194545	Готель “РІУ Хелена Резорт”	15:00:00
+472	27	13	f	2012-04-22 17:29:38.19522	2012-04-22 17:29:38.19522	Кільце	15:10:00
+473	26	13	f	2012-04-22 17:29:38.195836	2012-04-22 17:29:38.195836	Біля клубного комплексу	15:20:00
+474	14	13	f	2012-04-22 17:29:38.196489	2012-04-22 17:29:38.196489	Автостанція	16:10:00
+475	11	13	f	2012-04-22 17:29:38.197187	2012-04-22 17:29:38.197187	Кафедральний собор	17:10:00
+476	10	13	f	2012-04-22 17:29:38.197826	2012-04-22 17:29:38.197826	Готель “Панорама”	17:25:00
+477	8	13	f	2012-04-22 17:29:38.198536	2012-04-22 17:29:38.198536	Готель “Зора”	17:40:00
+478	7	13	f	2012-04-22 17:29:38.199209	2012-04-22 17:29:38.199209	Біля базару	18:00:00
+479	6	13	f	2012-04-22 17:29:38.199822	2012-04-22 17:29:38.199822	Перед в’їздом на кільце	18:15:00
+480	5	13	f	2012-04-22 17:29:38.200494	2012-04-22 17:29:38.200494	Готель “Каліакра”	18:30:00
+481	1	13	f	2012-04-22 17:29:38.201175	2012-04-22 17:29:38.201175	Залізничний вокзал	\N
+482	4	13	f	2012-04-22 17:29:38.201748	2012-04-22 17:29:38.201748	Кінотеатр “Космос”	\N
+483	28	13	f	2012-04-22 17:29:38.20234	2012-04-22 17:29:38.20234	Автостанція – пост ДАІ	\N
+484	2	13	f	2012-04-22 17:29:38.202969	2012-04-22 17:29:38.202969	Залізничний вокзал 	\N
+\.
+
+
+--
+-- Name: admin_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY active_admin_comments
+    ADD CONSTRAINT admin_notes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY admin_users
+    ADD CONSTRAINT admin_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: carriers_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY carriers
+    ADD CONSTRAINT carriers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cities_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY cities
+    ADD CONSTRAINT cities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: countries_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY countries
+    ADD CONSTRAINT countries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: departure_dates_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY departure_dates
+    ADD CONSTRAINT departure_dates_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: departures_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY departures
+    ADD CONSTRAINT departures_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: health_insurances_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY health_insurance_prices
+    ADD CONSTRAINT health_insurances_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: one_way_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY one_way_prices
+    ADD CONSTRAINT one_way_prices_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: one_way_visa_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY one_way_visa_prices
+    ADD CONSTRAINT one_way_visa_prices_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: rails_admin_histories_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY rails_admin_histories
+    ADD CONSTRAINT rails_admin_histories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: requests_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY requests
+    ADD CONSTRAINT requests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: reservations_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY reservations
+    ADD CONSTRAINT reservations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tickets_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY tickets
+    ADD CONSTRAINT tickets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: two_ways_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY two_ways_prices
+    ADD CONSTRAINT two_ways_prices_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: two_ways_visa_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY two_ways_visa_prices
+    ADD CONSTRAINT two_ways_visa_prices_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: visas_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY visa_prices
+    ADD CONSTRAINT visas_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ways_pkey; Type: CONSTRAINT; Schema: public; Owner: bus; Tablespace: 
+--
+
+ALTER TABLE ONLY ways
+    ADD CONSTRAINT ways_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_active_admin_comments_on_author_type_and_author_id; Type: INDEX; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE INDEX index_active_admin_comments_on_author_type_and_author_id ON active_admin_comments USING btree (author_type, author_id);
+
+
+--
+-- Name: index_active_admin_comments_on_namespace; Type: INDEX; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE INDEX index_active_admin_comments_on_namespace ON active_admin_comments USING btree (namespace);
+
+
+--
+-- Name: index_admin_notes_on_resource_type_and_resource_id; Type: INDEX; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE INDEX index_admin_notes_on_resource_type_and_resource_id ON active_admin_comments USING btree (resource_type, resource_id);
+
+
+--
+-- Name: index_admin_users_on_email; Type: INDEX; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_admin_users_on_email ON admin_users USING btree (email);
+
+
+--
+-- Name: index_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_admin_users_on_reset_password_token ON admin_users USING btree (reset_password_token);
+
+
+--
+-- Name: index_rails_admin_histories; Type: INDEX; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE INDEX index_rails_admin_histories ON rails_admin_histories USING btree (item, "table", month, year);
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: bus; Tablespace: 
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
